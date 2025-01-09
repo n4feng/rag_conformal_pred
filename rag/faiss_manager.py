@@ -6,8 +6,8 @@ import faiss
 from dotenv import load_dotenv
 from openai import OpenAI
 import numpy as np
-from file_manager import FileManager
-from openai_manager import OpenAIManager
+from rag.file_manager import FileManager
+from rag.openai_manager import OpenAIManager
 
 
 class FAISSIndexManager:
