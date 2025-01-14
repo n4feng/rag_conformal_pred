@@ -10,3 +10,7 @@ class DocumentScorer(ABC):
     @abstractmethod
     def score(self, claim: str, retrieved_docs: List[Document]) -> float:
         pass
+
+    @abstractmethod
+    def say_less(self, prompt: str, threshold, model='gpt-4'):
+        pass

@@ -11,7 +11,7 @@ if __name__ == "__main__":
             "OpenAI key is not set - please set OAI_KEY to your OpenAI key (with command: export OAI_KEY=[OAI_KEY])"
         )
     openai_client = OpenAI(api_key=OAI_KEY)
-    prompt = "Tell me a paragraph bio of Percy Liang"
+    prompt = "What is George Rankin's occupation?"
     model = "gpt-4"
     output = query_model(openai_client, prompt, model)
     # Copied threshold from /factscore_a=1_alpha=0.15_conf=frequency+gpt.txt.

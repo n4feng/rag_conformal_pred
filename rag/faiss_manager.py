@@ -4,10 +4,9 @@ import re
 import ast
 import faiss
 from dotenv import load_dotenv
-from openai import OpenAI
 import numpy as np
 from rag.file_manager import FileManager
-from rag.openai_manager import OpenAIManager
+from rag.llm.openai_manager import OpenAIManager
 
 
 class FAISSIndexManager:
@@ -27,7 +26,13 @@ class FAISSIndexManager:
         if os.path.exists(os.path.join(os.getcwd(), 'indice2fm.json')):
             with open(os.path.join(os.getcwd(), 'indice2fm.json'), 'r') as file:
                 self.indice2fm = json.load(file)
+            for file_path, _ in self.indice2fm.items():
+                self.file_managers.append(FileManager(file_path))
     
+    def is_indice_align(self):
+        last_index_id = self.index.ntotal-1
+        return last_index_id == max(max(values) for values in self.indice2fm.values())
+
     def save_index(self):
         if self.index:
             faiss.write_index(self.index, os.path.join(os.getcwd(), 'index.faiss'))
@@ -36,7 +41,11 @@ class FAISSIndexManager:
                 json.dump(self.indice2fm, file)
 
     def upsert_file_to_faiss(self, file_manager, model="text-embedding-3-large"):
-        self.file_managers.append(file_manager)
+        if not file_manager in self.file_managers:
+            self.file_managers.append(file_manager)
+        else:
+            print(f"File '{file_manager.file_path}' already exists in the FAISS index.")
+            return
         
         # Process the file if necessary
         if not file_manager.texts:
@@ -58,6 +67,8 @@ class FAISSIndexManager:
             self.indice2fm[file_manager.file_path] = added_indices
             self.save_index()
             print(f"Embeddings from file '{file_manager.file_path}' added to FAISS index between indice {start_index} to {end_index}.")
+        else:
+            print(f"File '{file_manager.file_path}' already exists in the FAISS index.")
 
     def normalize_embeddings(self, embeddings):
         embeddings_np = np.array(embeddings).astype('float32')
@@ -76,8 +87,6 @@ class FAISSIndexManager:
         # Perform the search
         similarity, indices = self.index.search(query_embedding, top_k)
         filtered_results = [(idx, similar) for idx, similar in zip(indices[0], similarity[0]) if similar >= threshold]
-
-
         results = []
 
         # Reverse map indices to file paths and text
@@ -99,7 +108,7 @@ class FAISSIndexManager:
                 if file_manager:
                     # Get the text from the file_manager
                     text = file_manager.texts[relative_idx][1]  # Assuming (index, text) tuples in file_manager.texts
-                    results.append(f"{text} indice={relative_idx} score={dist:.4f}")
+                    results.append(f"{text} indice={idx} fileposition={relative_idx} score={dist:.4f}")
                 else:
                     results.append(f"File manager not found for '{file_path_found}' score={dist:.4f}")
             else:
@@ -114,19 +123,20 @@ class FAISSIndexManager:
         # Parse the input
         parsed_item = None
         pattern = re.compile(
-            r"page_content='(.*?)'\smetadata=(\{.*?\})\sindice=(\d+)\sscore=([\d.]+)",
+            r"page_content='(.*?)'\smetadata=(\{.*?\})\sindice=(\d+)\sfileposition=(\d+)\sscore=([\d.]+)",
             re.DOTALL
         )
         matches = pattern.findall(result)
         #assume only 1 row with matched pattern will be feed in each time, only remain last item
         for match in matches:
-            page_content, metadata, indice, score = match
+            page_content, metadata, indice, fileposition, score = match
             # Convert metadata string to a dictionary
             metadata_dict = ast.literal_eval(metadata)
             parsed_item = ({
                 "page_content": page_content.strip(),
                 "metadata": metadata_dict,
                 "indice": int(indice),
+                "fileposition": int(fileposition),
                 "score": float(score)
             })
         return parsed_item
@@ -180,8 +190,8 @@ def main():
     file_manager2 = FileManager(file_path2)
     manager.upsert_file_to_faiss(file_manager2)
 
-    query = "what is main concept for corrective rag system."
-    retrieved_docs = manager.search_faiss_index(query, top_k=10)
+    query = "tell me about corrective rag system."
+    retrieved_docs = manager.search_faiss_index(query, top_k=10, threshold=0.1)
     print(retrieved_docs)
     response = manager.generate_response_from_context(query, retrieved_docs)
     print(response)
