@@ -164,7 +164,6 @@ def get_r_score(entry, confidence_method, a):
         ],
         reverse=True,
     )
-    curr_threshold = threshold_set[0]
     for threshold in threshold_set:
         curr_threshold = threshold
         # Apply threshold.
@@ -196,7 +195,7 @@ def compute_threshold(alpha, calibration_data, a, confidence_method):
     Computes the quantile/threshold from conformal prediction.
     # alpha: float in (0, 1)
     # calibration_data: calibration data
-    # a: as in paper, required fraction correct
+    # a: as in paper, required fraction correct, section 4.1
     # confidence_method: string
     """
     # Compute r score for each example.
@@ -236,9 +235,8 @@ def create_correctness_vs_removed_plot(
                     if subclaim[confidence_method + "-score"] + subclaim["noise"]
                     >= threshold
                 ]
-                fraction_removed = 1 - len(accepted_subclaims) / len(
-                    test_data["claims"]
-                )
+                total_claim = len(test_data["claims"])
+                fraction_removed = 0 if total_claim == 0 else 1 - len(accepted_subclaims) / total_claim
                 entailed_fraction = (
                     np.mean(
                         [
