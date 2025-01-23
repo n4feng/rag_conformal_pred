@@ -30,14 +30,14 @@ class WikitextsDocumentScorer(DocumentScorer):
         file_manager = FileManager(file_path)
         #only process the file and dump the documents if ..._texts.json metadata file is not created
         if(not file_manager.texts):
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, 'r', encoding='utf-16') as f:
             # Load the file content as a dictionary
                 data = json.load(f)
                 documents = []
                 for title, texts in data.items():
                     # Create embeddings for each text
                     for text in texts:
-                        doc = Document(page_content=text, metadata={'source': title, 'file_path': file_path})
+                        doc = Document(page_content=title+": "+text, metadata={'source': title, 'file_path': file_path})
                         documents.append(doc)
                 file_manager.dump_documents(documents)
         self.faiss_manager.upsert_file_to_faiss(file_manager, self.model)
