@@ -2,6 +2,7 @@ import json
 import argparse
 import numpy as np
 from typing import List
+from collections import defaultdict
 from rag.faiss_manager import FAISSIndexManager
 from rag.file_manager import FileManager
 from langchain.schema import Document
@@ -71,7 +72,35 @@ class WikitextsDocumentScorer(DocumentScorer):
         accepted_subclaims = [subclaim for subclaim in subclaims_with_score if subclaim[1] > threshold]
         mergerd_output = self.merge_subclaims(accepted_subclaims, model, prompt)
         return (output, mergerd_output, subclaims_with_score, accepted_subclaims)
-
+    
+    def say_less_conditional(self, prompt, thresholds_path, model='gpt-4'):
+        """
+        compute the threshold based on retrived document type and weight of document in each type
+        """
+        output = ""
+        retrieved_docs = self.faiss_manager.search_faiss_index(prompt, 10, 0.3)
+        parsed_docs = [self.faiss_manager.parse_result(doc) for doc in retrieved_docs]
+        #count each filepath in metadata
+        doc_count = defaultdict(int)
+        for doc in parsed_docs:  
+            doc_count[doc['metadata']['file_path']] += 1
+        total_docs = len(parsed_docs)
+        conditional_threshold = 0.0
+        
+        with open(thresholds_path, 'r') as f:
+            data = json.load(f)
+        for count_key, count_val in doc_count.items():
+            match_found = False  # Flag to track if a match is found
+            for key, val in data.items():
+                if key in count_key:
+                    conditional_threshold += val * count_val / total_docs
+                    match_found = True  # Set flag to True if a match is found
+                    break  # Exit the inner loop since the match is found
+            if not match_found:  # If no match was found after checking all count_keys
+                raise ValueError(f"Document type {key} not found in the retrieved documents")
+        print(f"Conditional threshold now is: {conditional_threshold}")
+        return self.say_less(prompt, conditional_threshold, model)
+    
     def default_merge_prompt( subclaims, prompt):
         claim_string = "\n".join(
             [str(i) + ": " + subclaim[0] for i, subclaim in enumerate(subclaims)]
