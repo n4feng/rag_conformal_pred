@@ -1,6 +1,7 @@
 import json
 import argparse
 import numpy as np
+import warnings
 from typing import List
 from collections import defaultdict
 from rag.faiss_manager import FAISSIndexManager
@@ -77,7 +78,10 @@ class WikitextsDocumentScorer(DocumentScorer):
         """
         compute the threshold based on retrived document type and weight of document in each type
         """
-        output = ""
+        conditional_threshold = self.calibrate_conditional_threshold(prompt, thresholds_path)
+        return self.say_less(prompt, conditional_threshold, model)
+    
+    def calibrate_conditional_threshold(self, prompt, thresholds_path):
         retrieved_docs = self.faiss_manager.search_faiss_index(prompt, 10, 0.3)
         parsed_docs = [self.faiss_manager.parse_result(doc) for doc in retrieved_docs]
         #count each filepath in metadata
@@ -97,9 +101,14 @@ class WikitextsDocumentScorer(DocumentScorer):
                     match_found = True  # Set flag to True if a match is found
                     break  # Exit the inner loop since the match is found
             if not match_found:  # If no match was found after checking all count_keys
-                raise ValueError(f"Document type {key} not found in the retrieved documents")
-        print(f"Conditional threshold now is: {conditional_threshold}")
-        return self.say_less(prompt, conditional_threshold, model)
+                data_keys = data.keys()
+                warnings.warn(
+                    f"File name {count_key} not found in the precalculated threshold set {data_keys}",
+                    UserWarning
+                )
+                conditional_threshold = conditional_threshold + conditional_threshold * count_val / total_docs
+        #print(f"Conditional threshold now is: {conditional_threshold}")
+        return conditional_threshold
     
     def default_merge_prompt( subclaims, prompt):
         claim_string = "\n".join(

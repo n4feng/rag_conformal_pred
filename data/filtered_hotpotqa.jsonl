@@ -2,7 +2,6 @@
   "data": [
     {
       "prompt": "Were Pavel Urysohn and Leonid Levin known for the same type of work?",
-      "answer": "no",
       "original-output": "Pavel Urysohn and Leonid Levin were not known for the same type of work. Pavel Urysohn was a mathematician known for his contributions to topology, specifically in dimension theory, and for developing Urysohn's Metrization Theorem and Urysohn's Lemma. His work was primarily in the field of mathematics.\n\nLeonid Levin, on the other hand, is known for his work in computer science, particularly in areas like randomness in computing, algorithmic complexity, theory of computation, and information theory. He is notable for his contributions to the theory of NP-completeness and average-case complexity.\n\nTherefore, while both made significant contributions to their respective fields, Urysohn's work was in pure mathematics, while Levin's work is primarily in theoretical computer science.",
       "claims": [
         {
@@ -89,7 +88,6 @@
     },
     {
       "prompt": "Are Jane and First for Women both women's magazines?",
-      "answer": "yes",
       "original-output": "Yes, both Jane and First for Women are women's magazines. \n\n- **First for Women** is a magazine published by Bauer Media Group in the USA, started in 1989, and is based in Englewood Cliffs, New Jersey.\n\n- **Jane** was an American magazine that targeted women who grew up reading \"Sassy\" magazine. It was created by Jane Pratt and was aimed at women aged 18\u201334. The magazine was published from September 1997 until August 2007.",
       "claims": [
         {
@@ -141,7 +139,6 @@
     },
     {
       "prompt": "Who is older Glenn Hughes or Ross Lynch?",
-      "answer": "Glenn Hughes",
       "original-output": "Glenn Hughes was born on August 21, 1951, and Ross Lynch was born on December 29, 1995. Therefore, Glenn Hughes is older than Ross Lynch.",
       "claims": [
         {
@@ -163,7 +160,6 @@
     },
     {
       "prompt": "\"Funnybot\" is the second episode of the fifteenth season of which American animated television series, created by Trey Parker and Matt Stone?  ",
-      "answer": "South Park",
       "original-output": "\"Funnybot\" is the second episode of the fifteenth season of the American animated television series \"South Park,\" which was created by Trey Parker and Matt Stone.",
       "claims": [
         {
@@ -190,7 +186,6 @@
     },
     {
       "prompt": "In what political party was the man who officially opened he Royal Spa Centre in 1972?",
-      "answer": "Conservative",
       "original-output": "The Royal Spa Centre was officially opened in 1972 by Anthony Eden, who was a member of the Conservative Party.",
       "claims": [
         {
@@ -212,7 +207,6 @@
     },
     {
       "prompt": "Who funds the bowling team that includes the school bus driver for Springfield Elementary School?",
-      "answer": "Mr. Burns",
       "original-output": "The bowling team, which includes Otto the school bus driver, is funded by Mr. Burns. Homer and his friends, unable to afford the registration fee for the bowling league, go to Mr. Burns for sponsorship. Homer manages to get Mr. Burns to sign a check for the registration fee while Burns is anesthetized.",
       "claims": [
         {
@@ -249,7 +243,6 @@
     },
     {
       "prompt": "South Korean actor Kim Yool-ho starred in what 2016 movie directed by Yeon Sang-ho Yeon Sang-ho and starring actors Gong Yoo, Jung Yu-mi, and Ma Dong-seok?",
-      "answer": "Train to Busan",
       "original-output": "Kim Yool-ho starred in the 2016 movie \"Train to Busan,\" which was directed by Yeon Sang-ho and starred actors Gong Yoo, Jung Yu-mi, and Ma Dong-seok.",
       "claims": [
         {
@@ -271,7 +264,6 @@
     },
     {
       "prompt": "Are the New Orleans Outfall Canals the same length as the Augusta Canal?",
-      "answer": "yes",
       "original-output": "The New Orleans Outfall Canals and the Augusta Canal serve different purposes and are located in different regions, but the context provided does not specify the exact lengths of these canals. \n\nThe New Orleans Outfall Canals consist of three main canals: the 17th Street Canal, the Orleans Avenue Canal, and the London Avenue Canal. These canals are part of a flood control system and are critical for drainage in New Orleans.\n\nThe Augusta Canal, located in Augusta, Georgia, is a historic canal used for water power, transportation, and municipal water supply.\n\nWithout specific lengths mentioned for these canals in the context provided, it's not possible to directly compare their lengths. For an accurate comparison, you would need to find specific measurements for each canal.",
       "claims": [
         {
@@ -343,7 +335,6 @@
     },
     {
       "prompt": "The Swedish-British entertainment studio executive and film executive producer, who was the Executive producer for a 2016 American action thriller film directed by Babak Najafi, currently serve?",
-      "answer": "CEO of Lionsgate UK & Europe",
       "original-output": "The Swedish-British entertainment studio executive and film executive producer you're referring to is Zygi Kamasa. He served as the Executive Producer for the 2016 American action thriller film \"London Has Fallen,\" directed by Babak Najafi. Zygi Kamasa currently serves as the CEO of Lionsgate UK & Europe.",
       "claims": [
         {
@@ -375,7 +366,6 @@
     },
     {
       "prompt": "What is the current name of the Atlanta Mansion built for the daughter of the 41st Mayor of Atlanta, Georgia?",
-      "answer": "Lullwater Estate",
       "original-output": "The Atlanta mansion built for the daughter of the 41st Mayor of Atlanta, Georgia, is currently known as Lullwater Estate. It was originally named Rainbow Terrace.",
       "claims": [
         {
@@ -397,7 +387,6 @@
     },
     {
       "prompt": "Who invented the type of script used in autographs?",
-      "answer": "the Sumerians",
       "original-output": "The concept of autographs as written signatures does not have a specific inventor. The practice of signing one's name dates back to ancient times when people used various written scripts. The word \"autograph\" itself comes from Greek, meaning \"self-written.\" Over time, as writing systems developed, individuals began to use their unique signatures for authentication and personal identification. The type of script used in autographs evolved with the development of writing systems, such as cuneiform, hieroglyphs, and later alphabetic scripts. There isn't a single person credited with inventing the type of script used in autographs, as it is a natural progression of the evolution of writing.",
       "claims": [
         {
@@ -449,7 +438,6 @@
     },
     {
       "prompt": "Norbert Holm was arrested and later demoted because of his Chief of Operations association with a military theorist popularly known as what?",
-      "answer": "the Desert Fox",
       "original-output": "Norbert Holm was arrested and later demoted because of his Chief of Operations association with Field Marshal Erwin Rommel.",
       "claims": [
         {
@@ -481,7 +469,6 @@
     },
     {
       "prompt": "What event at the Asian Junior Athletics Championships has men and women competing at the same time?",
-      "answer": "3000 metres steeplechase",
       "original-output": "At the Asian Junior Athletics Championships, the men's and women's events are generally contested separately. However, the provided context does not specify any particular event where men and women compete at the same time. Typically, track and field events in such championships are held separately for male and female athletes. If there is a specific event where this occurs, it would need to be confirmed from a detailed schedule or specific event rules of the championship.",
       "claims": [
         {
@@ -508,7 +495,6 @@
     },
     {
       "prompt": "Hot Coffee, Mississippi sometimes shares a zipcode with a nearby city with what population at the 2010 census?",
-      "answer": "2,586",
       "original-output": "Hot Coffee, Mississippi sometimes shares a zipcode with the nearby city of Collins, Mississippi. As of the 2010 census, Collins had a population of 2,586 people.",
       "claims": [
         {
@@ -525,7 +511,6 @@
     },
     {
       "prompt": "The largest ship in the \"Imperator\" class ocean liners had how many gross register tons?",
-      "answer": "56,551",
       "original-output": "The largest ship in the \"Imperator\" class ocean liners was the \"Bismarck,\" which had a gross register tonnage of 56,551 tons.",
       "claims": [
         {
@@ -542,7 +527,6 @@
     },
     {
       "prompt": "What nationality was a  historical drama film directed by?",
-      "answer": "Argentine",
       "original-output": "The nationality of a director of a historical drama film can vary depending on the specific film in question. Based on the context provided, here are examples of directors with their nationalities:\n\n1. Jan Troell, a Swedish director, was nominated for directing \"The Emigrants\" in 1972.\n2. Michael Radford, an English director, was nominated for the 1994 film which was adapted from the novel \"Ardiente Paciencia\".\n3. Akira Kurosawa, a Japanese director, was nominated for \"Ran\" in 1985.\n4. Claude Lelouch, a French director, was nominated for \"A Man and a Woman\" in 1966.\n\nIf you have a specific historical drama film in mind, please provide its title for more precise information.",
       "claims": [
         {
@@ -599,7 +583,6 @@
     },
     {
       "prompt": "How many German scientists, engineers, and technicians, were recruited in post-Nazi Germany as a result of the clandestine operation where Arthur Rudolph became one of the main developers of the U.S. ?space program",
-      "answer": "more than 1,600",
       "original-output": "As a result of Operation Paperclip, more than 1,600 German scientists, engineers, and technicians were recruited and brought to the United States from post-Nazi Germany. This operation included notable figures such as Wernher von Braun and his V-2 rocket team, with Arthur Rudolph becoming one of the main developers of the U.S. space program.",
       "claims": [
         {
@@ -631,7 +614,6 @@
     },
     {
       "prompt": "Which is currently more valuable, Temagami-Lorrain Mine or Meadowbank Gold Mine?",
-      "answer": "Meadowbank Gold Mine",
       "original-output": "The Temagami-Lorrain Mine is an abandoned mine, whereas the Meadowbank Gold Mine is an active open pit gold mine operated by Agnico-Eagle Mines. Given that the Temagami-Lorrain Mine is no longer in operation and the Meadowbank Gold Mine is actively producing gold, the Meadowbank Gold Mine is currently more valuable. The Meadowbank Gold Mine has probable gold reserves of 3.5 million ounces, indicating its significant value as an active mining operation.",
       "claims": [
         {
@@ -668,7 +650,6 @@
     },
     {
       "prompt": "British band The Wanted's third album includes a song with a title about which Barbadian superstar?",
-      "answer": "Rihanna",
       "original-output": "The song from The Wanted's third album titled \"Word of Mouth\" that is related to a Barbadian superstar is \"Walks Like Rihanna.\"",
       "claims": [
         {
@@ -690,7 +671,6 @@
     },
     {
       "prompt": "What nationality is the actress who played the role of Sam Sloan's wife Trudy in the sitcom The Single Guy ?",
-      "answer": "American",
       "original-output": "The actress who played the role of Sam Sloan's wife Trudy in the sitcom \"The Single Guy\" is Ming-Na Wen. She is of Chinese nationality, as she was born in Coloane, Macau, which was then a Portuguese colony and is now part of China.",
       "claims": [
         {
@@ -722,7 +702,6 @@
     },
     {
       "prompt": "What shopping mall is the largest in south Texas, Malle del Norte or La Plaza Mall?",
-      "answer": "La Plaza Mall",
       "original-output": "La Plaza Mall in McAllen, Texas, is the largest mall in south Texas. It is larger than Mall del Norte in Laredo, Texas, by 3,000 square feet.",
       "claims": [
         {
@@ -749,7 +728,6 @@
     },
     {
       "prompt": "Who is the composer Howard Ashman worked with on his musical released in 1982? ",
-      "answer": "Alan Menken",
       "original-output": "Howard Ashman worked with composer Alan Menken on the musical \"Little Shop of Horrors,\" which was released in 1982.",
       "claims": [
         {
@@ -776,7 +754,6 @@
     },
     {
       "prompt": "The USS LST-510 is a ferry between New London and Orient but what is the population of Orient?",
-      "answer": "743",
       "original-output": "As of the 2010 census, the population of Orient, a hamlet and census-designated place (CDP) in Suffolk County, Long Island, New York, was 743.",
       "claims": [
         {
@@ -808,7 +785,6 @@
     },
     {
       "prompt": "Who was born first George Marshall or Allan Dwan ?",
-      "answer": "Allan Dwan",
       "original-output": "Allan Dwan was born on April 3, 1885, and George E. Marshall was born on December 29, 1891. Therefore, Allan Dwan was born first.",
       "claims": [
         {
@@ -830,7 +806,6 @@
     },
     {
       "prompt": "Were Up and The Watercolor released in the same year?",
-      "answer": "yes",
       "original-output": "No, \"Up\" and \"The Waterfall\" were not released in the same year. \"The Waterfall\" by My Morning Jacket was released in May 2015. \"Up,\" the animated film by Pixar, was released earlier, in 2009.",
       "claims": [
         {
@@ -862,7 +837,6 @@
     },
     {
       "prompt": "Which event was a surprise military strike by the Imperial Japanese Navy Air Service while Magruder Hill Tuttle was a senior officer in the United States Navy?",
-      "answer": "attack on Pearl Harbor",
       "original-output": "The surprise military strike you are referring to is the Attack on Pearl Harbor. Magruder Hill Tuttle was a senior officer at the Pearl Harbor naval base when it was attacked by the Imperial Japanese Navy Air Service on December 7, 1941.",
       "claims": [
         {
@@ -899,7 +873,6 @@
     },
     {
       "prompt": "Who did the professional tennis player currently ranked World No. 1 in men's singles defeat in the 2017 Barcelona Open Banco Sabadell - Singles?",
-      "answer": "Dominic Thiem",
       "original-output": "In the 2017 Barcelona Open Banco Sabadell - Singles, Rafael Nadal defeated Dominic Thiem in the final, with a score of 6\u20134, 6\u20131.",
       "claims": [
         {
@@ -931,7 +904,6 @@
     },
     {
       "prompt": "Which Byron Edmund Walker founded institution was originally controlled by the Church of England?",
-      "answer": "The University of Toronto",
       "original-output": "The institution founded by Byron Edmund Walker that was originally controlled by the Church of England is Trinity College.",
       "claims": [
         {
@@ -958,7 +930,6 @@
     },
     {
       "prompt": "American actor, Peter Hansen, best known for his role on General Hospital, also starred in The War of the Roses with American film and stage actress and director who has won how many Golden Globe Awards?",
-      "answer": "two",
       "original-output": "Peter Hansen appeared in \"The War of the Roses\" with Kathleen Turner, among others. Kathleen Turner has won two Golden Globe Awards.",
       "claims": [
         {
@@ -990,7 +961,6 @@
     },
     {
       "prompt": "Arthur Noss won a Military Cross as the gunner of a soldier born in which year ?",
-      "answer": "1892",
       "original-output": "Arthur Noss won a Military Cross as the gunner of Keith Park. The context does not directly mention the birth year of Keith Park, but it is known from historical records that Keith Park was born on June 15, 1892.",
       "claims": [
         {
@@ -1027,7 +997,6 @@
     },
     {
       "prompt": "When was the stadium Wollongong Wolves Football Club plays at opened?",
-      "answer": "1911",
       "original-output": "The Wollongong Wolves Football Club plays its home games at WIN Stadium, which was officially opened in 1911.",
       "claims": [
         {
@@ -1044,7 +1013,6 @@
     },
     {
       "prompt": "Which publication is published more often: Modern Drummer or Bookmarks?",
-      "answer": "Modern Drummer",
       "original-output": "\"Modern Drummer\" is published monthly, while \"Bookmarks\" is a bimonthly publication. Therefore, \"Modern Drummer\" is published more often than \"Bookmarks\".",
       "claims": [
         {
@@ -1066,7 +1034,6 @@
     },
     {
       "prompt": "What is the approximate population of the country that Koularo lies in?",
-      "answer": "1 million",
       "original-output": "Koularo is a village in Togo. The last available census data from 2010 gave Togo a population of approximately 6,191,155. The population of Togo is known to be growing, so the current population is likely higher.",
       "claims": [
         {
@@ -1093,7 +1060,6 @@
     },
     {
       "prompt": "Who won the election that ran concurrently with the North Dakota gubernatorial election, 2016?",
-      "answer": "Donald Trump",
       "original-output": "Doug Burgum, a Republican, won the 2016 North Dakota gubernatorial election, defeating Marvin Nelson, the Democratic-NPL candidate.",
       "claims": [
         {
@@ -1120,7 +1086,6 @@
     },
     {
       "prompt": "What other real life boxer did Mike Williams act with in Rocky V?",
-      "answer": "Tommy Morrison",
       "original-output": "Mike Williams, who played Union Cane in \"Rocky V,\" acted alongside real-life boxer Tommy Morrison. Tommy Morrison portrayed the character Tommy \"The Machine\" Gunn in the film.",
       "claims": [
         {
@@ -1147,7 +1112,6 @@
     },
     {
       "prompt": "Wayne's World featured the actor who was a member of what Chicago comedy troupe?",
-      "answer": "Second City Theatre",
       "original-output": "Chris Farley, who has a cameo in \"Wayne's World\" as a security guard, was a member of the Chicago comedy troupe Second City Theatre.",
       "claims": [
         {
@@ -1174,7 +1138,6 @@
     },
     {
       "prompt": "Peter Bakovic played for which National Hockey League team?",
-      "answer": "Vancouver Canucks",
       "original-output": "Peter Bakovic played for the Vancouver Canucks in the National Hockey League.",
       "claims": [
         {
@@ -1196,7 +1159,6 @@
     },
     {
       "prompt": "Who released their second album with a band from Louisville, Kentucky?",
-      "answer": "Andrew Bird",
       "original-output": "The band My Morning Jacket, which is from Louisville, Kentucky, released their second album \"At Dawn\" in 2001.",
       "claims": [
         {
@@ -1223,7 +1185,6 @@
     },
     {
       "prompt": "Where is the company based that sold Vodafone it's New Zealand operations?",
-      "answer": "Atlanta, Georgia",
       "original-output": "The company that sold Vodafone its New Zealand operations was BellSouth.",
       "claims": [
         {
@@ -1235,7 +1196,6 @@
     },
     {
       "prompt": "Barbara Jordan and Mark Knowles are both what?",
-      "answer": "former tennis player",
       "original-output": "Barbara Jordan and Mark Knowles are both former professional tennis players. Barbara Jordan is known for winning the 1979 Australian Open singles title, while Mark Knowles is known for his success in doubles tennis, having been ranked World No. 1 in doubles and winning several Grand Slam tournaments.",
       "claims": [
         {
@@ -1267,7 +1227,6 @@
     },
     {
       "prompt": "The Sia song \"Never Give Up\" is from the soundtrack of a film that is based on what non-fiction book?",
-      "answer": "\"A Long Way Home\"",
       "original-output": "The Sia song \"Never Give Up\" is from the soundtrack of the film \"Lion,\" which is based on the non-fiction book \"A Long Way Home\" by Saroo Brierley.",
       "claims": [
         {
@@ -1294,7 +1253,6 @@
     },
     {
       "prompt": "Are both Nasdaq, Inc. and Citrix Systems catering to the same customer bases?",
-      "answer": "no",
       "original-output": "Nasdaq, Inc. and Citrix Systems cater to different customer bases as they operate in distinct industries.\n\n1. **Nasdaq, Inc.**:\n   - Nasdaq is primarily involved in financial services, operating stock exchanges such as the NASDAQ stock market and several European stock exchanges. \n   - Its primary customers include companies seeking to list on its exchanges, as well as investors, traders, and financial institutions that participate in these markets.\n\n2. **Citrix Systems**:\n   - Citrix is a software company that provides technologies related to server, application, and desktop virtualization, networking, and cloud computing.\n   - Its customers are businesses and organizations that require solutions for virtualization, networking, and cloud services. Citrix's client base includes a significant number of companies from the Fortune 100 and Fortune 500.\n\nIn summary, while both companies serve large enterprises, their offerings and customer bases are quite different, with Nasdaq focusing on financial markets and Citrix on software and technology solutions for enterprise IT infrastructure.",
       "claims": [
         {
@@ -1366,7 +1324,6 @@
     },
     {
       "prompt": "Are the documentaries Welcome to Durham, USA and The Agronomist both about Durham, North Carolina?",
-      "answer": "no",
       "original-output": "No, the documentaries \"Welcome to Durham, USA\" and \"The Agronomist\" are not both about Durham, North Carolina. \"Welcome to Durham, USA\" is a documentary about gang violence in Durham, North Carolina. In contrast, \"The Agronomist\" is a documentary directed by Jonathan Demme about Jean Dominique, who ran Haiti's first independent radio station, Radio Haiti-Inter.",
       "claims": [
         {
@@ -1398,7 +1355,6 @@
     },
     {
       "prompt": "Do filmmakers Chris Carter and Theo van Gogh share the same nationality?",
-      "answer": "no",
       "original-output": "Chris Carter and Theo van Gogh do not share the same nationality. Chris Carter is American, having been born in Bellflower, California, USA, while Theo van Gogh was Dutch, born in The Hague, Netherlands.",
       "claims": [
         {
@@ -1430,7 +1386,6 @@
     },
     {
       "prompt": "What genre is The Warriors Gate?",
-      "answer": "action",
       "original-output": "The Warriors Gate is a 2016 Chinese-French film that falls under the action-adventure-fantasy genre.",
       "claims": [
         {
@@ -1452,7 +1407,6 @@
     },
     {
       "prompt": "James Mulgrew is the star of which comedy sketch show?",
-      "answer": "And There's More",
       "original-output": "James Mulgrew, known professionally as Jimmy Cricket, was the star of the comedy sketch show \"And There's More,\" which was produced by Central Independent Television for ITV from 1985 to 1988.",
       "claims": [
         {
@@ -1484,7 +1438,6 @@
     },
     {
       "prompt": "Are Thums Up and Mott's based in the same country?",
-      "answer": "no",
       "original-output": "Thums Up and Mott's are not based in the same country. Thums Up is an Indian brand, originally created in India in 1977. In contrast, Mott's is an American company that was founded in the United States in 1842.",
       "claims": [
         {
@@ -1516,7 +1469,6 @@
     },
     {
       "prompt": "Which genus has more species, Fir or Chelone?",
-      "answer": "Firs",
       "original-output": "The genus Fir (Abies) has significantly more species, with 48\u201356 species, compared to the genus Chelone, which consists of four species.",
       "claims": [
         {
@@ -1548,7 +1500,6 @@
     },
     {
       "prompt": "What Category 5 hurricane cause the Sqannanoa River to flood?",
-      "answer": "Hurricane Ivan",
       "original-output": "The Category 5 hurricane that caused the Swannanoa River to flood was Hurricane Ivan. In September 2004, the remnants of Hurricane Ivan, along with the remnants of Hurricane Frances shortly before, resulted in massive rainfall and flooding in the area.",
       "claims": [
         {
@@ -1580,7 +1531,6 @@
     },
     {
       "prompt": "In the 1990's, who built one of the three mills landmarks in California?",
-      "answer": "Petrie Dierman Kughn in 1994.",
       "original-output": "In the 1990s, one of the three Mills landmarks in California, Ontario Mills, was developed and once owned by the Mills Corporation. It opened to the public on November 14, 1996.",
       "claims": [
         {
@@ -1607,7 +1557,6 @@
     },
     {
       "prompt": "Girard city is located in a county with how many inhabitants ?",
-      "answer": "39,134",
       "original-output": "Girard is the county seat of Crawford County, Kansas. However, the provided context does not specify the total population of Crawford County. If you need the population of Crawford County, you might need to look up more recent census data or a reliable demographic source for that information.",
       "claims": [
         {
@@ -1634,7 +1583,6 @@
     },
     {
       "prompt": "What occupation was shared by both John Frankenheimer and Tiffanie DeBartolo?",
-      "answer": "director",
       "original-output": "Both John Frankenheimer and Tiffanie DeBartolo shared the occupation of being filmmakers. John Frankenheimer was a well-known director, and Tiffanie DeBartolo wrote and directed the film \"Dream for an Insomniac.\"",
       "claims": [
         {
@@ -1656,7 +1604,6 @@
     },
     {
       "prompt": "Which author was born first, Lorraine Hansberry or Sandra Gulland?",
-      "answer": "Lorraine Vivian Hansberry",
       "original-output": "Lorraine Hansberry was born on May 19, 1930, and Sandra Gulland was born on November 3, 1944. Therefore, Lorraine Hansberry was born first.",
       "claims": [
         {
@@ -1678,7 +1625,6 @@
     },
     {
       "prompt": "Choi Min-sik, is a South Korean actor, he also starred alongside Scarlett Johansson in Lucy, an English-language French science fiction action film written and directed by who?",
-      "answer": "Luc Besson",
       "original-output": "Choi Min-sik starred alongside Scarlett Johansson in the film \"Lucy,\" which was written and directed by Luc Besson.",
       "claims": [
         {
@@ -1700,7 +1646,6 @@
     },
     {
       "prompt": "MindGamers is a 2015 Austrian science fiction film directed by who, the film stars Antonia Campbell-Hughes, a Northern Irish actress and former fashion designer, best known for appearing in Jack Dee's sitcom \"Lead Balloon\"?",
-      "answer": "Andrew Goth",
       "original-output": "MindGamers is a 2015 Austrian science fiction film directed by Andrew Goth.",
       "claims": [
         {
@@ -1732,7 +1677,6 @@
     },
     {
       "prompt": "The motorway reffered to as the Mid Wirral Motorway is located in a suburb known for which buildings?",
-      "answer": "Joseph Groome Towers",
       "original-output": "The Mid Wirral Motorway, also known as the M53, passes through Westminster, a suburb of Ellesmere Port, which is known for its terraced houses and the Joseph Groome Towers, three thirteen-storey tower blocks built as public housing.",
       "claims": [
         {
@@ -1774,7 +1718,6 @@
     },
     {
       "prompt": "Four Shores, is an album from the Latvian band Brainstorm, Lonely Feeling\" is dedicated to which Swedish-born American film actress, during the 1920s and 1930s? ",
-      "answer": "Greta Garbo",
       "original-output": "The song \"Lonely Feeling\" from Brainstorm's album \"Four Shores\" is dedicated to the Swedish-born American film actress Greta Garbo.",
       "claims": [
         {
@@ -1811,7 +1754,6 @@
     },
     {
       "prompt": "What is the name of the character in Quantico played by the same actor who starred in Tower Block?",
-      "answer": "Harry Doyle",
       "original-output": "The character in \"Quantico\" played by the same actor who starred in \"Tower Block\" is Harry Doyle. This actor is Russell Tovey, who played Paul in \"Tower Block.\"",
       "claims": [
         {
@@ -1838,7 +1780,6 @@
     },
     {
       "prompt": "Which American guitarist and bluegrass musician from Danville, Virginia did Rebecca Rippy play or share the stage with?",
-      "answer": "Tony Rice",
       "original-output": "Rebecca Rippy shared the stage with Tony Rice, who is an American guitarist and bluegrass musician from Danville, Virginia.",
       "claims": [
         {
@@ -1865,7 +1806,6 @@
     },
     {
       "prompt": "The 2016 Miami Dolphins season was the franchise's 47th season in the National Football League, the 51st overall and the first under head coach Adam Gase, with their Week 15 win over the New York Jets, the Dolphins clinched a winning record for the first time since 2008, and clinched a playoff berth the following week after which franchise's 47th season in the National Football League, the 57th overall and the fourth under head coach Andy Reid and the fourth and final season under general manager John Dorsey who was fired June 22, 2017?",
-      "answer": "2016 Kansas City Chiefs season",
       "original-output": "The franchise you are referring to is the Kansas City Chiefs. The 2016 season was their 47th season in the National Football League, the 57th overall, and the fourth under head coach Andy Reid. It was also the fourth and final season under general manager John Dorsey, who was fired on June 22, 2017.",
       "claims": [
         {
@@ -1902,7 +1842,6 @@
     },
     {
       "prompt": "Which film was released first, Roving Mars or The London Connection?",
-      "answer": "The London Connection",
       "original-output": "\"The London Connection\" was released in 1979, while \"Roving Mars\" is an IMAX documentary film that was released later. Therefore, \"The London Connection\" was released first.",
       "claims": [
         {
@@ -1929,7 +1868,6 @@
     },
     {
       "prompt": "The 34th Foot Regiment was sent to fight who?",
-      "answer": "Americans",
       "original-output": "The 34th Foot Regiment, also known as the 34th (Cumberland) Regiment of Foot, was sent to fight against various adversaries at different times throughout its history. Some of the notable engagements include:\n\n1. **French Forces**: Defended Saint Lucia from French forces and later suppressed a rebellion in Saint Vincent in the late 18th century.\n2. **Maratha Empire**: Campaigned against the Maratha Empire in India during the early 19th century.\n3. **American Hunters' Lodges**: Fought during the Upper Canada Rebellion, specifically at the Battle of Windsor in December 1838.\n4. **Crimean War**: Saw action at the Siege of Sevastopol in 1854.\n5. **Indian Rebellion**: Fought at the Siege of Cawnpore and the Siege of Lucknow in 1857.\n\nThe regiment was involved in numerous other conflicts, including the War of the Austrian Succession, the Napoleonic Wars, and the War of Spanish Succession.",
       "claims": [
         {
@@ -2001,7 +1939,6 @@
     },
     {
       "prompt": "In what year did the submarine that sank the Tsushima Maru open to public tours?",
-      "answer": "1981",
       "original-output": "The submarine USS Bowfin, which sank the Tsushima Maru, has been open to public tours since 1981 at the USS Bowfin Submarine Museum and Park in Pearl Harbor, Hawaii.",
       "claims": [
         {
@@ -2023,7 +1960,6 @@
     },
     {
       "prompt": "What song recorded by Fergie was produced by Polow da Don and was followed by Life Goes On?",
-      "answer": "M.I.L.F. $",
       "original-output": "The song recorded by Fergie that was produced by Polow da Don and was followed by \"Life Goes On\" is \"M.I.L.F. $\".",
       "claims": [
         {
@@ -2055,7 +1991,6 @@
     },
     {
       "prompt": "Who was the former wife of the American musician who led the band Kings of Rhythm?",
-      "answer": "Tina Turner",
       "original-output": "The former wife of the American musician Ike Turner, who led the band Kings of Rhythm, was Annie Mae Wilson.",
       "claims": [
         {
@@ -2087,7 +2022,6 @@
     },
     {
       "prompt": "Which star in The Pokrovsky Gate was also a director and occasional singer?",
-      "answer": "Oleg Menshikov",
       "original-output": "The star of \"The Pokrovsky Gate\" who was also a director and occasional singer is Mikhail Kozakov. He directed the film and was known for his work both in front of and behind the camera, as well as for his musical performances.",
       "claims": [
         {
@@ -2129,7 +2063,6 @@
     },
     {
       "prompt": "What year did the namesake of Fort Davis, Alaska die?",
-      "answer": "1879",
       "original-output": "The namesake of Fort Davis, Alaska, General Jefferson C. Davis, died on November 30, 1879.",
       "claims": [
         {
@@ -2151,7 +2084,6 @@
     },
     {
       "prompt": "What piece was composed in 1937 for the American Bandmasters Association and has a melody similar to Green Bushes?",
-      "answer": "Lincolnshire Posy",
       "original-output": "The piece you are referring to is \"Lincolnshire Posy\" by Percy Grainger. It was composed in 1937 for the American Bandmasters Association and includes melodies similar to the folk song \"Green Bushes\".",
       "claims": [
         {
@@ -2188,7 +2120,6 @@
     },
     {
       "prompt": "How many people were killed by a van bomb by the man Inga Bejer Engh prosecuted in a high profile 2012 trial?",
-      "answer": "eight",
       "original-output": "In the 2011 Norway attacks, Anders Behring Breivik, whom Inga Bejer Engh prosecuted in a high-profile 2012 trial, killed eight people by detonating a van bomb in Oslo.",
       "claims": [
         {
@@ -2220,7 +2151,6 @@
     },
     {
       "prompt": "The Jargon Society has published books by the founder and primary theorist of what group of poets?",
-      "answer": "Objectivist",
       "original-output": "The Jargon Society, founded by Jonathan Williams, has published works by the founder and primary theorist of the Objectivist group of poets, Louis Zukofsky.",
       "claims": [
         {
@@ -2247,7 +2177,6 @@
     },
     {
       "prompt": "Whitney Williams has a chair on the board of a non-profit with Ben Affleck and what other company?",
-      "answer": "williamsworks",
       "original-output": "Whitney Williams co-founded the Eastern Congo Initiative with Ben Affleck. There is no mention of any other company in the context of her board membership for this non-profit.",
       "claims": [
         {
@@ -2269,7 +2198,6 @@
     },
     {
       "prompt": "Were Nikos Koundouros and Curtis Hanson both film directors?",
-      "answer": "yes",
       "original-output": "Yes, both Nikos Koundouros and Curtis Hanson were film directors. Nikos Koundouros was a Greek film director known for his work in Greece and Europe, including films like \"Magiki Polis\" and \"Young Aphrodites.\" Curtis Hanson was an American film director, screenwriter, and producer known for films such as \"L.A. Confidential,\" \"8 Mile,\" and \"The Hand That Rocks the Cradle.\"",
       "claims": [
         {
@@ -2316,7 +2244,6 @@
     },
     {
       "prompt": "KKWQ-FM is a local radio station covering which area, that is a coextensive with Angle Township?",
-      "answer": "The Northwest Angle",
       "original-output": "KKWQ-FM is a local radio station covering the area of Northwest Minnesota, including the Northwest Angle, which is coextensive with Angle Township.",
       "claims": [
         {
@@ -2348,7 +2275,6 @@
     },
     {
       "prompt": "The Oxus cobra contains what kind of ions for their venom to be active? ",
-      "answer": "magnesium",
       "original-output": "The information provided does not specify the exact ions required for the venom of the Oxus cobra (Naja oxiana) to be active. Typically, snake venoms are complex mixtures that can include a variety of enzymes, proteins, and ions, but the specific ions involved are not detailed in the provided context. If ions are crucial for venom activity, they might be related to the general functioning of enzymatic or neurotoxic components, such as calcium or sodium ions, which are common in many biological processes. However, for precise details, a specific biochemical study of Naja oxiana venom would be required.",
       "claims": [
         {
