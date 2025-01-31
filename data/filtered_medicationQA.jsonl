@@ -1,0 +1,549 @@
+{
+  "data": [
+    {
+      "prompt": "pravastatin s9 orange how many \"grams?\u009d\"",
+      "original-output": "Pravastatin tablets marked with \"S9\" are typically orange and indicate a specific dosage. The \"S9\" marking is often associated with the 40 mg pravastatin sodium tablets. This means the tablet contains 40 milligrams (mg) of the active ingredient, not grams. If you need to know the exact dosage of a specific tablet, it's always best to confirm with a pharmacist or refer to the medication packaging.",
+      "claims": [
+        {
+          "subclaim": "Pravastatin tablets marked with \"S9\" are typically orange",
+          "similarity-score": 0.3501357826054096,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Pravastatin tablets marked with \"S9\" indicate a specific dosage",
+          "similarity-score": 0.34701618379354476,
+          "annotation": "U"
+        },
+        {
+          "subclaim": " The tablet does not contain grams",
+          "similarity-score": 0.320709623336792,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The \"S9\" marking is often associated with the 40 mg pravastatin sodium tablets",
+          "similarity-score": 0.32057331321239474,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " It is best to refer to the medication packaging for the exact dosage",
+          "similarity-score": 0.28605374037623404,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " It is best to confirm the exact dosage of a specific tablet with a pharmacist",
+          "similarity-score": 0.28056603003144265,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The tablet contains 40 milligrams (mg) of the active ingredient",
+          "similarity-score": 0.23205977436304093,
+          "annotation": "U"
+        }
+      ]
+    },
+    {
+      "prompt": "vyvanse 10 what is all in this pill is it safe",
+      "original-output": "Vyvanse is a medication that contains the active ingredient Lisdexamfetamine Dimesylate. It is a central nervous system stimulant used primarily to treat attention deficit hyperactivity disorder (ADHD) and binge eating disorder.\n\nThe Vyvanse 10 mg pill includes the following inactive ingredients:\n- Microcrystalline cellulose\n- Croscarmellose sodium\n- Magnesium stearate\n- Gelatin\n- Titanium dioxide\n- FD&C Blue No.\n\nAs for safety, Vyvanse can increase blood pressure and heart rate, so it may not be suitable for everyone, particularly those with heart disease, high blood pressure, or a history of drug abuse. Additionally, it may not be safe for individuals with mental health disorders such as anxiety, depression, or bipolar disorder. Potential side effects and risks are associated with this medication, so it is crucial to discuss your full medical history and any other medications or supplements you are taking with your healthcare provider before starting Vyvanse.",
+      "claims": [
+        {
+          "subclaim": " The Vyvanse 10 mg pill includes inactive ingredients such as FD&C Blue No.",
+          "similarity-score": 0.49939599208831786,
+          "annotation": "U"
+        },
+        {
+          "subclaim": " The Vyvanse 10 mg pill includes inactive ingredients such as Microcrystalline cellulose",
+          "similarity-score": 0.4806368241548538,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Vyvanse 10 mg pill includes inactive ingredients such as Titanium dioxide",
+          "similarity-score": 0.4786227599620819,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Vyvanse 10 mg pill includes inactive ingredients such as Croscarmellose sodium",
+          "similarity-score": 0.47708674507141113,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Vyvanse 10 mg pill includes inactive ingredients such as Magnesium stearate",
+          "similarity-score": 0.46681348695755004,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Vyvanse 10 mg pill includes inactive ingredients such as Gelatin",
+          "similarity-score": 0.4634123291015625,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "Vyvanse is a medication that contains the active ingredient Lisdexamfetamine Dimesylate",
+          "similarity-score": 0.4347489559412003,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " It is crucial to discuss full medical history with a healthcare provider before starting Vyvanse",
+          "similarity-score": 0.41806584849357603,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " It is crucial to discuss other medications or supplements with a healthcare provider before starting Vyvanse",
+          "similarity-score": 0.4166068362236023,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Vyvanse may not be safe for individuals with mental health disorders",
+          "similarity-score": 0.40287773051261905,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Vyvanse may not be safe for individuals with anxiety",
+          "similarity-score": 0.401565464258194,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Vyvanse may not be safe for individuals with depression",
+          "similarity-score": 0.39737762589454656,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Vyvanse is a central nervous system stimulant",
+          "similarity-score": 0.39667855122089385,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Vyvanse may not be suitable for individuals with high blood pressure",
+          "similarity-score": 0.3921498168468476,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Potential side effects and risks are associated with Vyvanse",
+          "similarity-score": 0.3906555669546127,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Vyvanse may not be safe for individuals with bipolar disorder",
+          "similarity-score": 0.3884374136209488,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Vyvanse can increase blood pressure",
+          "similarity-score": 0.38737569575309755,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Vyvanse may not be suitable for individuals with heart disease",
+          "similarity-score": 0.3832147327899933,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Vyvanse can increase heart rate",
+          "similarity-score": 0.36971799738407135,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Vyvanse is used primarily to treat attention deficit hyperactivity disorder (ADHD)",
+          "similarity-score": 0.36732027478218077,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Vyvanse is used primarily to treat binge eating disorder",
+          "similarity-score": 0.3644863644957542,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Vyvanse may not be suitable for individuals with a history of drug abuse",
+          "similarity-score": 0.35519075331687927,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Vyvanse may not be suitable for everyone",
+          "similarity-score": 0.35186388387680056,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "how much b-12 is needed in an adult/month",
+      "original-output": "The recommended daily amount of vitamin B-12 for adults is approximately 2 to 4 micrograms (mcg). This translates to about 60 to 120 mcg per month. However, individual needs can vary based on factors such as diet, health status, and lifestyle. People who may have trouble getting enough B-12 from their diet, such as vegans or those with certain health conditions, might need supplements or B-12 shots. Always consult with a healthcare professional for personalized advice.",
+      "claims": [
+        {
+          "subclaim": " People who may have trouble getting enough B-12 might need supplements or B-12 shots",
+          "similarity-score": 0.36859875094890593,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "The recommended daily amount of vitamin B-12 for adults is approximately 2 to 4 micrograms (mcg)",
+          "similarity-score": 0.3612970819473267,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Individual needs for vitamin B-12 can vary based on factors such as diet, health status, and lifestyle",
+          "similarity-score": 0.3566736068964005,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The recommended monthly amount of vitamin B-12 for adults is about 60 to 120 mcg",
+          "similarity-score": 0.3544879819512367,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " People who may have trouble getting enough B-12 from their diet include vegans and those with certain health conditions",
+          "similarity-score": 0.31926422387361525,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Healthcare professionals should be consulted for personalized advice",
+          "similarity-score": 0.20124655415415763,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "can i drink voltarel or cataflam when i drink medrol",
+      "original-output": "Medrol (methylprednisolone) and medications like Voltaren or Cataflam (both containing diclofenac) can potentially be used together, but this combination should be approached with caution. Both medications can increase the risk of gastrointestinal issues, such as stomach ulcers or bleeding, especially when used together.\n\nIt's important to consult with your healthcare provider before taking these medications together. They may need to adjust the dosage or frequency to minimize potential risks. Always follow the guidance of your doctor or pharmacist regarding medication interactions and management.",
+      "claims": [
+        {
+          "subclaim": "Medrol (methylprednisolone) and medications like Voltaren or Cataflam can potentially be used together",
+          "similarity-score": 0.4960918742597103,
+          "annotation": "U"
+        },
+        {
+          "subclaim": " The combination of Medrol and diclofenac should be approached with caution",
+          "similarity-score": 0.4345995694041252,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Both medications can increase the risk of gastrointestinal issues",
+          "similarity-score": 0.31362680574059487,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " It is important to consult with a healthcare provider before taking these medications together",
+          "similarity-score": 0.29768575642704964,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " It is important to follow the guidance of a doctor or pharmacist regarding medication interactions and management",
+          "similarity-score": 0.284392683082819,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " A healthcare provider may need to adjust the dosage or frequency of medications",
+          "similarity-score": 0.2676535932540894,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Gastrointestinal issues may include stomach ulcers or bleeding",
+          "similarity-score": 0.15261940377950667,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "why did my doctor give me levetiracetam what is use for",
+      "original-output": "Your doctor likely prescribed levetiracetam because it is used to treat certain types of seizures in individuals with epilepsy. It is often used in combination with other medications as adjunctive therapy for partial onset seizures in both adults and children. Levetiracetam works by affecting the transmission of nerve signals in the brain, which helps to reduce the frequency and severity of seizures.",
+      "claims": [
+        {
+          "subclaim": "The doctor prescribed levetiracetam",
+          "similarity-score": 0.465723406291008,
+          "annotation": "U"
+        },
+        {
+          "subclaim": " Levetiracetam is often used in combination with other medications as adjunctive therapy for partial onset seizures",
+          "similarity-score": 0.41331901934146886,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Levetiracetam works by affecting the transmission of nerve signals in the brain",
+          "similarity-score": 0.403060799574852,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Levetiracetam is used to treat certain types of seizures in individuals with epilepsy",
+          "similarity-score": 0.40075739402771,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Levetiracetam helps to reduce the frequency and severity of seizures",
+          "similarity-score": 0.375366388130188,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Levetiracetam is used for both adults and children",
+          "similarity-score": 0.37471175940036777,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "what medications can induce hypo pigmentation of skin?",
+      "original-output": "Certain medications can cause hypopigmentation of the skin, often resulting in conditions like vitiligo. Some of the drugs and substances reported to induce hypopigmentation include:\n\n1. **Topical Agents**:\n   - Diphencyprone\n   - Squaric acid\n\n2. **Anticonvulsants**\n\n3. **Levodopa**\n\n4. **Antimalarials**:\n   - Hydroxychloroquine\n\n5. **Immune-Modulating and Biologic Drugs**:\n   - Interleukin (IL)-2, IL-4, and interferons\n   - Tumor necrosis factor inhibitors (e.g., infliximab, adalimumab, etanercept)\n   - Programmed death receptor inhibitors (e.g., pembrolizumab, nivolumab)\n   - BRAF inhibitors (e.g., vemurafenib, dabrafenib)\n   - Tyrosine kinase inhibitors (e.g., imatinib, gefitinib)\n\n6. **Phenols**:\n   - Monobenzyl ether of hydroquinone\n   - Paraphenylenediamine\n   - Rhododendrol\n\nThese medications can lead to localized or generalized hypopigmentation, and their use should be monitored by healthcare providers.",
+      "claims": [
+        {
+          "subclaim": " Some drugs and substances can induce hypopigmentation",
+          "similarity-score": 0.4526783563613892,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "Certain medications can cause hypopigmentation of the skin",
+          "similarity-score": 0.448523672246933,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Certain medications can result in conditions like vitiligo",
+          "similarity-score": 0.43861360571384433,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " These medications can lead to localized or generalized hypopigmentation",
+          "similarity-score": 0.4315481082677841,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Immune-modulating and biologic drugs can induce hypopigmentation",
+          "similarity-score": 0.4072681755542755,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Anticonvulsants can induce hypopigmentation",
+          "similarity-score": 0.40253498730659487,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Levodopa can induce hypopigmentation",
+          "similarity-score": 0.39012146680355075,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Topical agents include diphencyprone and squaric acid",
+          "similarity-score": 0.3043122455596924,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Antimalarials include hydroxychloroquine",
+          "similarity-score": 0.281224276638031,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Programmed death receptor inhibitors include pembrolizumab and nivolumab",
+          "similarity-score": 0.2799042063504458,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " BRAF inhibitors include vemurafenib and dabrafenib",
+          "similarity-score": 0.2768692183554173,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Interleukin (IL)-2, IL-4, and interferons are immune-modulating drugs",
+          "similarity-score": 0.2682522571474314,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Tyrosine kinase inhibitors include imatinib and gefitinib",
+          "similarity-score": 0.2537829547405243,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Tumor necrosis factor inhibitors include infliximab, adalimumab, and etanercept",
+          "similarity-score": 0.23056044363975525,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The use of these medications should be monitored by healthcare providers",
+          "similarity-score": 0.22313356714248658,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "what medicine besides statins lower cholesterol?",
+      "original-output": "Besides statins, there are several other types of medications that can be used to lower cholesterol:\n\n1. **Bile Acid Sequestrants**: These drugs work by binding to bile acids in the intestine, which prompts the liver to use excess cholesterol to produce more bile acids, thus lowering the cholesterol level in the blood. Examples include cholestyramine, colestipol, and colesevelam.\n\n2. **Ezetimibe**: This medication works by reducing the absorption of cholesterol in the small intestine. It can be used alone or in combination with statins.\n\n3. **PCSK9 Inhibitors**: These are injectable medications that help the liver absorb more LDL cholesterol, which reduces the amount of cholesterol circulating in the blood. Examples include alirocumab and evolocumab.\n\n4. **Niacin (Nicotinic Acid)**: Niacin can lower LDL cholesterol and triglycerides while raising HDL cholesterol. However, its use is less common due to potential side effects.\n\n5. **Fibrates**: These are primarily used to lower triglycerides and can also help increase HDL cholesterol. Examples include gemfibrozil and fenofibrate.\n\n6. **Omega-3 Fatty Acid Supplements**: These can help lower triglycerides and have other heart health benefits.\n\n7. **Bempedoic Acid**: This is a newer medication that works by inhibiting cholesterol synthesis in the liver.\n\nEach of these medications works differently, and the choice of medication will depend on individual health needs, cholesterol levels, and any underlying conditions. It's important to consult a healthcare provider to determine the best treatment plan for managing cholesterol.",
+      "claims": [
+        {
+          "subclaim": " The choice of cholesterol-lowering medication depends on individual health needs, cholesterol levels, and underlying conditions",
+          "similarity-score": 0.30851174035072326,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "\"Bile Acid Sequestrants lower cholesterol levels in the blood by prompting the liver to use excess cholesterol to produce more bile acids",
+          "similarity-score": 0.25723111648857594,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " It is important to consult a healthcare provider to determine the best treatment plan for managing cholesterol",
+          "similarity-score": 0.2496225862801075,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Niacin lowers LDL cholesterol and triglycerides while raising HDL cholesterol",
+          "similarity-score": 0.24731933514475823,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Bempedoic Acid inhibits cholesterol synthesis in the liver",
+          "similarity-score": 0.23394039925336838,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Omega-3 Fatty Acid Supplements help lower triglycerides",
+          "similarity-score": 0.22751902464032173,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " PCSK9 Inhibitors help the liver absorb more LDL cholesterol",
+          "similarity-score": 0.2239532764285803,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Fibrates are primarily used to lower triglycerides",
+          "similarity-score": 0.22200804018080236,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Ezetimibe reduces the absorption of cholesterol in the small intestine",
+          "similarity-score": 0.21579499190449714,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The use of Niacin is common due to potential side effects",
+          "similarity-score": 0.1590869058340788,
+          "annotation": "N"
+        }
+      ]
+    },
+    {
+      "prompt": "what opioid is in the bupropion patch",
+      "original-output": "There seems to be some confusion in your question. Bupropion and buprenorphine are different medications. Bupropion is not an opioid and is typically used to treat depression and help with smoking cessation. On the other hand, buprenorphine is an opioid used in the treatment of opioid use disorder and pain management. There is no opioid in a \"bupropion patch,\" as such a patch does not exist. If you are referring to a buprenorphine patch, then buprenorphine is the opioid present in it.",
+      "claims": [
+        {
+          "subclaim": " There is no opioid in a \"bupropion patch\"",
+          "similarity-score": 0.5173762882947921,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " If referring to a buprenorphine patch, then buprenorphine is the opioid present in it",
+          "similarity-score": 0.5118827685117722,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " There is a bupropion patch available",
+          "similarity-score": 0.48989644739627836,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Bupropion is an opioid",
+          "similarity-score": 0.48662517242431635,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " A \"bupropion patch\" does not exist",
+          "similarity-score": 0.4794536059141159,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "Bupropion and buprenorphine are different medications",
+          "similarity-score": 0.468275173830986,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Bupropion is not an opioid",
+          "similarity-score": 0.45900049334764476,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Buprenorphine is an opioid",
+          "similarity-score": 0.4083980682492256,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Bupropion is typically used to treat depression and help with smoking cessation",
+          "similarity-score": 0.4081762552499771,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Buprenorphine is used in the treatment of opioid use disorder and pain management",
+          "similarity-score": 0.39480640476942064,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "enoxaparin shot admin they injected into my kidney what will i do",
+      "original-output": "If you believe that an enoxaparin injection was administered incorrectly, particularly if it was injected into your kidney, it's important to seek medical attention immediately. Enoxaparin is typically administered as a subcutaneous injection (under the skin) and not directly into organs.\n\nHere are some steps you should consider taking:\n\n1. **Seek Immediate Medical Attention**: Go to the nearest emergency department or contact your healthcare provider to get evaluated as soon as possible. Explain the situation clearly and mention any symptoms you are experiencing.\n\n2. **Monitor for Symptoms**: Look out for any unusual symptoms such as severe pain, bleeding, bruising, difficulty urinating, or any other concerning signs. Inform the medical personnel about these symptoms.\n\n3. **Follow Medical Advice**: Follow any instructions provided by healthcare professionals and ensure you attend any recommended follow-up appointments.\n\n4. **Document the Incident**: If possible, keep a record of what happened, including when and where the injection was given, who administered it, and any symptoms you experienced afterward. This information can be helpful for medical professionals and any necessary investigations.\n\nIt is critical to address this situation promptly to prevent any potential complications.",
+      "claims": [
+        {
+          "subclaim": " Enoxaparin can be injected into the kidney",
+          "similarity-score": 0.39042134195566175,
+          "annotation": "N"
+        },
+        {
+          "subclaim": "Enoxaparin is typically administered as a subcutaneous injection",
+          "similarity-score": 0.3472217776060104,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Immediate medical attention should be sought if an injection is administered incorrectly",
+          "similarity-score": 0.2757293649315834,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Medical professionals should be informed about unusual symptoms",
+          "similarity-score": 0.2673557174384594,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Following medical advice is important",
+          "similarity-score": 0.2232886167705059,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Symptoms to monitor include severe pain and difficulty urinating",
+          "similarity-score": 0.22113101938962937,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Incident documentation can be helpful for medical professionals",
+          "similarity-score": 0.21116799927949903,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Timely addressing of the situation is critical to prevent complications",
+          "similarity-score": 0.17785814946591855,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "what are the dosage strengths of sildenafil",
+      "original-output": "Sildenafil tablets are typically available in the following dosage strengths: 25 mg, 50 mg, and 100 mg. These are commonly prescribed for treating erectile dysfunction. Additionally, for pulmonary arterial hypertension, sildenafil may be available in other forms and dosages, such as 20 mg tablets or oral suspension. Always follow your healthcare provider's instructions regarding the appropriate dosage for your condition.",
+      "claims": [
+        {
+          "subclaim": "Sildenafil tablets are typically available in the following dosage strengths: 25 mg, 50 mg, and 100 mg",
+          "similarity-score": 0.3622362848997116,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Sildenafil tablets are commonly prescribed for treating erectile dysfunction",
+          "similarity-score": 0.32386112036705017,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Other forms of sildenafil include 20 mg tablets or oral suspension",
+          "similarity-score": 0.3194262898921966,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Sildenafil may be available in other forms and dosages for pulmonary arterial hypertension",
+          "similarity-score": 0.3027051719248295,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " It is important to follow your healthcare provider's instructions regarding the appropriate dosage for your condition",
+          "similarity-score": 0.20040594926476477,
+          "annotation": "I"
+        }
+      ]
+    }
+  ]
+}

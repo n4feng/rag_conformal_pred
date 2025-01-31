@@ -1,0 +1,2313 @@
+{
+  "data": [
+    {
+      "prompt": "Were Pavel Urysohn and Leonid Levin known for the same type of work?",
+      "original-output": "Pavel Urysohn and Leonid Levin were not known for the same type of work. Pavel Urysohn was a mathematician known for his contributions to topology, specifically in dimension theory, and for developing Urysohn's Metrization Theorem and Urysohn's Lemma. His work was primarily in the field of mathematics.\n\nLeonid Levin, on the other hand, is known for his work in computer science, particularly in areas like randomness in computing, algorithmic complexity, theory of computation, and information theory. He is notable for his contributions to the theory of NP-completeness and average-case complexity.\n\nTherefore, while both made significant contributions to their respective fields, Urysohn's work was in pure mathematics, while Levin's work is primarily in theoretical computer science.",
+      "claims": [
+        {
+          "subclaim": " Pavel Urysohn was a mathematician",
+          "similarity-score": 0.48519221588373185,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Pavel Urysohn contributed to topology",
+          "similarity-score": 0.46866349489688874,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Pavel Urysohn developed Urysohn's Metrization Theorem",
+          "similarity-score": 0.4558456450760365,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Pavel Urysohn developed Urysohn's Lemma",
+          "similarity-score": 0.44298647091388704,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Leonid Levin's work is particularly in randomness in computing",
+          "similarity-score": 0.40697545326948165,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Urysohn's work was primarily in the field of mathematics",
+          "similarity-score": 0.4004482954442501,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Leonid Levin is known for his work in computer science",
+          "similarity-score": 0.3985550921559333,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "Pavel Urysohn and Leonid Levin were not known for the same type of work",
+          "similarity-score": 0.3970057981431484,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Leonid Levin's work is particularly in algorithmic complexity",
+          "similarity-score": 0.3960388783693313,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Leonid Levin's work is particularly in theory of computation",
+          "similarity-score": 0.3890747365236282,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Urysohn's work was in pure mathematics",
+          "similarity-score": 0.38506208703517913,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Leonid Levin's work is particularly in information theory",
+          "similarity-score": 0.3833994164228439,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Levin's work is primarily in theoretical computer science",
+          "similarity-score": 0.3629781206488609,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Leonid Levin contributed to average-case complexity",
+          "similarity-score": 0.3553714658617973,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Leonid Levin contributed to the theory of NP-completeness",
+          "similarity-score": 0.3412539584398269,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Both made significant contributions to their respective fields",
+          "similarity-score": 0.1437400855779648,
+          "annotation": "I"
+        }
+      ]
+    },
+    {
+      "prompt": "Are Jane and First for Women both women's magazines?",
+      "original-output": "Yes, both Jane and First for Women are women's magazines. \n\n- **First for Women** is a magazine published by Bauer Media Group in the USA, started in 1989, and is based in Englewood Cliffs, New Jersey.\n\n- **Jane** was an American magazine that targeted women who grew up reading \"Sassy\" magazine. It was created by Jane Pratt and was aimed at women aged 18\u201334. The magazine was published from September 1997 until August 2007.",
+      "claims": [
+        {
+          "subclaim": " First for Women is published by Bauer Media Group",
+          "similarity-score": 0.4566427183270455,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " First for Women is a women's magazine",
+          "similarity-score": 0.4294213590145111,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Jane was created by Jane Pratt",
+          "similarity-score": 0.388062785589695,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "Jane is a women's magazine",
+          "similarity-score": 0.38447104436159135,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " First for Women is based in Englewood Cliffs, New Jersey",
+          "similarity-score": 0.3812697107791901,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Jane targeted women who grew up reading \"Sassy\" magazine",
+          "similarity-score": 0.3798982518196106,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " First for Women started in 1989",
+          "similarity-score": 0.3738236428499222,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Jane was published from September 1997 until August 2007",
+          "similarity-score": 0.3718466713428497,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Jane was aimed at women aged 18\u201334",
+          "similarity-score": 0.3548776439189911,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Who is older Glenn Hughes or Ross Lynch?",
+      "original-output": "Glenn Hughes was born on August 21, 1951, and Ross Lynch was born on December 29, 1995. Therefore, Glenn Hughes is older than Ross Lynch.",
+      "claims": [
+        {
+          "subclaim": " Ross Lynch was born on December 29, 1995",
+          "similarity-score": 0.41677494974136353,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "Glenn Hughes was born on August 21, 1951",
+          "similarity-score": 0.3672457590699196,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Glenn Hughes is older than Ross Lynch",
+          "similarity-score": 0.3207969060301781,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "\"Funnybot\" is the second episode of the fifteenth season of which American animated television series, created by Trey Parker and Matt Stone?  ",
+      "original-output": "\"Funnybot\" is the second episode of the fifteenth season of the American animated television series \"South Park,\" which was created by Trey Parker and Matt Stone.",
+      "claims": [
+        {
+          "subclaim": " \"Funnybot is the first episode of the fifteenth season of South Park\"",
+          "similarity-score": 0.6032482859492302,
+          "annotation": "N"
+        },
+        {
+          "subclaim": "Funnybot is the second episode of the fifteenth season of the American animated television series South Park\"",
+          "similarity-score": 0.570481494474411,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " \"South Park was created by Trey Parker and Matt Stone\"",
+          "similarity-score": 0.3023133547633886,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " \"Trey Parker and Matt Stone are the only creators of South Park\"",
+          "similarity-score": 0.260272682338953,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "In what political party was the man who officially opened he Royal Spa Centre in 1972?",
+      "original-output": "The Royal Spa Centre was officially opened in 1972 by Anthony Eden, who was a member of the Conservative Party.",
+      "claims": [
+        {
+          "subclaim": "The Royal Spa Centre was officially opened in 1972",
+          "similarity-score": 0.39174338865280156,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Anthony Eden opened the Royal Spa Centre",
+          "similarity-score": 0.3709642510175705,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Anthony Eden was a member of the Conservative Party",
+          "similarity-score": 0.18192207193374632,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Who funds the bowling team that includes the school bus driver for Springfield Elementary School?",
+      "original-output": "The bowling team, which includes Otto the school bus driver, is funded by Mr. Burns. Homer and his friends, unable to afford the registration fee for the bowling league, go to Mr. Burns for sponsorship. Homer manages to get Mr. Burns to sign a check for the registration fee while Burns is anesthetized.",
+      "claims": [
+        {
+          "subclaim": " Homer and his friends are unable to afford the registration fee for the bowling league",
+          "similarity-score": 0.45659431868791583,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Homer and his friends go to Mr. Burns for sponsorship",
+          "similarity-score": 0.4337752136588097,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Homer manages to get Mr. Burns to sign a check for the registration fee",
+          "similarity-score": 0.4136020667552948,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "The bowling team is funded by Mr. Burns",
+          "similarity-score": 0.3926358203291893,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Mr. Burns is anesthetized when Homer gets him to sign the check",
+          "similarity-score": 0.31322608339786534,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The bowling team includes Otto the school bus driver",
+          "similarity-score": 0.3103082904696465,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "South Korean actor Kim Yool-ho starred in what 2016 movie directed by Yeon Sang-ho Yeon Sang-ho and starring actors Gong Yoo, Jung Yu-mi, and Ma Dong-seok?",
+      "original-output": "Kim Yool-ho starred in the 2016 movie \"Train to Busan,\" which was directed by Yeon Sang-ho and starred actors Gong Yoo, Jung Yu-mi, and Ma Dong-seok.",
+      "claims": [
+        {
+          "subclaim": "Kim Yool-ho starred in the 2016 movie \"Train to Busan\"",
+          "similarity-score": 0.4845981305122376,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " \"Train to Busan\" was directed by Yeon Sang-ho",
+          "similarity-score": 0.4073892730712891,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " \"Train to Busan\" starred actors Gong Yoo, Jung Yu-mi, and Ma Dong-seok",
+          "similarity-score": 0.3862455584526062,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Are the New Orleans Outfall Canals the same length as the Augusta Canal?",
+      "original-output": "The New Orleans Outfall Canals and the Augusta Canal serve different purposes and are located in different regions, but the context provided does not specify the exact lengths of these canals. \n\nThe New Orleans Outfall Canals consist of three main canals: the 17th Street Canal, the Orleans Avenue Canal, and the London Avenue Canal. These canals are part of a flood control system and are critical for drainage in New Orleans.\n\nThe Augusta Canal, located in Augusta, Georgia, is a historic canal used for water power, transportation, and municipal water supply.\n\nWithout specific lengths mentioned for these canals in the context provided, it's not possible to directly compare their lengths. For an accurate comparison, you would need to find specific measurements for each canal.",
+      "claims": [
+        {
+          "subclaim": " The three main canals of the New Orleans Outfall Canals are the 17th Street Canal, the Orleans Avenue Canal, and the London Avenue Canal",
+          "similarity-score": 0.4340765016078949,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The Augusta Canal is located in Augusta, Georgia",
+          "similarity-score": 0.39886378514170645,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Augusta Canal is a historic canal",
+          "similarity-score": 0.39693911104202273,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The New Orleans Outfall Canals consist of three main canals",
+          "similarity-score": 0.38525180506706236,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The Augusta Canal is used for water power, transportation, and municipal water supply",
+          "similarity-score": 0.37638718834519386,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The New Orleans Outfall Canals are critical for drainage in New Orleans",
+          "similarity-score": 0.37331767234802243,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The New Orleans Outfall Canals are part of a flood control system",
+          "similarity-score": 0.36743295888900757,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The New Orleans Outfall Canals and the Augusta Canal are located in different regions",
+          "similarity-score": 0.30655841222405433,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "The New Orleans Outfall Canals and the Augusta Canal serve different purposes",
+          "similarity-score": 0.30642510731220246,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The paragraph does not specify the exact lengths of the New Orleans Outfall Canals and the Augusta Canal",
+          "similarity-score": 0.2986562865972519,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Specific measurements for each canal need to be found for an accurate comparison",
+          "similarity-score": 0.20588668766617776,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Specific lengths for the canals are not mentioned in the context provided",
+          "similarity-score": 0.19958552314043043,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " It is not possible to directly compare the lengths of the canals without specific measurements",
+          "similarity-score": 0.1839415635883808,
+          "annotation": "I"
+        }
+      ]
+    },
+    {
+      "prompt": "The Swedish-British entertainment studio executive and film executive producer, who was the Executive producer for a 2016 American action thriller film directed by Babak Najafi, currently serve?",
+      "original-output": "The Swedish-British entertainment studio executive and film executive producer you're referring to is Zygi Kamasa. He served as the Executive Producer for the 2016 American action thriller film \"London Has Fallen,\" directed by Babak Najafi. Zygi Kamasa currently serves as the CEO of Lionsgate UK & Europe.",
+      "claims": [
+        {
+          "subclaim": "Zygi Kamasa is a Swedish-British entertainment studio executive",
+          "similarity-score": 0.4552988645553589,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Zygi Kamasa currently serves as the CEO of Lionsgate UK & Europe",
+          "similarity-score": 0.4421928812026978,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Zygi Kamasa is a film executive producer",
+          "similarity-score": 0.42869652614593506,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Zygi Kamasa served as the Executive Producer for the 2016 American action thriller film \"London Has Fallen\"",
+          "similarity-score": 0.3980533139705658,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " \"London Has Fallen\" was directed by Babak Najafi",
+          "similarity-score": 0.3333696125745773,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "What is the current name of the Atlanta Mansion built for the daughter of the 41st Mayor of Atlanta, Georgia?",
+      "original-output": "The Atlanta mansion built for the daughter of the 41st Mayor of Atlanta, Georgia, is currently known as Lullwater Estate. It was originally named Rainbow Terrace.",
+      "claims": [
+        {
+          "subclaim": " The original name of the Atlanta mansion was Rainbow Terrace",
+          "similarity-score": 0.3517529232501984,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "The Atlanta mansion is known as Lullwater Estate",
+          "similarity-score": 0.30599049389362337,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Atlanta mansion was built for the daughter of the 41st Mayor of Atlanta, Georgia",
+          "similarity-score": 0.26030538529157643,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Who invented the type of script used in autographs?",
+      "original-output": "The concept of autographs as written signatures does not have a specific inventor. The practice of signing one's name dates back to ancient times when people used various written scripts. The word \"autograph\" itself comes from Greek, meaning \"self-written.\" Over time, as writing systems developed, individuals began to use their unique signatures for authentication and personal identification. The type of script used in autographs evolved with the development of writing systems, such as cuneiform, hieroglyphs, and later alphabetic scripts. There isn't a single person credited with inventing the type of script used in autographs, as it is a natural progression of the evolution of writing.",
+      "claims": [
+        {
+          "subclaim": " The word \"autograph\" comes from Greek, meaning \"self-written\"",
+          "similarity-score": 0.26061447060108184,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " People used various written scripts in ancient times",
+          "similarity-score": 0.24088287668824196,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The writing systems referenced include cuneiform, hieroglyphs, and alphabetic scripts",
+          "similarity-score": 0.22766575770378114,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The type of script used in autographs evolved with the development of writing systems",
+          "similarity-score": 0.21806023175418376,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "The concept of autographs as written signatures does not have a specific inventor",
+          "similarity-score": 0.21714739906787872,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " There isn't a single person credited with inventing the type of script used in autographs",
+          "similarity-score": 0.19413220620155336,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The practice of signing one's name dates back to ancient times",
+          "similarity-score": 0.18703023292422294,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The evolution of writing includes a natural progression",
+          "similarity-score": 0.16960296836793423,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Individuals began to use their unique signatures for authentication and personal identification over time",
+          "similarity-score": 0.1575812163591385,
+          "annotation": "I"
+        }
+      ]
+    },
+    {
+      "prompt": "Norbert Holm was arrested and later demoted because of his Chief of Operations association with a military theorist popularly known as what?",
+      "original-output": "Norbert Holm was arrested and later demoted because of his Chief of Operations association with Field Marshal Erwin Rommel.",
+      "claims": [
+        {
+          "subclaim": " Norbert Holm had an association with Field Marshal Erwin Rommel",
+          "similarity-score": 0.4440905365347862,
+          "annotation": "U"
+        },
+        {
+          "subclaim": " Norbert Holm was the Chief of Operations",
+          "similarity-score": 0.40714922368526457,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "Norbert Holm was arrested",
+          "similarity-score": 0.3944025099277496,
+          "annotation": "U"
+        },
+        {
+          "subclaim": " Norbert Holm was later demoted",
+          "similarity-score": 0.39382223752141,
+          "annotation": "U"
+        },
+        {
+          "subclaim": " The arrest was because of the association",
+          "similarity-score": 0.12275925076007843,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "What event at the Asian Junior Athletics Championships has men and women competing at the same time?",
+      "original-output": "At the Asian Junior Athletics Championships, the men's and women's events are generally contested separately. However, the provided context does not specify any particular event where men and women compete at the same time. Typically, track and field events in such championships are held separately for male and female athletes. If there is a specific event where this occurs, it would need to be confirmed from a detailed schedule or specific event rules of the championship.",
+      "claims": [
+        {
+          "subclaim": "The Asian Junior Athletics Championships contests men's and women's events separately",
+          "similarity-score": 0.3278167495727539,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Track and field events in such championships are typically held separately for male and female athletes",
+          "similarity-score": 0.20915946674346925,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " A specific event where men and women compete at the same time would need to be confirmed from a detailed schedule or specific event rules of the championship",
+          "similarity-score": 0.17313473873138427,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The paragraph does not specify any particular event where men and women compete at the same time",
+          "similarity-score": 0.1662732512831688,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Hot Coffee, Mississippi sometimes shares a zipcode with a nearby city with what population at the 2010 census?",
+      "original-output": "Hot Coffee, Mississippi sometimes shares a zipcode with the nearby city of Collins, Mississippi. As of the 2010 census, Collins had a population of 2,586 people.",
+      "claims": [
+        {
+          "subclaim": "The city of Hot Coffee, Mississippi sometimes shares a zipcode with the nearby city of Collins, Mississippi",
+          "similarity-score": 0.4366416880011558,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Collins, Mississippi had a population of 2,586 people as of the 2010 census",
+          "similarity-score": 0.2963194966316223,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "The largest ship in the \"Imperator\" class ocean liners had how many gross register tons?",
+      "original-output": "The largest ship in the \"Imperator\" class ocean liners was the \"Bismarck,\" which had a gross register tonnage of 56,551 tons.",
+      "claims": [
+        {
+          "subclaim": "The largest ship in the \"Imperator\" class ocean liners was the \"Bismarck.\"",
+          "similarity-score": 0.45768351562023163,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " The \"Bismarck\" had a gross register tonnage of 56,551 tons.",
+          "similarity-score": 0.32384913808107374,
+          "annotation": "I"
+        }
+      ]
+    },
+    {
+      "prompt": "What nationality was a  historical drama film directed by?",
+      "original-output": "The nationality of a director of a historical drama film can vary depending on the specific film in question. Based on the context provided, here are examples of directors with their nationalities:\n\n1. Jan Troell, a Swedish director, was nominated for directing \"The Emigrants\" in 1972.\n2. Michael Radford, an English director, was nominated for the 1994 film which was adapted from the novel \"Ardiente Paciencia\".\n3. Akira Kurosawa, a Japanese director, was nominated for \"Ran\" in 1985.\n4. Claude Lelouch, a French director, was nominated for \"A Man and a Woman\" in 1966.\n\nIf you have a specific historical drama film in mind, please provide its title for more precise information.",
+      "claims": [
+        {
+          "subclaim": " Jan Troell was nominated for directing 'The Emigrants' in 1972.",
+          "similarity-score": 0.34330399487018587,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Michael Radford is an English director.",
+          "similarity-score": 0.30879126915931704,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Jan Troell is a Swedish director.",
+          "similarity-score": 0.30757197724580765,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Michael Radford was nominated for the 1994 film adapted from the novel 'Ardiente Paciencia'.",
+          "similarity-score": 0.3011163581609726,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Claude Lelouch was nominated for 'A Man and a Woman' in 1966.",
+          "similarity-score": 0.2969057629823685,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Akira Kurosawa was nominated for 'Ran' in 1985.",
+          "similarity-score": 0.2757410987854004,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Claude Lelouch is a French director.",
+          "similarity-score": 0.2568075129032135,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Akira Kurosawa is a Japanese director.",
+          "similarity-score": 0.23558393478393555,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "The nationality of a director of a historical drama film can vary depending on the specific film in question.",
+          "similarity-score": 0.2074928156554699,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The paragraph requests a specific historical drama film title for more precise information.",
+          "similarity-score": 0.1613576135337353,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "How many German scientists, engineers, and technicians, were recruited in post-Nazi Germany as a result of the clandestine operation where Arthur Rudolph became one of the main developers of the U.S. ?space program",
+      "original-output": "As a result of Operation Paperclip, more than 1,600 German scientists, engineers, and technicians were recruited and brought to the United States from post-Nazi Germany. This operation included notable figures such as Wernher von Braun and his V-2 rocket team, with Arthur Rudolph becoming one of the main developers of the U.S. space program.",
+      "claims": [
+        {
+          "subclaim": " Arthur Rudolph became one of the main developers of the U.S. space program",
+          "similarity-score": 0.4358743569374085,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Wernher von Braun was a notable figure involved in Operation Paperclip",
+          "similarity-score": 0.367242218542099,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "Operation Paperclip resulted in the recruitment of more than 1,600 German scientists, engineers, and technicians",
+          "similarity-score": 0.3659414235651493,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Wernher von Braun was part of a team that developed the V-2 rocket",
+          "similarity-score": 0.31565772083997723,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The recruited individuals were brought to the United States from post-Nazi Germany",
+          "similarity-score": 0.30375042695999144,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Which is currently more valuable, Temagami-Lorrain Mine or Meadowbank Gold Mine?",
+      "original-output": "The Temagami-Lorrain Mine is an abandoned mine, whereas the Meadowbank Gold Mine is an active open pit gold mine operated by Agnico-Eagle Mines. Given that the Temagami-Lorrain Mine is no longer in operation and the Meadowbank Gold Mine is actively producing gold, the Meadowbank Gold Mine is currently more valuable. The Meadowbank Gold Mine has probable gold reserves of 3.5 million ounces, indicating its significant value as an active mining operation.",
+      "claims": [
+        {
+          "subclaim": "The Temagami-Lorrain Mine is an abandoned mine",
+          "similarity-score": 0.47522056436538695,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Agnico-Eagle Mines operates the Meadowbank Gold Mine",
+          "similarity-score": 0.408504500246048,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The Meadowbank Gold Mine is an active open pit gold mine",
+          "similarity-score": 0.38764861611127854,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Meadowbank Gold Mine has probable gold reserves of 3.5 million ounces",
+          "similarity-score": 0.38127806875705716,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The Meadowbank Gold Mine's significant value is due to its active mining operation",
+          "similarity-score": 0.33955680282711986,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Meadowbank Gold Mine is currently more valuable than the Temagami-Lorrain Mine",
+          "similarity-score": 0.31971522653698925,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "British band The Wanted's third album includes a song with a title about which Barbadian superstar?",
+      "original-output": "The song from The Wanted's third album titled \"Word of Mouth\" that is related to a Barbadian superstar is \"Walks Like Rihanna.\"",
+      "claims": [
+        {
+          "subclaim": "The song from The Wanted's third album is titled 'Word of Mouth'",
+          "similarity-score": 0.4996392279624939,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " 'Walks Like Rihanna' is from The Wanted's third album",
+          "similarity-score": 0.4440799962639808,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The song 'Walks Like Rihanna' is related to a Barbadian superstar",
+          "similarity-score": 0.39648985346555704,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "What nationality is the actress who played the role of Sam Sloan's wife Trudy in the sitcom The Single Guy ?",
+      "original-output": "The actress who played the role of Sam Sloan's wife Trudy in the sitcom \"The Single Guy\" is Ming-Na Wen. She is of Chinese nationality, as she was born in Coloane, Macau, which was then a Portuguese colony and is now part of China.",
+      "claims": [
+        {
+          "subclaim": "Ming-Na Wen played the role of Sam Sloan's wife Trudy in the sitcom \"The Single Guy\"",
+          "similarity-score": 0.37750338785648346,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Ming-Na Wen is of Chinese nationality",
+          "similarity-score": 0.2431837368607521,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Ming-Na Wen was born in Coloane, Macau",
+          "similarity-score": 0.2244822854876518,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Coloane, Macau is now part of China",
+          "similarity-score": 0.06706871486902237,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Coloane, Macau was a Portuguese colony",
+          "similarity-score": 0.06549553467035293,
+          "annotation": "I"
+        }
+      ]
+    },
+    {
+      "prompt": "What shopping mall is the largest in south Texas, Malle del Norte or La Plaza Mall?",
+      "original-output": "La Plaza Mall in McAllen, Texas, is the largest mall in south Texas. It is larger than Mall del Norte in Laredo, Texas, by 3,000 square feet.",
+      "claims": [
+        {
+          "subclaim": " Mall del Norte is located in Laredo, Texas",
+          "similarity-score": 0.5864258959889411,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "La Plaza Mall is located in McAllen, Texas",
+          "similarity-score": 0.5059542021751403,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " La Plaza Mall is larger than Mall del Norte in Laredo, Texas by 3,000 square feet",
+          "similarity-score": 0.4985944531857967,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " La Plaza Mall is the largest mall in south Texas",
+          "similarity-score": 0.46587976545095444,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Who is the composer Howard Ashman worked with on his musical released in 1982? ",
+      "original-output": "Howard Ashman worked with composer Alan Menken on the musical \"Little Shop of Horrors,\" which was released in 1982.",
+      "claims": [
+        {
+          "subclaim": " Alan Menken collaborated with Howard Ashman on other projects",
+          "similarity-score": 0.3338897243499756,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "Howard Ashman worked with composer Alan Menken on the musical \"Little Shop of Horrors\"",
+          "similarity-score": 0.3233765051841736,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Howard Ashman was the sole composer of \"Little Shop of Horrors\"",
+          "similarity-score": 0.3132048845291138,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " \"Little Shop of Horrors\" was released in 1982",
+          "similarity-score": 0.2954032040119171,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "The USS LST-510 is a ferry between New London and Orient but what is the population of Orient?",
+      "original-output": "As of the 2010 census, the population of Orient, a hamlet and census-designated place (CDP) in Suffolk County, Long Island, New York, was 743.",
+      "claims": [
+        {
+          "subclaim": "The population of Orient, a hamlet and census-designated place in Suffolk County, Long Island, New York, was 743",
+          "similarity-score": 0.42944277753829957,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The 2010 census reported the population of Orient",
+          "similarity-score": 0.3980672357082367,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Orient is located in Suffolk County, Long Island, New York",
+          "similarity-score": 0.39130963430404664,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Orient is a city in New York",
+          "similarity-score": 0.3580643137693405,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " The population of Orient increased since the previous census",
+          "similarity-score": 0.35521520948410035,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Who was born first George Marshall or Allan Dwan ?",
+      "original-output": "Allan Dwan was born on April 3, 1885, and George E. Marshall was born on December 29, 1891. Therefore, Allan Dwan was born first.",
+      "claims": [
+        {
+          "subclaim": "Allan Dwan was born on April 3, 1885",
+          "similarity-score": 0.4238134577870369,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Allan Dwan was born first",
+          "similarity-score": 0.37137860412597656,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " George E. Marshall was born on December 29, 1891",
+          "similarity-score": 0.3313573084831238,
+          "annotation": "N"
+        }
+      ]
+    },
+    {
+      "prompt": "Were Up and The Watercolor released in the same year?",
+      "original-output": "No, \"Up\" and \"The Waterfall\" were not released in the same year. \"The Waterfall\" by My Morning Jacket was released in May 2015. \"Up,\" the animated film by Pixar, was released earlier, in 2009.",
+      "claims": [
+        {
+          "subclaim": " \"My Morning Jacket released The Waterfall\"",
+          "similarity-score": 0.2821265767812729,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " \"The Waterfall was released in May 2015\"",
+          "similarity-score": 0.23103063684701922,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "Up and The Waterfall were not released in the same year\"",
+          "similarity-score": 0.19588957449793817,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " \"Up was released in 2009\"",
+          "similarity-score": 0.12693756439089776,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " \"Pixar produced Up\"",
+          "similarity-score": 0.09582003431916236,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Which event was a surprise military strike by the Imperial Japanese Navy Air Service while Magruder Hill Tuttle was a senior officer in the United States Navy?",
+      "original-output": "The surprise military strike you are referring to is the Attack on Pearl Harbor. Magruder Hill Tuttle was a senior officer at the Pearl Harbor naval base when it was attacked by the Imperial Japanese Navy Air Service on December 7, 1941.",
+      "claims": [
+        {
+          "subclaim": " Magruder Hill Tuttle was a senior officer at the Pearl Harbor naval base",
+          "similarity-score": 0.4188572984576225,
+          "annotation": "N"
+        },
+        {
+          "subclaim": "The surprise military strike is the Attack on Pearl Harbor",
+          "similarity-score": 0.37876747317314147,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Pearl Harbor naval base was attacked by the Imperial Japanese Navy Air Service",
+          "similarity-score": 0.3646558938503265,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Magruder Hill Tuttle was involved in the attack",
+          "similarity-score": 0.3525044189929962,
+          "annotation": "U"
+        },
+        {
+          "subclaim": " The attack occurred on December 7, 1941",
+          "similarity-score": 0.340534510910511,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Imperial Japanese Navy Air Service conducted a military strike",
+          "similarity-score": 0.2922773929476738,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Who did the professional tennis player currently ranked World No. 1 in men's singles defeat in the 2017 Barcelona Open Banco Sabadell - Singles?",
+      "original-output": "In the 2017 Barcelona Open Banco Sabadell - Singles, Rafael Nadal defeated Dominic Thiem in the final, with a score of 6\u20134, 6\u20131.",
+      "claims": [
+        {
+          "subclaim": "Rafael Nadal won the final of the 2017 Barcelona Open Banco Sabadell - Singles against Dominic Thiem",
+          "similarity-score": 0.5087466675162315,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Rafael Nadal participated in the 2017 Barcelona Open Banco Sabadell - Singles",
+          "similarity-score": 0.4574015516400337,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Dominic Thiem participated in the 2017 Barcelona Open Banco Sabadell - Singles",
+          "similarity-score": 0.44916489950418476,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The score of the final match was 6\u20134, 6\u20131",
+          "similarity-score": 0.30432651802897454,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The tournament took place in 2017",
+          "similarity-score": 0.2743212699741125,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Which Byron Edmund Walker founded institution was originally controlled by the Church of England?",
+      "original-output": "The institution founded by Byron Edmund Walker that was originally controlled by the Church of England is Trinity College.",
+      "claims": [
+        {
+          "subclaim": "The institution was founded by Byron Edmund Walker",
+          "similarity-score": 0.3823628316998482,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Byron Edmund Walker is associated with the Church of England",
+          "similarity-score": 0.3742148017883301,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The name of the institution is Trinity College",
+          "similarity-score": 0.25771737869381905,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The institution was originally controlled by the Church of England",
+          "similarity-score": 0.24984372333288193,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "American actor, Peter Hansen, best known for his role on General Hospital, also starred in The War of the Roses with American film and stage actress and director who has won how many Golden Globe Awards?",
+      "original-output": "Peter Hansen appeared in \"The War of the Roses\" with Kathleen Turner, among others. Kathleen Turner has won two Golden Globe Awards.",
+      "claims": [
+        {
+          "subclaim": "Peter Hansen appeared in \"The War of the Roses\"",
+          "similarity-score": 0.35674938402175904,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Peter Hansen has won two Golden Globe Awards",
+          "similarity-score": 0.3360394015192985,
+          "annotation": "NF"
+        },
+        {
+          "subclaim": " Kathleen Turner appeared in \"The War of the Roses\"",
+          "similarity-score": 0.19691969684362412,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " \"The War of the Roses\" is a film",
+          "similarity-score": 0.1732104572534561,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Kathleen Turner has won two Golden Globe Awards",
+          "similarity-score": 0.1461131264269352,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Arthur Noss won a Military Cross as the gunner of a soldier born in which year ?",
+      "original-output": "Arthur Noss won a Military Cross as the gunner of Keith Park. The context does not directly mention the birth year of Keith Park, but it is known from historical records that Keith Park was born on June 15, 1892.",
+      "claims": [
+        {
+          "subclaim": "Arthur Noss won a Military Cross",
+          "similarity-score": 0.4247006097376347,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Arthur Noss was the gunner of Keith Park",
+          "similarity-score": 0.3670079993247986,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " The context mentions the birth year of Keith Park",
+          "similarity-score": 0.21165655660629273,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Keith Park was born on June 15, 1892",
+          "similarity-score": 0.21031914310455324,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Historical records provide the birth date of Keith Park",
+          "similarity-score": 0.20696504455804823,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The birth year of Keith Park is 1892",
+          "similarity-score": 0.18782229845523835,
+          "annotation": "I"
+        }
+      ]
+    },
+    {
+      "prompt": "When was the stadium Wollongong Wolves Football Club plays at opened?",
+      "original-output": "The Wollongong Wolves Football Club plays its home games at WIN Stadium, which was officially opened in 1911.",
+      "claims": [
+        {
+          "subclaim": "The Wollongong Wolves Football Club plays its home games at WIN Stadium",
+          "similarity-score": 0.560543595123291,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " WIN Stadium was officially opened in 1911",
+          "similarity-score": 0.4288695449471474,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Which publication is published more often: Modern Drummer or Bookmarks?",
+      "original-output": "\"Modern Drummer\" is published monthly, while \"Bookmarks\" is a bimonthly publication. Therefore, \"Modern Drummer\" is published more often than \"Bookmarks\".",
+      "claims": [
+        {
+          "subclaim": " \"Bookmarks is a bimonthly publication\"",
+          "similarity-score": 0.437165641450882,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "Modern Drummer is published monthly\"",
+          "similarity-score": 0.42742047500610353,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " \"Modern Drummer is published more often than Bookmarks\"",
+          "similarity-score": 0.39271049880981446,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "What is the approximate population of the country that Koularo lies in?",
+      "original-output": "Koularo is a village in Togo. The last available census data from 2010 gave Togo a population of approximately 6,191,155. The population of Togo is known to be growing, so the current population is likely higher.",
+      "claims": [
+        {
+          "subclaim": "Koularo is a village in Togo",
+          "similarity-score": 0.36464343011379236,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The last available census data from 2010 gave Togo a population of approximately 6,191,155",
+          "similarity-score": 0.3061870799481869,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The population of Togo is known to be growing",
+          "similarity-score": 0.284684247046709,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The current population of Togo is likely higher",
+          "similarity-score": 0.2752241475999355,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Who won the election that ran concurrently with the North Dakota gubernatorial election, 2016?",
+      "original-output": "Doug Burgum, a Republican, won the 2016 North Dakota gubernatorial election, defeating Marvin Nelson, the Democratic-NPL candidate.",
+      "claims": [
+        {
+          "subclaim": " Doug Burgum won the 2016 North Dakota gubernatorial election",
+          "similarity-score": 0.5428020344495773,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Doug Burgum defeated Marvin Nelson in the election",
+          "similarity-score": 0.5367348847389222,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "Doug Burgum is a Republican",
+          "similarity-score": 0.4636165713787079,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Marvin Nelson was the Democratic-NPL candidate",
+          "similarity-score": 0.4345264696598053,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "What other real life boxer did Mike Williams act with in Rocky V?",
+      "original-output": "Mike Williams, who played Union Cane in \"Rocky V,\" acted alongside real-life boxer Tommy Morrison. Tommy Morrison portrayed the character Tommy \"The Machine\" Gunn in the film.",
+      "claims": [
+        {
+          "subclaim": "Mike Williams played Union Cane in \"Rocky V\"",
+          "similarity-score": 0.5378030788898468,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Tommy Morrison portrayed the character Tommy \"The Machine\" Gunn in \"Rocky V\"",
+          "similarity-score": 0.47319911381006236,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Mike Williams acted alongside Tommy Morrison",
+          "similarity-score": 0.4714398583412171,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Tommy Morrison is a real-life boxer",
+          "similarity-score": 0.3462690585136413,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Wayne's World featured the actor who was a member of what Chicago comedy troupe?",
+      "original-output": "Chris Farley, who has a cameo in \"Wayne's World\" as a security guard, was a member of the Chicago comedy troupe Second City Theatre.",
+      "claims": [
+        {
+          "subclaim": " \"Wayne's World\" features a security guard played by Chris Farley",
+          "similarity-score": 0.3412836392521858,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "Chris Farley has a cameo in \"Wayne's World\" as a security guard",
+          "similarity-score": 0.3332165596008301,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Chris Farley was a member of the Chicago comedy troupe Second City Theatre",
+          "similarity-score": 0.32274264754652976,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Second City Theatre is a comedy troupe based in Chicago",
+          "similarity-score": 0.2192282877802849,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Peter Bakovic played for which National Hockey League team?",
+      "original-output": "Peter Bakovic played for the Vancouver Canucks in the National Hockey League.",
+      "claims": [
+        {
+          "subclaim": "Peter Bakovic played for the Vancouver Canucks",
+          "similarity-score": 0.4543415050506592,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Peter Bakovic played in the National Hockey League",
+          "similarity-score": 0.4231610524892807,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Vancouver Canucks are a team in the National Hockey League",
+          "similarity-score": 0.2388498945236206,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Who released their second album with a band from Louisville, Kentucky?",
+      "original-output": "The band My Morning Jacket, which is from Louisville, Kentucky, released their second album \"At Dawn\" in 2001.",
+      "claims": [
+        {
+          "subclaim": " The band My Morning Jacket released their second album \"At Dawn\" in 2001",
+          "similarity-score": 0.3797085501194,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "The band My Morning Jacket is from Louisville, Kentucky",
+          "similarity-score": 0.357058022582531,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The band My Morning Jacket has released more than two albums",
+          "similarity-score": 0.3363897162437439,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The second album \"At Dawn\" was released in a different year than 2001",
+          "similarity-score": 0.28072500935196876,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Where is the company based that sold Vodafone it's New Zealand operations?",
+      "original-output": "The company that sold Vodafone its New Zealand operations was BellSouth.",
+      "claims": [
+        {
+          "subclaim": "The company that sold Vodafone its New Zealand operations was BellSouth",
+          "similarity-score": 0.5176596816301345,
+          "annotation": "I"
+        }
+      ]
+    },
+    {
+      "prompt": "Barbara Jordan and Mark Knowles are both what?",
+      "original-output": "Barbara Jordan and Mark Knowles are both former professional tennis players. Barbara Jordan is known for winning the 1979 Australian Open singles title, while Mark Knowles is known for his success in doubles tennis, having been ranked World No. 1 in doubles and winning several Grand Slam tournaments.",
+      "claims": [
+        {
+          "subclaim": "Barbara Jordan is a former professional tennis player",
+          "similarity-score": 0.4673597693264484,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Barbara Jordan won the 1979 Australian Open singles title",
+          "similarity-score": 0.39599190102815623,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Mark Knowles is a former professional tennis player",
+          "similarity-score": 0.3508725010216236,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Mark Knowles was ranked World No. 1 in doubles",
+          "similarity-score": 0.33133748792409895,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Mark Knowles won several Grand Slam tournaments",
+          "similarity-score": 0.3278029809832573,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "The Sia song \"Never Give Up\" is from the soundtrack of a film that is based on what non-fiction book?",
+      "original-output": "The Sia song \"Never Give Up\" is from the soundtrack of the film \"Lion,\" which is based on the non-fiction book \"A Long Way Home\" by Saroo Brierley.",
+      "claims": [
+        {
+          "subclaim": "The song 'Never Give Up' is by Sia\"",
+          "similarity-score": 0.5457781186223031,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " \"The song 'Never Give Up' is from the soundtrack of the film 'Lion'\"",
+          "similarity-score": 0.49472501442432404,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " \"The film 'Lion' is based on the non-fiction book 'A Long Way Home'\"",
+          "similarity-score": 0.27102627742290497,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " \"The book 'A Long Way Home' is written by Saroo Brierley\"",
+          "similarity-score": 0.24247635192871095,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Are both Nasdaq, Inc. and Citrix Systems catering to the same customer bases?",
+      "original-output": "Nasdaq, Inc. and Citrix Systems cater to different customer bases as they operate in distinct industries.\n\n1. **Nasdaq, Inc.**:\n   - Nasdaq is primarily involved in financial services, operating stock exchanges such as the NASDAQ stock market and several European stock exchanges. \n   - Its primary customers include companies seeking to list on its exchanges, as well as investors, traders, and financial institutions that participate in these markets.\n\n2. **Citrix Systems**:\n   - Citrix is a software company that provides technologies related to server, application, and desktop virtualization, networking, and cloud computing.\n   - Its customers are businesses and organizations that require solutions for virtualization, networking, and cloud services. Citrix's client base includes a significant number of companies from the Fortune 100 and Fortune 500.\n\nIn summary, while both companies serve large enterprises, their offerings and customer bases are quite different, with Nasdaq focusing on financial markets and Citrix on software and technology solutions for enterprise IT infrastructure.",
+      "claims": [
+        {
+          "subclaim": " Citrix Systems is a software company",
+          "similarity-score": 0.3460746193528176,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Citrix serves a significant number of companies from the Fortune 100 and Fortune 500",
+          "similarity-score": 0.3360654341340065,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Citrix provides technologies related to server, application, and desktop virtualization",
+          "similarity-score": 0.33189313745498655,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Citrix focuses on software and technology solutions for enterprise IT infrastructure",
+          "similarity-score": 0.31480465350151066,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Nasdaq operates stock exchanges such as the NASDAQ stock market",
+          "similarity-score": 0.3144462364912033,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Nasdaq, Inc. is primarily involved in financial services",
+          "similarity-score": 0.3099609649837017,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Nasdaq focuses on financial markets",
+          "similarity-score": 0.30704264743924137,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Citrix's customer base includes businesses and organizations that require virtualization solutions",
+          "similarity-score": 0.29901174894571303,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Nasdaq has primary customers that include companies seeking to list on its exchanges",
+          "similarity-score": 0.2823698064923286,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Nasdaq's customers include investors, traders, and financial institutions",
+          "similarity-score": 0.2695918485224247,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The offerings of Nasdaq and Citrix are quite different",
+          "similarity-score": 0.262219617664814,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Both companies serve large enterprises",
+          "similarity-score": 0.19422739349603652,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "The companies operate in distinct industries",
+          "similarity-score": 0.14292410855889318,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Are the documentaries Welcome to Durham, USA and The Agronomist both about Durham, North Carolina?",
+      "original-output": "No, the documentaries \"Welcome to Durham, USA\" and \"The Agronomist\" are not both about Durham, North Carolina. \"Welcome to Durham, USA\" is a documentary about gang violence in Durham, North Carolina. In contrast, \"The Agronomist\" is a documentary directed by Jonathan Demme about Jean Dominique, who ran Haiti's first independent radio station, Radio Haiti-Inter.",
+      "claims": [
+        {
+          "subclaim": " \"Welcome to Durham, USA\" is a documentary about gang violence in Durham, North Carolina",
+          "similarity-score": 0.4332338228702545,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " \"The Agronomist\" is a documentary directed by Jonathan Demme",
+          "similarity-score": 0.3625199607849121,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " \"The Agronomist\" is about Jean Dominique",
+          "similarity-score": 0.3544815817117691,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "The documentaries 'Welcome to Durham, USA' and 'The Agronomist' are not both about Durham, North Carolina\"",
+          "similarity-score": 0.3498431519508362,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Jean Dominique ran Haiti's first independent radio station, Radio Haiti-Inter",
+          "similarity-score": 0.21221943100690843,
+          "annotation": "I"
+        }
+      ]
+    },
+    {
+      "prompt": "Do filmmakers Chris Carter and Theo van Gogh share the same nationality?",
+      "original-output": "Chris Carter and Theo van Gogh do not share the same nationality. Chris Carter is American, having been born in Bellflower, California, USA, while Theo van Gogh was Dutch, born in The Hague, Netherlands.",
+      "claims": [
+        {
+          "subclaim": " Theo van Gogh was born in The Hague, Netherlands",
+          "similarity-score": 0.35760291349887846,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Theo van Gogh was Dutch",
+          "similarity-score": 0.342146184527874,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Chris Carter is American",
+          "similarity-score": 0.3315087364196777,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Chris Carter was born in Bellflower, California, USA",
+          "similarity-score": 0.32283002914190295,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "Chris Carter and Theo van Gogh do not share the same nationality",
+          "similarity-score": 0.26230390647649765,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "What genre is The Warriors Gate?",
+      "original-output": "The Warriors Gate is a 2016 Chinese-French film that falls under the action-adventure-fantasy genre.",
+      "claims": [
+        {
+          "subclaim": "The Warriors Gate is a 2016 film",
+          "similarity-score": 0.6018844053983688,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The Warriors Gate is a Chinese-French film",
+          "similarity-score": 0.5912666201591491,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The Warriors Gate falls under the action-adventure-fantasy genre",
+          "similarity-score": 0.47111572201251983,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "James Mulgrew is the star of which comedy sketch show?",
+      "original-output": "James Mulgrew, known professionally as Jimmy Cricket, was the star of the comedy sketch show \"And There's More,\" which was produced by Central Independent Television for ITV from 1985 to 1988.",
+      "claims": [
+        {
+          "subclaim": "James Mulgrew is known professionally as Jimmy Cricket",
+          "similarity-score": 0.3925646981358528,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Jimmy Cricket was the star of the comedy sketch show \"And There's More\"",
+          "similarity-score": 0.30510465905070305,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " \"And There's More\" was produced for ITV",
+          "similarity-score": 0.29729379415512086,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " \"And There's More\" was produced by Central Independent Television",
+          "similarity-score": 0.2947169530391693,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " \"And There's More\" aired from 1985 to 1988",
+          "similarity-score": 0.2716023355722427,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Are Thums Up and Mott's based in the same country?",
+      "original-output": "Thums Up and Mott's are not based in the same country. Thums Up is an Indian brand, originally created in India in 1977. In contrast, Mott's is an American company that was founded in the United States in 1842.",
+      "claims": [
+        {
+          "subclaim": " Thums Up was originally created in India in 1977",
+          "similarity-score": 0.49545796954631804,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Thums Up is an Indian brand",
+          "similarity-score": 0.44055495760440827,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Mott's was founded in the United States in 1842",
+          "similarity-score": 0.3936769845485687,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Mott's is an American company",
+          "similarity-score": 0.39123247890472407,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "Thums Up and Mott's are not based in the same country",
+          "similarity-score": 0.3519698822021484,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Which genus has more species, Fir or Chelone?",
+      "original-output": "The genus Fir (Abies) has significantly more species, with 48\u201356 species, compared to the genus Chelone, which consists of four species.",
+      "claims": [
+        {
+          "subclaim": " Chelone consists of four species",
+          "similarity-score": 0.4049696427047253,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Chelone has more species than Fir (Abies)",
+          "similarity-score": 0.33684312157630925,
+          "annotation": "N"
+        },
+        {
+          "subclaim": "Fir (Abies) has significantly more species than Chelone",
+          "similarity-score": 0.2930479291498661,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Fir (Abies) has 48\u201356 species",
+          "similarity-score": 0.2825773014068604,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The genus Fir is larger than the genus Chelone in terms of species count",
+          "similarity-score": 0.2653968175828457,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "What Category 5 hurricane cause the Sqannanoa River to flood?",
+      "original-output": "The Category 5 hurricane that caused the Swannanoa River to flood was Hurricane Ivan. In September 2004, the remnants of Hurricane Ivan, along with the remnants of Hurricane Frances shortly before, resulted in massive rainfall and flooding in the area.",
+      "claims": [
+        {
+          "subclaim": "The Category 5 hurricane that caused the Swannanoa River to flood was Hurricane Ivan",
+          "similarity-score": 0.36720854476690296,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " The remnants of Hurricane Ivan and the remnants of Hurricane Frances resulted in massive rainfall and flooding in the area",
+          "similarity-score": 0.3214881717681885,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Hurricane Ivan was a Category 5 hurricane",
+          "similarity-score": 0.3104498227953911,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The remnants of Hurricane Ivan occurred in September 2004",
+          "similarity-score": 0.308131361913681,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The remnants of Hurricane Frances occurred shortly before the remnants of Hurricane Ivan",
+          "similarity-score": 0.27968089554905895,
+          "annotation": "I"
+        }
+      ]
+    },
+    {
+      "prompt": "In the 1990's, who built one of the three mills landmarks in California?",
+      "original-output": "In the 1990s, one of the three Mills landmarks in California, Ontario Mills, was developed and once owned by the Mills Corporation. It opened to the public on November 14, 1996.",
+      "claims": [
+        {
+          "subclaim": "Ontario Mills was developed in the 1990s",
+          "similarity-score": 0.32836777625083924,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Ontario Mills opened to the public on November 14, 1996",
+          "similarity-score": 0.32394643907547,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Ontario Mills is one of the three Mills landmarks in California",
+          "similarity-score": 0.3034875311791897,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Ontario Mills was once owned by the Mills Corporation",
+          "similarity-score": 0.2805902910232544,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Girard city is located in a county with how many inhabitants ?",
+      "original-output": "Girard is the county seat of Crawford County, Kansas. However, the provided context does not specify the total population of Crawford County. If you need the population of Crawford County, you might need to look up more recent census data or a reliable demographic source for that information.",
+      "claims": [
+        {
+          "subclaim": "Girard is the county seat of Crawford County, Kansas.",
+          "similarity-score": 0.46947423005104066,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " One might need to look up more recent census data for the population of Crawford County.",
+          "similarity-score": 0.2487670750260353,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The provided context does not specify the total population of Crawford County.",
+          "similarity-score": 0.24730454298257826,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " A reliable demographic source is needed for population information.",
+          "similarity-score": 0.15214386030733584,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "What occupation was shared by both John Frankenheimer and Tiffanie DeBartolo?",
+      "original-output": "Both John Frankenheimer and Tiffanie DeBartolo shared the occupation of being filmmakers. John Frankenheimer was a well-known director, and Tiffanie DeBartolo wrote and directed the film \"Dream for an Insomniac.\"",
+      "claims": [
+        {
+          "subclaim": " Tiffanie DeBartolo wrote and directed the film \"Dream for an Insomniac\"",
+          "similarity-score": 0.3701185557484627,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " John Frankenheimer was a well-known director",
+          "similarity-score": 0.3218359794616699,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "John Frankenheimer and Tiffanie DeBartolo shared the occupation of being filmmakers",
+          "similarity-score": 0.30716004015207293,
+          "annotation": "I"
+        }
+      ]
+    },
+    {
+      "prompt": "Which author was born first, Lorraine Hansberry or Sandra Gulland?",
+      "original-output": "Lorraine Hansberry was born on May 19, 1930, and Sandra Gulland was born on November 3, 1944. Therefore, Lorraine Hansberry was born first.",
+      "claims": [
+        {
+          "subclaim": " Sandra Gulland was born on November 3, 1944",
+          "similarity-score": 0.43207265417575835,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "Lorraine Hansberry was born on May 19, 1930",
+          "similarity-score": 0.35612607296705245,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Lorraine Hansberry was born before Sandra Gulland",
+          "similarity-score": 0.3175467523634434,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Choi Min-sik, is a South Korean actor, he also starred alongside Scarlett Johansson in Lucy, an English-language French science fiction action film written and directed by who?",
+      "original-output": "Choi Min-sik starred alongside Scarlett Johansson in the film \"Lucy,\" which was written and directed by Luc Besson.",
+      "claims": [
+        {
+          "subclaim": "Choi Min-sik starred alongside Scarlett Johansson in the film \"Lucy\"",
+          "similarity-score": 0.5983697315454484,
+          "annotation": "U"
+        },
+        {
+          "subclaim": " The film \"Lucy\" was directed by Luc Besson",
+          "similarity-score": 0.4078034351348877,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The film \"Lucy\" was written by Luc Besson",
+          "similarity-score": 0.3902678778111935,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "MindGamers is a 2015 Austrian science fiction film directed by who, the film stars Antonia Campbell-Hughes, a Northern Irish actress and former fashion designer, best known for appearing in Jack Dee's sitcom \"Lead Balloon\"?",
+      "original-output": "MindGamers is a 2015 Austrian science fiction film directed by Andrew Goth.",
+      "claims": [
+        {
+          "subclaim": "MindGamers is a 2015 Austrian science fiction film",
+          "similarity-score": 0.5304982744455338,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " MindGamers was directed by Andrew Goth",
+          "similarity-score": 0.46835011518001557,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " MindGamers has a genre of science fiction",
+          "similarity-score": 0.4350588470458984,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Andrew Goth directed a film in 2015",
+          "similarity-score": 0.32872388647794726,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The film was released in 2015",
+          "similarity-score": 0.25911813341379164,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "The motorway reffered to as the Mid Wirral Motorway is located in a suburb known for which buildings?",
+      "original-output": "The Mid Wirral Motorway, also known as the M53, passes through Westminster, a suburb of Ellesmere Port, which is known for its terraced houses and the Joseph Groome Towers, three thirteen-storey tower blocks built as public housing.",
+      "claims": [
+        {
+          "subclaim": "The Mid Wirral Motorway is also known as the M53",
+          "similarity-score": 0.415478851211071,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Westminster is a suburb of Ellesmere Port",
+          "similarity-score": 0.3561801100373268,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " The Mid Wirral Motorway passes through Westminster",
+          "similarity-score": 0.34215553058385845,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Ellesmere Port is known for its terraced houses",
+          "similarity-score": 0.2736297959089279,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Ellesmere Port is known for the Joseph Groome Towers",
+          "similarity-score": 0.24881597542762757,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Joseph Groome Towers are three thirteen-storey tower blocks",
+          "similarity-score": 0.1248430598527193,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Joseph Groome Towers were built as public housing",
+          "similarity-score": 0.10488375417888164,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Four Shores, is an album from the Latvian band Brainstorm, Lonely Feeling\" is dedicated to which Swedish-born American film actress, during the 1920s and 1930s? ",
+      "original-output": "The song \"Lonely Feeling\" from Brainstorm's album \"Four Shores\" is dedicated to the Swedish-born American film actress Greta Garbo.",
+      "claims": [
+        {
+          "subclaim": " 'Four Shores' is Brainstorm's only album",
+          "similarity-score": 0.46110305428504944,
+          "annotation": "N"
+        },
+        {
+          "subclaim": "The song 'Lonely Feeling' is from Brainstorm's album 'Four Shores'",
+          "similarity-score": 0.41725082651376727,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Brainstorm is a music group",
+          "similarity-score": 0.2831087637126446,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Greta Garbo is a Swedish-born American film actress",
+          "similarity-score": 0.26863019490242,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " 'Lonely Feeling' is a popular song",
+          "similarity-score": 0.2402162439823151,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The song 'Lonely Feeling' is dedicated to Greta Garbo",
+          "similarity-score": 0.17874138736724854,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "What is the name of the character in Quantico played by the same actor who starred in Tower Block?",
+      "original-output": "The character in \"Quantico\" played by the same actor who starred in \"Tower Block\" is Harry Doyle. This actor is Russell Tovey, who played Paul in \"Tower Block.\"",
+      "claims": [
+        {
+          "subclaim": " Russell Tovey played Paul in \"Tower Block\"",
+          "similarity-score": 0.3895945678472519,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The actor's name is Russell Tovey",
+          "similarity-score": 0.3280382353782654,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "The character in \"Quantico\" is Harry Doyle",
+          "similarity-score": 0.29103298100233077,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " The actor who stars in \"Quantico\" also starred in \"Tower Block\"",
+          "similarity-score": 0.28800427103042603,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Which American guitarist and bluegrass musician from Danville, Virginia did Rebecca Rippy play or share the stage with?",
+      "original-output": "Rebecca Rippy shared the stage with Tony Rice, who is an American guitarist and bluegrass musician from Danville, Virginia.",
+      "claims": [
+        {
+          "subclaim": "Rebecca Rippy shared the stage with Tony Rice",
+          "similarity-score": 0.46896797776222227,
+          "annotation": "U"
+        },
+        {
+          "subclaim": " Tony Rice is from Danville, Virginia",
+          "similarity-score": 0.345036532753706,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Tony Rice is a bluegrass musician",
+          "similarity-score": 0.3404794723510742,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Tony Rice is an American guitarist",
+          "similarity-score": 0.3342677745223045,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "The 2016 Miami Dolphins season was the franchise's 47th season in the National Football League, the 51st overall and the first under head coach Adam Gase, with their Week 15 win over the New York Jets, the Dolphins clinched a winning record for the first time since 2008, and clinched a playoff berth the following week after which franchise's 47th season in the National Football League, the 57th overall and the fourth under head coach Andy Reid and the fourth and final season under general manager John Dorsey who was fired June 22, 2017?",
+      "original-output": "The franchise you are referring to is the Kansas City Chiefs. The 2016 season was their 47th season in the National Football League, the 57th overall, and the fourth under head coach Andy Reid. It was also the fourth and final season under general manager John Dorsey, who was fired on June 22, 2017.",
+      "claims": [
+        {
+          "subclaim": " The 2016 season was the 47th season in the National Football League",
+          "similarity-score": 0.4202959755420685,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The 2016 season was the fourth season under head coach Andy Reid",
+          "similarity-score": 0.4190785623550415,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The 2016 season was the fourth and final season under general manager John Dorsey",
+          "similarity-score": 0.37597274891138077,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The 2016 season was the 57th overall season",
+          "similarity-score": 0.371429323387146,
+          "annotation": "N"
+        },
+        {
+          "subclaim": "The franchise is the Kansas City Chiefs",
+          "similarity-score": 0.31971182062625886,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " John Dorsey was fired on June 22, 2017",
+          "similarity-score": 0.2625417145729065,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Which film was released first, Roving Mars or The London Connection?",
+      "original-output": "\"The London Connection\" was released in 1979, while \"Roving Mars\" is an IMAX documentary film that was released later. Therefore, \"The London Connection\" was released first.",
+      "claims": [
+        {
+          "subclaim": " Roving Mars is an IMAX documentary film",
+          "similarity-score": 0.43311185674667363,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "The London Connection was released in 1979",
+          "similarity-score": 0.3543170998215675,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The London Connection was released first",
+          "similarity-score": 0.2982106526851654,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Roving Mars was released later than The London Connection",
+          "similarity-score": 0.2723333188056946,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "The 34th Foot Regiment was sent to fight who?",
+      "original-output": "The 34th Foot Regiment, also known as the 34th (Cumberland) Regiment of Foot, was sent to fight against various adversaries at different times throughout its history. Some of the notable engagements include:\n\n1. **French Forces**: Defended Saint Lucia from French forces and later suppressed a rebellion in Saint Vincent in the late 18th century.\n2. **Maratha Empire**: Campaigned against the Maratha Empire in India during the early 19th century.\n3. **American Hunters' Lodges**: Fought during the Upper Canada Rebellion, specifically at the Battle of Windsor in December 1838.\n4. **Crimean War**: Saw action at the Siege of Sevastopol in 1854.\n5. **Indian Rebellion**: Fought at the Siege of Cawnpore and the Siege of Lucknow in 1857.\n\nThe regiment was involved in numerous other conflicts, including the War of the Austrian Succession, the Napoleonic Wars, and the War of Spanish Succession.",
+      "claims": [
+        {
+          "subclaim": " The 34th Foot Regiment campaigned against the Maratha Empire in India during the early 19th century",
+          "similarity-score": 0.4564703421831131,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "The 34th Foot Regiment is also known as the 34th (Cumberland) Regiment of Foot",
+          "similarity-score": 0.45277287559509277,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The 34th Foot Regiment fought at the Siege of Cawnpore in 1857",
+          "similarity-score": 0.45237193493843075,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The 34th Foot Regiment fought during the Upper Canada Rebellion",
+          "similarity-score": 0.4510628168106079,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The 34th Foot Regiment saw action at the Siege of Sevastopol in 1854",
+          "similarity-score": 0.4489082709789276,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The 34th Foot Regiment participated in the Battle of Windsor in December 1838",
+          "similarity-score": 0.44061313190460205,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The 34th Foot Regiment fought at the Siege of Lucknow in 1857",
+          "similarity-score": 0.43884706878662105,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The 34th Foot Regiment suppressed a rebellion in Saint Vincent in the late 18th century",
+          "similarity-score": 0.4348592403650284,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The 34th Foot Regiment was sent to fight against various adversaries throughout its history",
+          "similarity-score": 0.43262254905700687,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The 34th Foot Regiment was involved in the Napoleonic Wars",
+          "similarity-score": 0.412863735294342,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The 34th Foot Regiment defended Saint Lucia from French forces",
+          "similarity-score": 0.4061192863583565,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The 34th Foot Regiment was involved in the War of Spanish Succession",
+          "similarity-score": 0.39423934917449954,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The 34th Foot Regiment was involved in the War of the Austrian Succession",
+          "similarity-score": 0.37643843150138856,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "In what year did the submarine that sank the Tsushima Maru open to public tours?",
+      "original-output": "The submarine USS Bowfin, which sank the Tsushima Maru, has been open to public tours since 1981 at the USS Bowfin Submarine Museum and Park in Pearl Harbor, Hawaii.",
+      "claims": [
+        {
+          "subclaim": " The USS Bowfin Submarine Museum and Park is located in Pearl Harbor, Hawaii",
+          "similarity-score": 0.40955492491722106,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "The submarine USS Bowfin has been open to public tours since 1981",
+          "similarity-score": 0.3804904047727585,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The USS Bowfin sank the Tsushima Maru",
+          "similarity-score": 0.35143665418624875,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "What song recorded by Fergie was produced by Polow da Don and was followed by Life Goes On?",
+      "original-output": "The song recorded by Fergie that was produced by Polow da Don and was followed by \"Life Goes On\" is \"M.I.L.F. $\".",
+      "claims": [
+        {
+          "subclaim": " 'Life Goes On' is a song recorded by Fergie",
+          "similarity-score": 0.5299977178573608,
+          "annotation": "N"
+        },
+        {
+          "subclaim": "The song recorded by Fergie is 'M.I.L.F. $'",
+          "similarity-score": 0.3900388692855835,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The song was followed by 'Life Goes On'",
+          "similarity-score": 0.35725313384532925,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Polow da Don produced other songs for Fergie",
+          "similarity-score": 0.30403258156776425,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The song was produced by Polow da Don",
+          "similarity-score": 0.2626976168632507,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Who was the former wife of the American musician who led the band Kings of Rhythm?",
+      "original-output": "The former wife of the American musician Ike Turner, who led the band Kings of Rhythm, was Annie Mae Wilson.",
+      "claims": [
+        {
+          "subclaim": "The former wife of the American musician Ike Turner was Annie Mae Wilson",
+          "similarity-score": 0.4088713961184025,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Ike Turner led the band Kings of Rhythm",
+          "similarity-score": 0.37705753116607665,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Annie Mae Wilson was a musician",
+          "similarity-score": 0.2957908100962639,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Ike Turner is still alive",
+          "similarity-score": 0.29043837845921516,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Kings of Rhythm was a highly successful band",
+          "similarity-score": 0.2823752606391907,
+          "annotation": "I"
+        }
+      ]
+    },
+    {
+      "prompt": "Which star in The Pokrovsky Gate was also a director and occasional singer?",
+      "original-output": "The star of \"The Pokrovsky Gate\" who was also a director and occasional singer is Mikhail Kozakov. He directed the film and was known for his work both in front of and behind the camera, as well as for his musical performances.",
+      "claims": [
+        {
+          "subclaim": " Mikhail Kozakov directed the film \"The Pokrovsky Gate\"",
+          "similarity-score": 0.3840392161011696,
+          "annotation": "I"
+        },
+        {
+          "subclaim": "Mikhail Kozakov is the star of \"The Pokrovsky Gate\"",
+          "similarity-score": 0.3682513823032379,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Mikhail Kozakov was known for his work in front of the camera",
+          "similarity-score": 0.23635742630958556,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Mikhail Kozakov is a director",
+          "similarity-score": 0.2226490024805069,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Mikhail Kozakov was known for his work behind the camera",
+          "similarity-score": 0.20456781396865845,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Mikhail Kozakov was known for his musical performances",
+          "similarity-score": 0.20031991571187974,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Mikhail Kozakov is an occasional singer",
+          "similarity-score": 0.18994865028858185,
+          "annotation": "N"
+        }
+      ]
+    },
+    {
+      "prompt": "What year did the namesake of Fort Davis, Alaska die?",
+      "original-output": "The namesake of Fort Davis, Alaska, General Jefferson C. Davis, died on November 30, 1879.",
+      "claims": [
+        {
+          "subclaim": " Fort Davis is located in Alaska",
+          "similarity-score": 0.40497894403934476,
+          "annotation": "NF"
+        },
+        {
+          "subclaim": "The namesake of Fort Davis is General Jefferson C. Davis",
+          "similarity-score": 0.36120289809703826,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " General Jefferson C. Davis died on November 30, 1879",
+          "similarity-score": 0.35271455146670344,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "What piece was composed in 1937 for the American Bandmasters Association and has a melody similar to Green Bushes?",
+      "original-output": "The piece you are referring to is \"Lincolnshire Posy\" by Percy Grainger. It was composed in 1937 for the American Bandmasters Association and includes melodies similar to the folk song \"Green Bushes\".",
+      "claims": [
+        {
+          "subclaim": " 'Green Bushes' is a folk song",
+          "similarity-score": 0.4632216377735138,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " 'Lincolnshire Posy' was composed by Percy Grainger",
+          "similarity-score": 0.40812773928642276,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " 'Lincolnshire Posy' includes melodies similar to the folk song 'Green Bushes'",
+          "similarity-score": 0.40366020312309264,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "The piece is titled 'Lincolnshire Posy'",
+          "similarity-score": 0.3887799210309983,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " 'Lincolnshire Posy' was composed in 1937",
+          "similarity-score": 0.35966758151054384,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " 'Lincolnshire Posy' was composed for the American Bandmasters Association",
+          "similarity-score": 0.3596262320041657,
+          "annotation": "N"
+        }
+      ]
+    },
+    {
+      "prompt": "How many people were killed by a van bomb by the man Inga Bejer Engh prosecuted in a high profile 2012 trial?",
+      "original-output": "In the 2011 Norway attacks, Anders Behring Breivik, whom Inga Bejer Engh prosecuted in a high-profile 2012 trial, killed eight people by detonating a van bomb in Oslo.",
+      "claims": [
+        {
+          "subclaim": " Inga Bejer Engh prosecuted Anders Behring Breivik in a high-profile 2012 trial",
+          "similarity-score": 0.39785606374740595,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Inga Bejer Engh was involved in the 2011 Norway attacks",
+          "similarity-score": 0.35867557411193846,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "Anders Behring Breivik killed eight people in the 2011 Norway attacks",
+          "similarity-score": 0.35421018946170807,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The van bomb was detonated in Oslo",
+          "similarity-score": 0.3022964807271957,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The 2011 Norway attacks involved a shooting as well as a bombing",
+          "similarity-score": 0.28381999547481535,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "The Jargon Society has published books by the founder and primary theorist of what group of poets?",
+      "original-output": "The Jargon Society, founded by Jonathan Williams, has published works by the founder and primary theorist of the Objectivist group of poets, Louis Zukofsky.",
+      "claims": [
+        {
+          "subclaim": "The Jargon Society was founded by Jonathan Williams",
+          "similarity-score": 0.5298986554503441,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The Jargon Society has published works by Louis Zukofsky",
+          "similarity-score": 0.4248100951910019,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Louis Zukofsky is the founder of the Objectivist group of poets",
+          "similarity-score": 0.36241868895292284,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Jonathan Williams is the primary theorist of the Objectivist group of poets",
+          "similarity-score": 0.29207348001003264,
+          "annotation": "N"
+        }
+      ]
+    },
+    {
+      "prompt": "Whitney Williams has a chair on the board of a non-profit with Ben Affleck and what other company?",
+      "original-output": "Whitney Williams co-founded the Eastern Congo Initiative with Ben Affleck. There is no mention of any other company in the context of her board membership for this non-profit.",
+      "claims": [
+        {
+          "subclaim": "Whitney Williams co-founded the Eastern Congo Initiative with Ben Affleck",
+          "similarity-score": 0.549543902015686,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The paragraph does not mention any other company in the context of Whitney Williams' board membership for the Eastern Congo Initiative",
+          "similarity-score": 0.4555180295944214,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The paragraph provides no evidence that Whitney Williams is affiliated with any other non-profit besides the Eastern Congo Initiative",
+          "similarity-score": 0.4462265766143799,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "Were Nikos Koundouros and Curtis Hanson both film directors?",
+      "original-output": "Yes, both Nikos Koundouros and Curtis Hanson were film directors. Nikos Koundouros was a Greek film director known for his work in Greece and Europe, including films like \"Magiki Polis\" and \"Young Aphrodites.\" Curtis Hanson was an American film director, screenwriter, and producer known for films such as \"L.A. Confidential,\" \"8 Mile,\" and \"The Hand That Rocks the Cradle.\"",
+      "claims": [
+        {
+          "subclaim": " Curtis Hanson was known for films such as \"L.A. Confidential,\" \"8 Mile,\" and \"The Hand That Rocks the Cradle\"",
+          "similarity-score": 0.4194832372665406,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Curtis Hanson was an American film director",
+          "similarity-score": 0.4060345801353455,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Curtis Hanson was a film director",
+          "similarity-score": 0.4045940317153931,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "Nikos Koundouros was a film director",
+          "similarity-score": 0.38093703125715256,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Nikos Koundouros was a Greek film director",
+          "similarity-score": 0.37488983035087586,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Curtis Hanson was also a screenwriter and producer",
+          "similarity-score": 0.37392498912811284,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " Nikos Koundouros directed films like \"Magiki Polis\" and \"Young Aphrodites\"",
+          "similarity-score": 0.33336630365252495,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Nikos Koundouros was known for his work in Greece and Europe",
+          "similarity-score": 0.32519718714952467,
+          "annotation": "S"
+        }
+      ]
+    },
+    {
+      "prompt": "KKWQ-FM is a local radio station covering which area, that is a coextensive with Angle Township?",
+      "original-output": "KKWQ-FM is a local radio station covering the area of Northwest Minnesota, including the Northwest Angle, which is coextensive with Angle Township.",
+      "claims": [
+        {
+          "subclaim": " KKWQ-FM covers the area of Northwest Minnesota",
+          "similarity-score": 0.42816692458391187,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " KKWQ-FM includes the Northwest Angle",
+          "similarity-score": 0.4208844728350639,
+          "annotation": "S"
+        },
+        {
+          "subclaim": "KKWQ-FM is a local radio station",
+          "similarity-score": 0.42065331573486325,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " KKWQ-FM does not cover areas outside Northwest Minnesota",
+          "similarity-score": 0.37790470725297926,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " The Northwest Angle is coextensive with Angle Township",
+          "similarity-score": 0.3051957278251648,
+          "annotation": "N"
+        }
+      ]
+    },
+    {
+      "prompt": "The Oxus cobra contains what kind of ions for their venom to be active? ",
+      "original-output": "The information provided does not specify the exact ions required for the venom of the Oxus cobra (Naja oxiana) to be active. Typically, snake venoms are complex mixtures that can include a variety of enzymes, proteins, and ions, but the specific ions involved are not detailed in the provided context. If ions are crucial for venom activity, they might be related to the general functioning of enzymatic or neurotoxic components, such as calcium or sodium ions, which are common in many biological processes. However, for precise details, a specific biochemical study of Naja oxiana venom would be required.",
+      "claims": [
+        {
+          "subclaim": "The information does not specify the exact ions required for the venom of the Oxus cobra (Naja oxiana) to be active",
+          "similarity-score": 0.31529145097732547,
+          "annotation": "NF"
+        },
+        {
+          "subclaim": " Snake venoms are complex mixtures that can include a variety of enzymes, proteins, and ions",
+          "similarity-score": 0.31047180490493775,
+          "annotation": "S"
+        },
+        {
+          "subclaim": " A specific biochemical study of Naja oxiana venom would be required for precise details",
+          "similarity-score": 0.30429724102020267,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " The specific ions involved in the venom of Naja oxiana are not detailed in the provided context",
+          "similarity-score": 0.2997877318382263,
+          "annotation": "N"
+        },
+        {
+          "subclaim": " Ions might be related to the general functioning of enzymatic or neurotoxic components",
+          "similarity-score": 0.16013896980285644,
+          "annotation": "I"
+        },
+        {
+          "subclaim": " Calcium and sodium ions are common in many biological processes",
+          "similarity-score": 0.14780468401908875,
+          "annotation": "I"
+        }
+      ]
+    }
+  ]
+}

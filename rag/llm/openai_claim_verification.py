@@ -11,6 +11,7 @@ class OpenAIClaimVerification(object):
         self.labels = ["supported", "irrelevant", "unverifiable", "nonefactual"]
         self.annotations = ['S', 'I', 'U', 'N']
         self.instruction = f"""givern query $query and true answer $answer, 
+                with following supporting documents: $documents,
                 please help verify by anymeans including using internet 
                 if following claim can be labeled in following categories according to query and answer:
                 {self.labels}
@@ -21,8 +22,8 @@ class OpenAIClaimVerification(object):
                 The claim is:"""
         self.client = OpenAI()
 
-    def openAI_response(self, query, answer, claim):
-        content = self.instruction.replace('$query', query).replace('$answer', answer) + claim
+    def openAI_response(self, query, answer, documents, claim):
+        content = self.instruction.replace('$query', query).replace('$answer', answer).replace('$documents', documents) + claim
         completion = self.client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
