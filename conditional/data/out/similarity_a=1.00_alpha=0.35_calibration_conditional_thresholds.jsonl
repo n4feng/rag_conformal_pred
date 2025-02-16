@@ -1,4 +1,4 @@
 {
-  "threshold": -1.0,
-  "conditional_threshold": -1.0
+  "threshold": -1,
+  "conditional_threshold": -1
 }

@@ -55,7 +55,7 @@ class WikitextsDocumentScorer(DocumentScorer):
             doc_scores.append(parsed_doc["score"] * cosine_similarity(claim_vector, doc_embedding.reshape(1, -1))[0][0])
         return 0 if len(retrived_docs) == 0 else max(doc_scores)
     
-    def say_less(self, prompt, threshold, model='gpt-4'):
+    def say_less(self, prompt, thresholds, model='gpt-4'):
         """
         say_less takes in the model prompt, generate output, breaks it down into subclaims, and removes sub-claims up to the threshold value.
         """
@@ -69,46 +69,58 @@ class WikitextsDocumentScorer(DocumentScorer):
             score = self.score(purefact, retrieved_docs)
             #store purefact and score pair into list
             subclaims_with_score.append((purefact, score))
+        accepted_subclaims_per_threshold = []
+        mergerd_output_per_threshold = []
+        for threshold in thresholds:
+            accepted_subclaims = [subclaim for subclaim in subclaims_with_score if subclaim[1] > threshold]
+            mergerd_output = self.merge_subclaims(accepted_subclaims, model, prompt)
+            accepted_subclaims_per_threshold.append(accepted_subclaims)
+            mergerd_output_per_threshold.append(mergerd_output)
+        return (output, mergerd_output_per_threshold, subclaims_with_score, accepted_subclaims_per_threshold)
 
-        accepted_subclaims = [subclaim for subclaim in subclaims_with_score if subclaim[1] > threshold]
-        mergerd_output = self.merge_subclaims(accepted_subclaims, model, prompt)
-        return (output, mergerd_output, subclaims_with_score, accepted_subclaims)
-    
-    def say_less_conditional(self, prompt, thresholds_path, model='gpt-4'):
-        """
-        compute the threshold based on retrived document type and weight of document in each type
-        """
-        conditional_threshold = self.calibrate_conditional_threshold(prompt, thresholds_path)
-        return self.say_less(prompt, conditional_threshold, model)
-    
-    def calibrate_conditional_threshold(self, prompt, thresholds_path):
-        retrieved_docs = self.faiss_manager.search_faiss_index(prompt, 10, 0.3)
-        parsed_docs = [self.faiss_manager.parse_result(doc) for doc in retrieved_docs]
-        #count each filepath in metadata
-        doc_count = defaultdict(int)
-        for doc in parsed_docs:  
-            doc_count[doc['metadata']['file_path']] += 1
-        total_docs = len(parsed_docs)
-        conditional_threshold = 0.0
+    #!!!!!!!!!!!!!!!Below is a wrong way to do conditional as it is not doing any re-calibration       
+    # def say_less_conditional(self, prompt, thresholds_path, model='gpt-4'):
+    #     """
+    #     compute the threshold based on retrived document type and weight of document in each type
+    #     """
+    #     conditional_threshold = self.calibrate_conditional_threshold(prompt, thresholds_path)
+    #     return self.say_less(prompt, conditional_threshold, model)
+
+
+    # def calibrate_conditional_threshold(self, prompt, thresholds_path):
+    #     retrieved_docs = self.faiss_manager.search_faiss_index(prompt, 10, 0.3)
+    #     parsed_docs = [self.faiss_manager.parse_result(doc) for doc in retrieved_docs]
+    #     #count each filepath in metadata
+    #     doc_count = defaultdict(int)
+    #     for doc in parsed_docs:  
+    #         doc_count[doc['metadata']['file_path']] += 1
+    #     total_docs = len(parsed_docs)
+    #     #get the file name have the highest count
+    #     max = 0
+    #     max_name = ""
+    #     for key, val in doc_count.items():
+    #         if val > max:
+    #             max = val
+    #             max_name = key
         
-        with open(thresholds_path, 'r') as f:
-            data = json.load(f)
-        for count_key, count_val in doc_count.items():
-            match_found = False  # Flag to track if a match is found
-            for key, val in data.items():
-                if key in count_key:
-                    conditional_threshold += val * count_val / total_docs
-                    match_found = True  # Set flag to True if a match is found
-                    break  # Exit the inner loop since the match is found
-            if not match_found:  # If no match was found after checking all count_keys
-                data_keys = data.keys()
-                warnings.warn(
-                    f"File name {count_key} not found in the precalculated threshold set {data_keys}",
-                    UserWarning
-                )
-                conditional_threshold = conditional_threshold + conditional_threshold * count_val / total_docs
-        #print(f"Conditional threshold now is: {conditional_threshold}")
-        return conditional_threshold
+    #     with open(thresholds_path, 'r') as f:
+    #         data = json.load(f)
+    #     for count_key, count_val in doc_count.items():
+    #         match_found = False  # Flag to track if a match is found
+    #         for key, val in data.items():
+    #             if key in max_name:
+    #                 conditional_threshold = val
+    #                 match_found = True  # Set flag to True if a match is found
+    #                 break  # Exit the inner loop since the match is found
+    #         if not match_found:  # If no match was found after checking all count_keys
+    #             data_keys = data.keys()
+    #             warnings.warn(
+    #                 f"File name {count_key} not found in the precalculated threshold set {data_keys}",
+    #                 UserWarning
+    #             )
+    #             conditional_threshold = 1.0 #if not find, set largest threshold so no claims will remain
+    #     #print(f"Conditional threshold now is: {conditional_threshold}")
+    #     return conditional_threshold
     
     def default_merge_prompt( subclaims, prompt):
         claim_string = "\n".join(
