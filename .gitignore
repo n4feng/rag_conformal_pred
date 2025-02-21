@@ -2,4 +2,5 @@
 *.txt
 *.pyc
 *.faiss
+*.db
 documents

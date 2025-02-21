@@ -1,7 +1,7 @@
 from datacleaning.raw_data_processor import RawDataProcessor
 from common.string_utils import extract_tag_content
 import json
-from jsonschema import validate
+from jsonschema import validate, RefResolver
 from common.retrieval import DocDB
 
 class FactScoreProcessor(RawDataProcessor):
@@ -29,14 +29,19 @@ class FactScoreProcessor(RawDataProcessor):
         Reads structured query data from a JSON file and generates a corresponding document list.
         """
         base_schema = None
+        wiki_schema = None
         with open("data/processed/base_schema.json", 'r', encoding='utf-8') as schemafile:
             base_schema = json.load(schemafile)
+
+        with open("data/processed/wiki_schema.json", 'r', encoding='utf-8') as schemafile:
+            wiki_schema = json.load(schemafile)
         
         documents = {}
         with open(query_file, 'r', encoding='utf-8') as jsonfile:
             queries = json.load(jsonfile)
             for query in queries:
-                validate(instance=query, schema=base_schema)
+                resolver = RefResolver("data/processed/base_schema.json", base_schema)
+                validate(instance=query, schema=wiki_schema, resolver=resolver)
                 title = query["output"]["provenance"][0]["title"]
                 document = self.get_documents_per_query(title)
                 documents[title] = document
