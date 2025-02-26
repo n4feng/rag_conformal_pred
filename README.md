@@ -9,6 +9,8 @@ make sure hyper-parameter **a** matches in all metadata file names. If not, you 
 
 # Data
 Contain following datasource: factscore, popQA, hotpotQA, medicationQA
+popQA Data Source: https://huggingface.co/datasets/akariasai/PopQA
+Wiki Data Dump (enwiki-20230401.db): https://drive.google.com/file/d/1mekls6OGOKLmt7gYtHs0WGf5oTamTNat/view?usp=drive_link
 
 More introduction is updated in overleaf https://www.overleaf.com/project/678e8c57be330bdf525d14da
 Check main.tex for explaination
