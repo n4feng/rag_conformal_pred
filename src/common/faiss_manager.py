@@ -41,7 +41,7 @@ class FAISSIndexManager:
                 json.dump(self.indice2fm, file)
 
     def upsert_file_to_faiss(self, file_manager, model="text-embedding-3-large"):
-        if not file_manager in self.file_managers:
+        if not file_manager.file_path in [file_manager.file_path for file_manager in self.file_managers]:
             self.file_managers.append(file_manager)
         else:
             print(f"File '{file_manager.file_path}' already exists in the FAISS index.")

@@ -1,0 +1,72 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "The question string."
+      },
+      "gld_ans": {
+        "type": "string",
+        "description": "The golden answer."
+      },
+      "response": {
+        "type": "string",
+        "description": "LLM-generated response."
+      },
+      "subclaims": {
+        "type": "array",
+        "description": "Array of subclaims related to the response.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "subclaim": {
+              "type": "string",
+              "description": "one subclaim string."
+            },
+            "scores": {
+              "type": "array",
+              "description": "Optional list of scores associated with the subclaim.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "The type of score."
+                  },
+                  "score": {
+                    "type": "number",
+                    "description": "The score as a float."
+                  }
+                },
+                "required": ["type", "score"]
+              },
+              "optional": true
+            },
+            "annotations": {
+              "type": "array",
+              "description": "Optional list of annotations associated with the subclaim.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "The type of annotation."
+                  },
+                  "annotation": {
+                    "type": "string",
+                    "description": "The annotation text."
+                  }
+                },
+                "required": ["type", "annotation"]
+              },
+              "optional": true
+            }
+          },
+          "required": ["subclaim"]
+        }
+      }
+    },
+    "required": ["query", "gld_ans", "response"]
+  }
+  

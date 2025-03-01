@@ -3,11 +3,11 @@ import json
 
 from jsonschema import RefResolver, validate
 
-from src.datacleaning.raw_data_processor import RawDataProcessor
+from src.datacleaning.raw_data_processor import IRawDataProcessor
 from src.common.retrieval import DocDB
 from src.common.string_utils import extract_tag_content
 
-class PopQAProcessor(RawDataProcessor):
+class PopQAProcessor(IRawDataProcessor):
     def __init__(self, db_path: str = ""):
         self.db = DocDB(db_path = db_path, data_path = None)
     
