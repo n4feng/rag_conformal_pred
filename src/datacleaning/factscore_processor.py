@@ -3,9 +3,9 @@ from jsonschema import RefResolver, validate
 
 from src.common.retrieval import DocDB
 from src.common.string_utils import extract_tag_content
-from src.datacleaning.raw_data_processor import RawDataProcessor
+from src.datacleaning.raw_data_processor import IRawDataProcessor
 
-class FactScoreProcessor(RawDataProcessor):
+class FactScoreProcessor(IRawDataProcessor):
     def __init__(self, db_path: str):
         self.db = DocDB(db_path = db_path, data_path = None)
     

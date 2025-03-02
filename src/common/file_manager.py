@@ -50,3 +50,16 @@ class FileManager:
 
         return self.texts
     
+    def process_wiki_embedding(self):
+        if not self.texts:
+            with open(self.file_path, 'r', encoding='utf-8') as f:
+            # Load the file content as a dictionary
+                data = json.load(f)
+                documents = []
+                for title, texts in data.items():
+                    # Create embeddings for each text
+                    for text in texts:
+                        doc = Document(page_content=title+": "+text, metadata={'source': title, 'file_path': self.file_path})
+                        documents.append(doc)
+                self.dump_documents(documents)
+    
