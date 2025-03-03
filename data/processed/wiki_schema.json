@@ -10,9 +10,9 @@
                 "type": "array",
                 "items": {
                   "type": "object",
-                  "properties": {
+                    "properties": {
                     "wikipedia_id": { "type": "integer" },
-                    "title": { "type": "string" }
+                    "title": { "type": ["string", "null"] }
                   },
                   "required": ["title"]
                 }
