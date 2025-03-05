@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class RawDataProcessor(ABC):
+class IRawDataProcessor(ABC):
     @abstractmethod
     # take input file path of raw data and output structured query data
     def get_queries(self, input_file:str, output_file:str):

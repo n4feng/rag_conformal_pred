@@ -5,10 +5,10 @@ from jsonschema import RefResolver, validate
 
 from src.common.retrieval import DocDB
 from src.common.string_utils import extract_tag_content
-from src.data_processor.raw_data_processor import RawDataProcessor
+from src.data_processor.raw_data_processor import IRawDataProcessor
 
-class QueryProcessor(RawDataProcessor):
-    def __init__(self, db_path: str):
+class QueryProcessor(IRawDataProcessor):
+    def __init__(self, db_path: str = ""):
         self.db = DocDB(db_path = db_path, data_path = None)
     
     def get_queries(self, dataset: str, input_file: str, output_file: str):
@@ -74,6 +74,7 @@ class QueryProcessor(RawDataProcessor):
         
         with open(output_file, 'w', encoding='utf-8') as jsonfile:
             json.dump(documents, jsonfile, indent=4)
+        print(f"Document list saved to {output_file}.")
         
 
     def get_documents_per_query(self, title) -> list:
