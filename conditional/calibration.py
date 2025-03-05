@@ -11,6 +11,7 @@ from abc import ABC, abstractmethod
 METHOD_SUPPORT_CONDITION = ['similarity', 'gpt']
 CORRECT_ANNOTATIONS = ["Y", "S"]
 
+# Common base functions used everywhere
 def compute_threshold(alpha, calibration_data, a, confidence_method):
     """
     Computes the quantile/threshold from conformal prediction.
@@ -117,43 +118,70 @@ class ConformalCalibration(ICalibration):
         self._calibrate_removal(dataset_prefixs, confidence_method, datasets, alphas, a, fig_filename, csv_filename)
 
     def _calibrate_removal(self, dataset_prefixs, confidence_method, datasets, alphas, a, fig_filename, csv_filename, suffix=""):
-        plt.figure(dpi=800)
-        target_factuality = [f"{(1-x):.2f}" for x in alphas]
-        target_factuality.reverse()
-        header = ["dataset"] + target_factuality
+        self._initialize_plot()
+        self._write_csv_header(csv_filename, alphas)
         
-        with open(csv_filename, mode="w", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(header)
-        
-        for dataset_prefix in tqdm(dataset_prefixs):
+        for dataset_prefix in dataset_prefixs:
             data = datasets[dataset_prefix]
-            results = self.calculate_correctness_and_removal(data, alphas, a, confidence_method)
-            
-            x = [np.mean(results_for_alpha[0]) for results_for_alpha in results]
-            y = [np.mean(results_for_alpha[1]) for results_for_alpha in results]
-            yerr = [np.std(results_for_alpha[1]) * 1.96 / np.sqrt(len(results_for_alpha[1])) for results_for_alpha in results]
-
-            append_result_to_csv(csv_filename, dataset_prefix + suffix, y, yerr)
-            plt.errorbar(x, y, yerr=yerr, label=dataset_prefix + suffix, linewidth=2)
+            results = self._compute_results(data, alphas, a, confidence_method)
+            self._process_results(dataset_prefix, results, csv_filename, suffix)
         
         self.finalize_removal_plot(dataset_prefixs, a, fig_filename)
+    
+    #Plotting part
+    def _initialize_plot(self):
+        plt.figure(dpi=800)
 
-    def calculate_correctness_and_removal(self, data, alphas, a, confidence_method):
+    def _write_csv_header(self, csv_filename, alphas):
+        target_factuality = [f"{(1-x):.2f}" for x in alphas][::-1]
+        header = ["dataset"] + target_factuality
+        with open(csv_filename, mode="w", newline="") as file:
+            csv.writer(file).writerow(header)
+
+    def _process_results(self, dataset_prefix, results, csv_filename, suffix):
+        x = [np.mean(results_for_alpha[0]) for results_for_alpha in results]
+        y = [np.mean(results_for_alpha[1]) for results_for_alpha in results]
+        yerr = [np.std(results_for_alpha[1]) * 1.96 / np.sqrt(len(results_for_alpha[1])) for results_for_alpha in results]
+        label = dataset_prefix + suffix
+        append_result_to_csv(csv_filename, label, y, yerr)
+        plt.errorbar(x, y, yerr=yerr, label=label, linewidth=2)
+    #Plotting part end
+
+    def _compute_results(self, data, alphas, a, confidence_method, pre_defined_group=None):
         results = []
-        for alpha in alphas:
+        for alpha in tqdm(alphas):
             results_for_alpha = [[], []]
             for i in range(len(data)):
                 calibration_data = data[:i] + data[i + 1 :]
                 test_data = data[i]
-                threshold = compute_threshold(alpha, calibration_data, a, confidence_method)
-                accepted_subclaims = [subclaim for subclaim in test_data["claims"] if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold]
-                fraction_removed = 0 if len(test_data["claims"]) == 0 else 1 - len(accepted_subclaims) / len(test_data["claims"])
-                correctness = np.mean([subclaim["annotation"] in CORRECT_ANNOTATIONS for subclaim in accepted_subclaims]) >= a if accepted_subclaims else 1
+                threshold = self._compute_group_threshold(alpha, calibration_data, test_data, a, confidence_method, pre_defined_group)
+                correctness, fraction_removed = self._evaluate_test_data(test_data, threshold, a, confidence_method)
                 results_for_alpha[0].append(correctness)
                 results_for_alpha[1].append(fraction_removed)
             results.append(results_for_alpha)
         return results
+
+    def _compute_group_threshold(self, alpha, calibration_data, test_data, a, confidence_method, pre_defined_group=False):
+        if pre_defined_group:
+            return min(
+                compute_threshold(alpha, pre_defined_group[group], a, confidence_method)
+                for group in test_data['groups']
+            )
+        return compute_threshold(alpha, calibration_data, a, confidence_method)
+
+    def _evaluate_test_data(self, test_data, threshold, a, confidence_method):
+        accepted_subclaims = [
+            subclaim for subclaim in test_data["claims"]
+            if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold
+        ]
+        fraction_removed = (
+            0 if len(test_data["claims"]) == 0 else 1 - len(accepted_subclaims) / len(test_data["claims"])
+        )
+        correctness = (
+            np.mean([subclaim["annotation"] in CORRECT_ANNOTATIONS for subclaim in accepted_subclaims]) >= a
+            if accepted_subclaims else 1
+        )
+        return correctness, fraction_removed
 
     def finalize_removal_plot(self, dataset_prefixs, a, fig_filename):
         plt.xlabel(f"Fraction achieving avg factuality >= {a}" if a != 1 else "Fraction of factual outputs")
@@ -163,27 +191,49 @@ class ConformalCalibration(ICalibration):
         plt.savefig(fig_filename, bbox_inches="tight")
 
     def calibrate_factual(self, dataset_prefix, confidence_method, data, alphas, a, fig_filename, csv_filename):
+        self._calibrate_and_plot(dataset_prefix, confidence_method, data, alphas, a, fig_filename, csv_filename)
+
+    def _calibrate_and_plot(self, dataset_prefix, confidence_method, data, alphas, a, fig_filename, csv_filename, group_results=False):
         print(f"Producing calibration plot: {fig_filename}")
         x_values = np.linspace(1 - alphas[-1] - 0.05, 1 - alphas[0] + 0.03, 100)
         plt.plot(x_values, x_values, "--", color="gray", linewidth=2, label="Thrm 3.1 bounds")
-        
-        results = self.calculate_real_calibration_factuality(data, alphas, a, confidence_method)
-        
+
+        results = self._process_calibration(data, alphas, a, confidence_method)
         x = [np.mean(results_for_alpha[0]) for results_for_alpha in results]
         y = [np.mean(results_for_alpha[1]) for results_for_alpha in results]
         yerr = [np.std(results_for_alpha[1]) for results_for_alpha in results]
-        
+
         append_result_to_csv(csv_filename, dataset_prefix, y, yerr)
         plt.plot(x, y, label=dataset_prefix, linewidth=2)
-        self.finalize_factual_plot(dataset_prefix, a, fig_filename)
 
-    def finalize_factual_plot(self, dataset_prefix, a, fig_filename):
+        if group_results:
+            self._plot_group_results(results, dataset_prefix, csv_filename, x)
+
+        self.finalize_factual_plot(fig_filename)
+
+    def _plot_group_results(self, results, dataset_prefix, csv_filename, x):
+        y_groups = {}
+        y_groups_err = {}
+
+        for result in results:
+            for group, y_result in result[2].items():
+                y_group = np.mean(y_result)
+                y_group_err = np.std(y_result)
+                y_groups.setdefault(group, []).append(y_group)
+                y_groups_err.setdefault(group, []).append(y_group_err)
+
+        for group, y_group in y_groups.items():
+            label = f"{dataset_prefix}_conditional_{group}"
+            append_result_to_csv(csv_filename, label, y_group, y_groups_err[group])
+            plt.plot(x, y_group, label=label, linewidth=2)
+
+    def finalize_factual_plot(self, fig_filename):
         plt.xlabel(f"Target factuality (1 - {chr(945)})", fontsize=16)
         plt.ylabel("Empirical factuality", fontsize=16)
         plt.legend(loc="upper left", bbox_to_anchor=(0.02, 0.98), fontsize=10)
         plt.savefig(fig_filename, bbox_inches="tight", dpi=800)
     
-    def calculate_real_calibration_factuality(self, data, alphas, a, confidence_method):
+    def _process_calibration(self, data, alphas, a, confidence_method):
         results = []
         for alpha in tqdm(alphas):
             results_for_alpha = [[], []]
@@ -193,19 +243,31 @@ class ConformalCalibration(ICalibration):
                 calibration_data = data[:split_index]
                 test_data = data[split_index:]
                 threshold = compute_threshold(alpha, calibration_data, a, confidence_method)
-                
-                correctness_list = [
-                    np.mean([
-                        subclaim["annotation"] in CORRECT_ANNOTATIONS
-                        for subclaim in test_data_point["claims"]
-                    ]) >= a if test_data_point["claims"] else 1
-                    for test_data_point in test_data
-                ]
-                
+                accepted_subclaim_list = self._get_accepted_subclaims(test_data, threshold, confidence_method)
+                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
                 results_for_alpha[0].append(1 - alpha)
-                results_for_alpha[1].append(sum(correctness_list) / len(correctness_list))
+                results_for_alpha[1].append(fraction_correct)
             results.append(results_for_alpha)
         return results
+
+    def _get_accepted_subclaims(self, test_data, threshold, confidence_method):
+        return [
+            [subclaim for subclaim in test_data_point["claims"]
+             if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold]
+            for test_data_point in test_data
+        ]
+
+    def _compute_fraction_correct(self, accepted_subclaim_list, a):
+        entailed_fraction_list = [
+            (
+                np.mean(
+                    [subclaim["annotation"] in CORRECT_ANNOTATIONS for subclaim in accepted_subclaims]
+                ) if accepted_subclaims else 1
+            )
+            for accepted_subclaims in accepted_subclaim_list
+        ]
+        correctness_list = [entailed_fraction >= a for entailed_fraction in entailed_fraction_list]
+        return sum(correctness_list) / len(correctness_list)
 
 class ConditionalConformalCalibration(ConformalCalibration):
     """
@@ -220,47 +282,27 @@ class ConditionalConformalCalibration(ConformalCalibration):
         self._calibrate_removal(dataset_prefixs, confidence_method, datasets, alphas, a, fig_filename, csv_filename, suffix="_conditional")
     
     def calculate_correctness_and_removal(self, data, alphas, a, confidence_method):
+        pre_defined_group = self._group_data(data)
+        return self._compute_results(data, alphas, a, confidence_method, pre_defined_group)
+
+    def _compute_results(self, data, alphas, a, confidence_method, pre_defined_group=None):
+        pre_defined_group = self._group_data(data)
+        return super()._compute_results(data, alphas, a, confidence_method, pre_defined_group)
+
+    def _group_data(self, data):
         pre_defined_group = {}
         for item in data:
             for group in item['groups']:
-                if group in pre_defined_group:
-                    pre_defined_group[group].append(item)
-                else:
-                    pre_defined_group[group] = [item]
-        results = []
-        for alpha in alphas:
-            results_for_alpha = [[], []]
-            for i in range(len(data)):
-                test_data = data[i]
-                threshold = 1.0
-                for group in test_data['groups']:
-                    group_data = pre_defined_group[group]
-                    threshold = min(threshold, compute_threshold(alpha, group_data, a, confidence_method))
-                accepted_subclaims = [subclaim for subclaim in test_data["claims"] if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold]
-                fraction_removed = 0 if len(test_data["claims"]) == 0 else 1 - len(accepted_subclaims) / len(test_data["claims"])
-                correctness = np.mean([subclaim["annotation"] in CORRECT_ANNOTATIONS for subclaim in accepted_subclaims]) >= a if accepted_subclaims else 1
-                results_for_alpha[0].append(correctness)
-                results_for_alpha[1].append(fraction_removed)
-            results.append(results_for_alpha)
-        return results
+                pre_defined_group.setdefault(group, []).append(item)
+        return pre_defined_group
     
     def calibrate_factual(self, dataset_prefix, confidence_method, data, alphas, a, fig_filename, csv_filename):
         if confidence_method in METHOD_SUPPORT_CONDITION:
-            x_values = np.linspace(1 - alphas[-1] - 0.05, 1 - alphas[0] + 0.03, 100)
-            plt.plot(x_values, x_values, "--", color="gray", linewidth=2, label="Thrm 3.1 bounds")
-            results = self.calculate_real_calibration_factuality(data, alphas, a, confidence_method)
-            x = [np.mean(results_for_alpha[0]) for results_for_alpha in results]
-            y = [np.mean(results_for_alpha[1]) for results_for_alpha in results]
-            yerr = [np.std(results_for_alpha[1]) for results_for_alpha in results]
-            
-            append_result_to_csv(csv_filename, dataset_prefix + '_conditional', y, yerr)
-            plt.plot(x, y, label=dataset_prefix + '_conditional', linewidth=2)
-            self.finalize_factual_plot(dataset_prefix, a, fig_filename)
-
+            self._calibrate_and_plot(dataset_prefix + "_conditional", confidence_method, data, alphas, a, fig_filename, csv_filename)
         else:
-            assert False, "Conditional calibration only support similarity and gpt confidence method"
+            raise ValueError("Conditional calibration only supports similarity and GPT confidence methods")
     
-    def calculate_real_calibration_factuality(self, data, alphas, a, confidence_method):
+    def _process_calibration(self, data, alphas, a, confidence_method):
         results = []
         for alpha in tqdm(alphas):
             results_for_alpha = [[], []]
@@ -268,178 +310,98 @@ class ConditionalConformalCalibration(ConformalCalibration):
                 group_threshold_cache = {}
                 random.shuffle(data)
                 calibration_data, test_data = self.split_each_group(data)
-                # regroup in calibration data:
-                pre_defined_group = {}                
-                for item in calibration_data:
-                    groups = item['groups']
-                    for group in groups:
-                        if group in pre_defined_group:
-                            pre_defined_group[group].append(item)
-                        else:
-                            pre_defined_group[group] = [item]   
-                accepted_subclaim_list = []
-                for test_data_point in test_data:
-                    for group in test_data_point['groups']:
-                        #we should not use test data as in reality we won't know the annotation of it
-                        threshold = 1.0 #reset threshold
-                        group_tresh = 1.0
-                        if group in group_threshold_cache:
-                            group_tresh = group_threshold_cache[group]
-                        else:
-                            group_tresh = compute_threshold(alpha, pre_defined_group[group], a, confidence_method)
-                            group_threshold_cache[group] = group_tresh
-                        threshold = min(threshold, group_tresh)
-                    
-                    accepted_subclaims = [
-                        subclaim
-                        for subclaim in test_data_point["claims"]
-                        if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold
-                    ]
-                    accepted_subclaim_list.append(accepted_subclaims)
-
-                entailed_fraction_list = [
-                    (
-                        np.mean(
-                            [
-                                subclaim["annotation"] in CORRECT_ANNOTATIONS
-                                for subclaim in accepted_subclaims
-                            ]
-                        )
-                        if accepted_subclaims
-                        else 1
-                    )
-                    for accepted_subclaims in accepted_subclaim_list
-                ]
-                correctness_list = [
-                    entailed_fraction >= a for entailed_fraction in entailed_fraction_list
-                ]
-                fraction_correct = sum(correctness_list) / len(correctness_list)
+                pre_defined_group = self._regroup_calibration_data(calibration_data)
+                accepted_subclaim_list = self._get_group_accepted_subclaims(test_data, pre_defined_group, alpha, a, confidence_method, group_threshold_cache)
+                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
                 results_for_alpha[0].append(1 - alpha)
                 results_for_alpha[1].append(fraction_correct)
-            #print(f"processing for alpha {alpha} done")
             results.append(results_for_alpha)
         return results
-    
+
     def split_each_group(self, data, calibrate_range=0.5):
-        """
-        Split each group into a separate entry.
-        Make sure the ratio of calibration and test data is calibrate_range remain in group level.
-        """
         group_data = {}
         calibration_data = []
         test_data = []
         for entry in data:
-            groups = entry["groups"]
-            #split by first group as default group
-            if groups[0] in group_data:
-                group_data[groups[0]].append(entry)
-            else:
-                group_data[groups[0]] = [entry]
-        for _, group_entries in group_data.items():
+            group = entry["groups"][0]  # Use first group as default
+            group_data.setdefault(group, []).append(entry)
+        for group_entries in group_data.values():
             split_index = ceil(len(group_entries) * calibrate_range)
             calibration_data.extend(group_entries[:split_index])
             test_data.extend(group_entries[split_index:])
         return calibration_data, test_data
+
+    def _regroup_calibration_data(self, calibration_data):
+        pre_defined_group = {}
+        for item in calibration_data:
+            for group in item['groups']:
+                pre_defined_group.setdefault(group, []).append(item)
+        return pre_defined_group
+
+    def _get_group_accepted_subclaims(self, test_data, pre_defined_group, alpha, a, confidence_method, group_threshold_cache):
+        accepted_subclaim_list = []
+        for test_data_point in test_data:
+            threshold = 1.0
+            for group in test_data_point['groups']:
+                if group in group_threshold_cache:
+                    group_tresh = group_threshold_cache[group]
+                else:
+                    group_tresh = compute_threshold(alpha, pre_defined_group[group], a, confidence_method)
+                    group_threshold_cache[group] = group_tresh
+                threshold = min(threshold, group_tresh)
+            accepted_subclaim_list.append(
+                [subclaim for subclaim in test_data_point["claims"]
+                 if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold]
+            )
+        return accepted_subclaim_list
     
 class ConditionalConformalCalibrationWithGroup(ConditionalConformalCalibration):
     """
     Implementation of conditional conformal calibration with group.
     """
-    def calibrate_removal(
-        self, dataset_prefixs, confidence_method, datasets, alphas, a, fig_filename, csv_filename
-    ):
-        """
-        Creates leave-one-out conformal plots for all datasets in dataset_prefixs.
-        """
+    def calibrate_removal(self, dataset_prefixs, confidence_method, datasets, alphas, a, fig_filename, csv_filename):
         print(f"Producing conformal plot: {fig_filename}")
-        plt.figure(dpi=800)
-        target_factuality = [f"{(1-x):.2f}" for x in alphas]
-        target_factuality.reverse()
-        header = ["dataset"] + target_factuality
-
-        # Write to CSV
-        with open(csv_filename, mode="w", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(header)
-
+        self._initialize_plot()
+        self._write_csv_header(csv_filename, alphas)
+        
         for dataset_prefix in tqdm(dataset_prefixs):
             if confidence_method not in METHOD_SUPPORT_CONDITION:
                 continue
             data = datasets[dataset_prefix]
+            results = self.calculate_correctness_and_removal(data, alphas, a, confidence_method)
+            self._process_results(dataset_prefix, results, csv_filename, suffix="_conditional")
+            self._process_group_results(dataset_prefix, results, csv_filename)
+        
+        self.finalize_removal_plot(dataset_prefixs, a, fig_filename)
 
-            results = self.calculate_correctness_and_removal(
-                data, alphas, a, confidence_method
-            )
+    def _process_group_results(self, dataset_prefix, results, csv_filename):
+        y_groups, y_groups_err = {}, {}
+        for result in results:
+            for group, y_result in result[2].items():
+                y_group = np.mean(y_result)
+                y_group_err = np.std(y_result) * 1.96 / np.sqrt(len(y_result))
+                y_groups.setdefault(group, []).append(y_group)
+                y_groups_err.setdefault(group, []).append(y_group_err)
+        
+        for group, y_group in y_groups.items():
+            label = f"{dataset_prefix}_conditional_{group}"
+            append_result_to_csv(csv_filename, label, y_group, y_groups_err[group])
+            plt.errorbar([np.mean(result[0]) for result in results], y_group, yerr=y_groups_err[group], label=label, linewidth=2)
 
-            x = [np.mean(results_for_alpha[0]) for results_for_alpha in results]
-            y = [np.mean(results_for_alpha[1]) for results_for_alpha in results]
+        self._plot_base_factuality_point(results)
 
-            # Add standard error.
-            yerr = [
-                np.std(results_for_alpha[1]) * 1.96 / np.sqrt(len(results_for_alpha[1]))
-                for results_for_alpha in results
-            ]
-            label = dataset_prefix + '_conditional'
-            append_result_to_csv(csv_filename, label, y, yerr)
-            plt.errorbar(x, y, yerr=yerr, label=label, linewidth=2)
-            y_groups = {}
-            y_groups_err = {}
-
-            # per group part
-            for result in results:
-                for group, y_result in result[2].items():
-                    y_group = np.mean(y_result)
-                    y_group_err = np.std(y_result) * 1.96 / np.sqrt(len(y_result))
-                    if group not in y_groups:
-                        y_groups[group] = []
-                        y_groups_err[group] = []
-                    y_groups[group].append(y_group)
-                    y_groups_err[group].append(y_group_err)
-            
-            for group, y_group in y_groups.items():
-                label = f"{dataset_prefix}_conditional_{group}"
-                append_result_to_csv(csv_filename, label, y_group, y_groups_err[group])
-                plt.errorbar(x, y_group, yerr=y_groups_err[group], label=label, linewidth=2)
-
-        # Plot base factuality point for the last dataset in the loop.
-        x_point = x[-1]
-        y_point = y[-1]
-        point_size = 235
-        plt.scatter(
-            x_point,
-            y_point,
-            color="black",
-            marker="*",
-            s=point_size,
-            label="Base factuality",
-            zorder=1000,
-        )
-
-        font_size = 16
-        legend_font_size = 10
-        plt.title(f"Conformal Plots for {dataset_prefixs} Datasets (a={a})", fontsize=font_size + 4)
-        plt.xlabel(
-            f"Fraction achieving avg factuality >= {a}" if a != 1 else "Fraction of factual outputs",
-            fontsize=font_size,
-        )
-        plt.ylabel("Average percent removed", fontsize=font_size)
-
-        legend = plt.legend(
-            loc="upper left", bbox_to_anchor=(0.02, 0.98), fontsize=legend_font_size
-        )
-        legend.get_title().set_fontsize(legend_font_size)
-        plt.savefig(fig_filename, bbox_inches="tight")
+    def _plot_base_factuality_point(self, results):
+        x_point, y_point = np.mean(results[-1][0]), np.mean(results[-1][1])
+        plt.scatter(x_point, y_point, color="black", marker="*", s=235, label="Base factuality", zorder=1000)
 
 
-    def calculate_correctness_and_removal(
-        self, data, alphas, a, confidence_method
-    ):
+    def calculate_correctness_and_removal(self, data, alphas, a, confidence_method):
         """
         Calculates correctness and fraction removed for a dataset over a range of alphas.
 
         Args:
-            data (list): The dataset, where each entry contains claims and annotations.
-            predifned_group (list): List of predefined groups for threshold computation. only used when is_conditional is True.
+            data (list): The dataset, where each entry contains group tags, claims and annotations.
+            predifned_group (list): List of predefined groups for threshold computation.
             alphas (list): List of alpha values for threshold computation.
             a (float): Minimum entailed fraction threshold for correctness.
             confidence_method (str): The method used to compute confidence.
@@ -447,240 +409,84 @@ class ConditionalConformalCalibrationWithGroup(ConditionalConformalCalibration):
         Returns:
             list: Results containing average correctness and fraction removed for each alpha.
         """
-        pre_defined_group = {}
-        for item in data:
-            groups = item['groups']
-            for group in groups:
-                if group in pre_defined_group:
-                    pre_defined_group[group].append(item)
-                else:
-                    pre_defined_group[group] = [item]
-        results = []  # first indexes into alpha, then list of (correct, frac_removed)_i
+        pre_defined_group = self._group_data(data)
+        results = []
         for alpha in alphas:
-            results_for_alpha = [[], [], {}]        
+            results_for_alpha = [[], [], {}]
             for i in range(len(data)):
-                # Leave-one-out calibration data
-                calibration_data = data[:i] + data[i + 1 :]
                 test_data = data[i]
-
-                # Compute the threshold using the provided function
-                threshold = 1.0
-
-                #note that test data should already exist in the group
-                #assume each data could be labeled with multiple groups, we choose the minimum threshold
-                for group in test_data['groups']:
-                    group_data = pre_defined_group[group]
-                    threshold = min(threshold,compute_threshold(
-                        alpha, group_data, a, confidence_method
-                    ))
-                # Determine accepted subclaims
-                accepted_subclaims = [
-                    subclaim
-                    for subclaim in test_data["claims"]
-                    if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0)
-                    >= threshold
-                ]
-                total_claim = len(test_data["claims"])
-                fraction_removed = (
-                    0 if total_claim == 0 else 1 - len(accepted_subclaims) / total_claim
-                )
-                entailed_fraction = (
-                    np.mean(
-                        [
-                            subclaim["annotation"] in CORRECT_ANNOTATIONS
-                            for subclaim in accepted_subclaims
-                        ]
-                    )
-                    if accepted_subclaims
-                    else 1
-                )
-                correctness = entailed_fraction >= a
+                threshold = self._compute_group_threshold(alpha, None, test_data, a, confidence_method, pre_defined_group)
+                correctness, fraction_removed = self._evaluate_test_data(test_data, threshold, a, confidence_method)
                 results_for_alpha[0].append(correctness)
                 results_for_alpha[1].append(fraction_removed)
                 for group in test_data['groups']:
-                    if group not in results_for_alpha[2]:
-                        results_for_alpha[2][group] = []
-                    results_for_alpha[2][group].append(fraction_removed)
-                
-            print(f"processing for alpha {alpha} done")
+                    results_for_alpha[2].setdefault(group, []).append(fraction_removed)
+            #print(f"Processing for alpha {alpha} done")
             results.append(results_for_alpha)
         return results
     
-    def calibrate_factual(
-        self, dataset_prefix, confidence_method, data, alphas, a, fig_filename, csv_filename
-    ):
-        """
-        Creates calibration plot.
-        """
-        print(f"Producing calibration plot: {fig_filename}")
-        fig, ax = plt.subplots(figsize=(6, 4))
-
-        x_values = np.linspace(1-alphas[-1] - 0.05, 1-alphas[0]+0.03, 100)
-
-        # Plot lower bound.
-        y_values = x_values
-        plt.plot(
-            x_values, y_values, "--", color="gray", linewidth=2, label="Thrm 3.1 bounds"
-        )
-        target_factuality = [f"{(1-x):.2f}" for x in alphas]
-        target_factuality.reverse()
-        header = ["dataset"] + target_factuality
-
-        # Write to CSV
-        with open(csv_filename, mode="w", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(header)
-
-            results = self.calculate_real_calibration_factuality_with(
-                data, alphas, a, confidence_method
-            )
-
-            x = [np.mean(results_for_alpha[0]) for results_for_alpha in results]
-            y = [np.mean(results_for_alpha[1]) for results_for_alpha in results]
-            yerr = [np.std(results_for_alpha[1]) for results_for_alpha in results]
-
-            label = dataset_prefix + '_conditional'
-            append_result_to_csv(csv_filename, label, y, yerr)
-
-            #print(x)
-            #print(y)
-            # plt.fill_between(np.array(x), np.array(y) - np.array(yerr), np.array(y) + np.array(yerr), color="#ADD8E6")
-            plt.plot(x, y, label=dataset_prefix + '_conditional', linewidth=2)
-            
-            y_groups = {}
-            y_groups_err = {}
-            for result in results:
-                for group, y_result in result[2].items():
-                    y_group = np.mean(y_result)
-                    y_group_err = np.std(y_result)
-                    if group not in y_groups:
-                        y_groups[group] = []
-                        y_groups_err[group] = []
-                    y_groups[group].append(y_group)
-                    y_groups_err[group].append(y_group_err)
-            
-            for group, y_group in y_groups.items():
-                label = f"{dataset_prefix}_conditional_{group}"
-                append_result_to_csv(csv_filename, label, y_group, y_groups_err[group])
-                plt.plot(x, y_group, label=label, linewidth=2)
+    def calibrate_factual(self, dataset_prefix, confidence_method, data, alphas, a, fig_filename, csv_filename):
+        if confidence_method in METHOD_SUPPORT_CONDITION:
+            self._calibrate_and_plot(dataset_prefix + "_conditional", confidence_method, data, alphas, a, fig_filename, csv_filename, group_results=True)
+        else:
+            raise ValueError("Conditional calibration only supports similarity and GPT confidence methods")
 
 
-        plt.xlabel(f"Target factuality (1 - {chr(945)})", fontsize=16)
-        plt.legend(loc="upper left", bbox_to_anchor=(0.02, 0.98), fontsize=10)
-        plt.ylabel("Empirical factuality", fontsize=16)
-        plt.savefig(fig_filename, bbox_inches="tight", dpi=800)
+    def _plot_group_results(self, results, dataset_prefix, csv_filename, x):
+        y_groups = {}
+        y_groups_err = {}
 
-    def calculate_real_calibration_factuality_with(self, data, alphas, a, confidence_method):
-        """
-        Calculates fraction of supported sub-claims in conformal set for a dataset over a range of alphas.
+        for result in results:
+            for group, y_result in result[2].items():
+                y_group = np.mean(y_result)
+                y_group_err = np.std(y_result)
+                y_groups.setdefault(group, []).append(y_group)
+                y_groups_err.setdefault(group, []).append(y_group_err)
 
-        Args:
-            data (list): The dataset, where each entry contains claims and annotations.
-            alphas (list): List of alpha values for threshold computation.
-            a (float): Minimum entailed fraction threshold for correctness.
-            confidence_method (str): The method used to compute confidence.
-
-        Returns:
-            list: Results containing real conformaled sub-claims factuality fraction for each alpha.
-        """
-        results = []  # first indexes into alpha. then list of (correct, frac_removed)_i
+        for group, y_group in y_groups.items():
+            label = f"{dataset_prefix}_conditional_{group}"
+            append_result_to_csv(csv_filename, label, y_group, y_groups_err[group])
+            plt.plot(x, y_group, label=label, linewidth=2)
+    
+    def _process_calibration(self, data, alphas, a, confidence_method):
+        results = []
         for alpha in tqdm(alphas):
             results_for_alpha = [[], [], {}]
-            for i in range(1000):
+            for _ in range(1000):
                 group_threshold_cache = {}
-                # Randomly shuffle the data
                 random.shuffle(data)
-
-                # Split the data into two equal parts
-                split_index = len(data) // 2
-                calibration_data = data[:split_index]
-                test_data = data[split_index:]
-
                 calibration_data, test_data = self.split_each_group(data)
-
-                # regroup in calibration data:
-                pre_defined_group = {}                    
-                for item in data:
-                    groups = item['groups']
-                    for group in groups:
-                        if group in pre_defined_group:
-                            pre_defined_group[group].append(item)
-                        else:
-                            pre_defined_group[group] = [item]
-
-                threshold = compute_threshold(alpha, calibration_data, a, confidence_method)
-                accepted_subclaim_list = []
-                accepted_subclaim_list_pergroup = {}
-                    
-                for test_data_point in test_data:
-                    for group in test_data_point['groups']:
-                        #we should not use test data as in reality we won't know the annotation of it
-                        threshold = 1.0 #reset threshold
-                        group_tresh = 1.0
-                        if group in group_threshold_cache:
-                            group_tresh = group_threshold_cache[group]
-                        else:
-                            group_tresh = compute_threshold(alpha, pre_defined_group[group], a, confidence_method)
-                            accepted_subclaim_list_pergroup[group] = []
-                            group_threshold_cache[group] = group_tresh
-                        threshold = min(threshold, group_tresh)
-                    
-                    accepted_subclaims = [
-                        subclaim
-                        for subclaim in test_data_point["claims"]
-                        if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold
-                    ]
-                    accepted_subclaim_list.append(accepted_subclaims)
-
-                    for group in test_data_point['groups']:
-                        accepted_subclaim_list_pergroup[group].append([
-                            subclaim
-                            for subclaim in test_data_point["claims"]
-                            if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold
-                        ])
-
-                entailed_fraction_list = [
-                    (
-                        np.mean(
-                            [
-                                subclaim["annotation"] in CORRECT_ANNOTATIONS
-                                for subclaim in accepted_subclaims
-                            ]
-                        )
-                        if accepted_subclaims
-                        else 1
-                    )
-                    for accepted_subclaims in accepted_subclaim_list
-                ]
-                correctness_list = [
-                    entailed_fraction >= a for entailed_fraction in entailed_fraction_list
-                ]
-                fraction_correct = sum(correctness_list) / len(correctness_list)
+                pre_defined_group = self._regroup_calibration_data(calibration_data)
+                accepted_subclaim_list, accepted_subclaim_list_pergroup = self._get_group_accepted_subclaims_with_groups(
+                    test_data, pre_defined_group, alpha, a, confidence_method, group_threshold_cache
+                )
+                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
                 results_for_alpha[0].append(1 - alpha)
                 results_for_alpha[1].append(fraction_correct)
-
-                for group in accepted_subclaim_list_pergroup:
-                    entailed_fraction_list_pergroup = [
-                        (
-                            np.mean(
-                                [
-                                    subclaim["annotation"] in CORRECT_ANNOTATIONS
-                                    for subclaim in accepted_subclaims_pergroup
-                                ]
-                            )
-                            if accepted_subclaims_pergroup
-                            else 1
-                        )
-                        for accepted_subclaims_pergroup in accepted_subclaim_list_pergroup[group]
-                    ]
-                    correctness_list_pergroup = [
-                        entailed_fraction >= a for entailed_fraction in entailed_fraction_list_pergroup
-                    ]
-
-                    fraction = sum(correctness_list_pergroup) / len(correctness_list_pergroup)
-                    if group not in results_for_alpha[2]:
-                        results_for_alpha[2][group] = []
-                    results_for_alpha[2][group].append(fraction)
-            #print(f"processing for alpha {alpha} done")
+                for group, accepted_list in accepted_subclaim_list_pergroup.items():
+                    fraction = self._compute_fraction_correct(accepted_list, a)
+                    results_for_alpha[2].setdefault(group, []).append(fraction)
             results.append(results_for_alpha)
         return results
+
+    def _get_group_accepted_subclaims_with_groups(self, test_data, pre_defined_group, alpha, a, confidence_method, group_threshold_cache):
+        accepted_subclaim_list = []
+        accepted_subclaim_list_pergroup = {}
+        for test_data_point in test_data:
+            threshold = 1.0
+            for group in test_data_point['groups']:
+                if group in group_threshold_cache:
+                    group_tresh = group_threshold_cache[group]
+                else:
+                    group_tresh = compute_threshold(alpha, pre_defined_group[group], a, confidence_method)
+                    group_threshold_cache[group] = group_tresh
+                    accepted_subclaim_list_pergroup[group] = []
+                threshold = min(threshold, group_tresh)
+            accepted_subclaims = [
+                subclaim for subclaim in test_data_point["claims"]
+                if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold
+            ]
+            accepted_subclaim_list.append(accepted_subclaims)
+            for group in test_data_point['groups']:
+                accepted_subclaim_list_pergroup[group].append(accepted_subclaims)
+        return accepted_subclaim_list, accepted_subclaim_list_pergroup
