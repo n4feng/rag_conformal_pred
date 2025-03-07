@@ -149,7 +149,7 @@ class ConformalCalibration(ICalibration):
 
     def _compute_results(self, data, alphas, a, confidence_method, pre_defined_group=None):
         results = []
-        for alpha in tqdm(alphas):
+        for alpha in alphas:
             results_for_alpha = [[], []]
             for i in range(len(data)):
                 calibration_data = data[:i] + data[i + 1 :]
@@ -235,7 +235,7 @@ class ConformalCalibration(ICalibration):
     
     def _process_calibration(self, data, alphas, a, confidence_method):
         results = []
-        for alpha in tqdm(alphas):
+        for alpha in alphas:
             results_for_alpha = [[], []]
             for _ in range(1000):
                 random.shuffle(data)
@@ -318,6 +318,7 @@ class ConditionalConformalCalibration(ConformalCalibration):
             results.append(results_for_alpha)
         return results
 
+    # Make sure the split calibrate_range ratio are all same not just in overall level but in group level
     def split_each_group(self, data, calibrate_range=0.5):
         group_data = {}
         calibration_data = []
@@ -338,6 +339,7 @@ class ConditionalConformalCalibration(ConformalCalibration):
                 pre_defined_group.setdefault(group, []).append(item)
         return pre_defined_group
 
+    # Calibrate based on group own threshold
     def _get_group_accepted_subclaims(self, test_data, pre_defined_group, alpha, a, confidence_method, group_threshold_cache):
         accepted_subclaim_list = []
         for test_data_point in test_data:

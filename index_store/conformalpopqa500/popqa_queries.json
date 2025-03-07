@@ -1,0 +1,6002 @@
+[
+    {
+        "input": "What is George Rankin's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "George Rankin",
+                    "wikipedia_id": 1850297
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John Mayne's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "John Mayne",
+                    "wikipedia_id": 2079053
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Henry Feilden's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Henry Feilden (Conservative politician)",
+                    "wikipedia_id": 1925450
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Kathy Saltzman's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Kathy Saltzman",
+                    "wikipedia_id": 2122743
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Eleanor Davis's occupation?",
+        "output": {
+            "answer": "cartoonist, or graphic artist, or animator, or illustrator",
+            "provenance": [
+                {
+                    "title": "Eleanor Davis",
+                    "wikipedia_id": 1752619
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Alexander Rinnooy Kan's occupation?",
+        "output": {
+            "answer": "mathematician, or economist, or economists",
+            "provenance": [
+                {
+                    "title": "Alexander Rinnooy Kan",
+                    "wikipedia_id": 765040
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Scooter Braun's occupation?",
+        "output": {
+            "answer": "talent manager, or artist manager, or band manager, or music manager, or musician manager, or manager, or pop entrepreneur",
+            "provenance": [
+                {
+                    "title": "Scooter Braun",
+                    "wikipedia_id": 111929
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Leona Deti\u00e8ge's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Leona Deti\u00e8ge",
+                    "wikipedia_id": 777898
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is William Murray, 1st Earl of Mansfield's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "William Murray, 1st Earl of Mansfield",
+                    "wikipedia_id": 2858390
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is \u00deorsteinn Bachmann's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "\u00deorsteinn Bachmann",
+                    "wikipedia_id": 2822184
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Herlyn Espinal's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Herlyn Espinal",
+                    "wikipedia_id": 544481
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jacob Kraemer's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Jacob Kraemer",
+                    "wikipedia_id": 2031124
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Fred C. Newmeyer's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or film producer, or movie producer, or producer, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Fred C. Newmeyer",
+                    "wikipedia_id": 244172
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Edward Corser's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Edward Corser",
+                    "wikipedia_id": 1745623
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Bae Geu-rin's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Bae Geu-rin",
+                    "wikipedia_id": 158813
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Javier Alva Orlandini's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Javier Alva Orlandini",
+                    "wikipedia_id": 2049382
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Edgar Allan Poe's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or playwright, or dramatist, or playwrite, or scriptwriter, or poet, or poetess, or bard",
+            "provenance": [
+                {
+                    "title": "Edgar Allan Poe",
+                    "wikipedia_id": 468494
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John Finlay's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "John Finlay (Canadian politician)",
+                    "wikipedia_id": 2073748
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John Floyd's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "John Floyd (Georgia politician)",
+                    "wikipedia_id": 334093
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Sachiko Kokubu's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses, or model, or fashion model, or sitter, or poser",
+            "provenance": [
+                {
+                    "title": "Sachiko Kokubu",
+                    "wikipedia_id": 1159266
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Rudolf Hilferding's occupation?",
+        "output": {
+            "answer": "economist, or economists, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Rudolf Hilferding",
+                    "wikipedia_id": 1942931
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Charles Strachey, 4th Baron O'Hagan's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Charles Strachey, 4th Baron O'Hagan",
+                    "wikipedia_id": 1604798
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Akari Hayami's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Akari Hayami",
+                    "wikipedia_id": 2049550
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Richard Martin's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Richard Martin (actor)",
+                    "wikipedia_id": 1122939
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Harvey Peltier, Sr.'s occupation?",
+        "output": {
+            "answer": "lawyer, or attorney, or solicitor, or barrister, or lawyers, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Harvey Peltier Sr.",
+                    "wikipedia_id": 357837
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Paris's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Paris (actor under Domitian)",
+                    "wikipedia_id": 2394184
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Fairfax M. Cone's occupation?",
+        "output": {
+            "answer": "businessperson, or business person, or dealer, or businesswoman, or business man, or business woman, or businessman",
+            "provenance": [
+                {
+                    "title": "Fairfax M. Cone",
+                    "wikipedia_id": 1788522
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Colleen Zenk Pinter's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Colleen Zenk",
+                    "wikipedia_id": 1576917
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Thomas McMurtry's occupation?",
+        "output": {
+            "answer": "test pilot",
+            "provenance": [
+                {
+                    "title": "Thomas McMurtry",
+                    "wikipedia_id": 2685658
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Albert Bates's occupation?",
+        "output": {
+            "answer": "lawyer, or attorney, or solicitor, or barrister, or lawyers",
+            "provenance": [
+                {
+                    "title": "Albert Bates",
+                    "wikipedia_id": 1399762
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Heath's occupation?",
+        "output": {
+            "answer": "songwriter, or song writer",
+            "provenance": [
+                {
+                    "title": "Heath (musician)",
+                    "wikipedia_id": 364481
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Wise's occupation?",
+        "output": {
+            "answer": "record producer, or music producer",
+            "provenance": [
+                {
+                    "title": "Wise (Stetsasonic)",
+                    "wikipedia_id": 2798519
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Stevie Cameron's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Stevie Cameron",
+                    "wikipedia_id": 1144831
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Yoshiki Tonogai's occupation?",
+        "output": {
+            "answer": "mangaka, or manga artist",
+            "provenance": [
+                {
+                    "title": "Yoshiki Tonogai",
+                    "wikipedia_id": 1673785
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Geeling Ng's occupation?",
+        "output": {
+            "answer": "restaurateur, or gastronomist, or restauranteur",
+            "provenance": [
+                {
+                    "title": "Geeling Ng",
+                    "wikipedia_id": 1841344
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Bruce McDaniel's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Bruce McDaniel",
+                    "wikipedia_id": 1549859
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Thomas R. Whitney's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Thomas R. Whitney",
+                    "wikipedia_id": 2598395
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is William Lescaze's occupation?",
+        "output": {
+            "answer": "architect",
+            "provenance": [
+                {
+                    "title": "William Lescaze",
+                    "wikipedia_id": 1829063
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Edwin Wallock's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Edwin Wallock",
+                    "wikipedia_id": 1005161
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Tsutomu Seki's occupation?",
+        "output": {
+            "answer": "astronomer",
+            "provenance": [
+                {
+                    "title": "Tsutomu Seki",
+                    "wikipedia_id": 1329397
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Matthew McKay's occupation?",
+        "output": {
+            "answer": "dentist, or dentists, or dental surgeon",
+            "provenance": [
+                {
+                    "title": "Matthew McKay (politician)",
+                    "wikipedia_id": 2263666
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Dominick Bellizzi's occupation?",
+        "output": {
+            "answer": "jockey",
+            "provenance": [
+                {
+                    "title": "Dominick Bellizzi",
+                    "wikipedia_id": 1717158
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is William Watson's occupation?",
+        "output": {
+            "answer": "physician, or physicians, or medical doctor, or medical practitioner, or doctor, or medical doctors",
+            "provenance": [
+                {
+                    "title": "William Watson (scientist)",
+                    "wikipedia_id": 1357911
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Sarah Dawn Finer's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses, or songwriter, or song writer",
+            "provenance": [
+                {
+                    "title": "Sarah Dawn Finer",
+                    "wikipedia_id": 842627
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Brendan Canty's occupation?",
+        "output": {
+            "answer": "composer, or musician, or musical artist",
+            "provenance": [
+                {
+                    "title": "Brendan Canty",
+                    "wikipedia_id": 971262
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Mar\u00eda Elena Marqu\u00e9s's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Mar\u00eda Elena Marqu\u00e9s",
+                    "wikipedia_id": 686774
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Michael Arad's occupation?",
+        "output": {
+            "answer": "architect",
+            "provenance": [
+                {
+                    "title": "Michael Arad",
+                    "wikipedia_id": 968551
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Patrick O'Brien Demsey's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Patrick O'Brien Demsey",
+                    "wikipedia_id": 2398986
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ole Krarup's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Ole Krarup",
+                    "wikipedia_id": 2933988
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Antonio \u00c1lvarez Alonso's occupation?",
+        "output": {
+            "answer": "composer, or pianist",
+            "provenance": [
+                {
+                    "title": "Antonio \u00c1lvarez Alonso",
+                    "wikipedia_id": 783955
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Boutheina Jabnoun's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Boutheina Jabnoun Marai",
+                    "wikipedia_id": 1536079
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Robert Viharo's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Robert Viharo",
+                    "wikipedia_id": 413193
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ankita Sharma's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Ankita Mayank Sharma",
+                    "wikipedia_id": 916240
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Robby Krieger's occupation?",
+        "output": {
+            "answer": "guitarist, or guitar player, or guitarists",
+            "provenance": [
+                {
+                    "title": "Robby Krieger",
+                    "wikipedia_id": 1028406
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Paul's occupation?",
+        "output": {
+            "answer": "missionary, or Christian missionary",
+            "provenance": [
+                {
+                    "title": "Paul the Apostle",
+                    "wikipedia_id": 2888455
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Shozaburo Nakamura's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Shozaburo Nakamura",
+                    "wikipedia_id": 51986
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Esquerita's occupation?",
+        "output": {
+            "answer": "pianist, or songwriter, or song writer",
+            "provenance": [
+                {
+                    "title": "Esquerita",
+                    "wikipedia_id": 1008524
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Derek Wheatley's occupation?",
+        "output": {
+            "answer": "novelist, or barrister, or barrister-at-law, or Bar-at-law",
+            "provenance": [
+                {
+                    "title": "Derek Wheatley",
+                    "wikipedia_id": 1702523
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Herman A. Barnett's occupation?",
+        "output": {
+            "answer": "surgeon, or surgeons",
+            "provenance": [
+                {
+                    "title": "Herman A. Barnett",
+                    "wikipedia_id": 357213
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Modou Dia's occupation?",
+        "output": {
+            "answer": "diplomat, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Modou Dia",
+                    "wikipedia_id": 1090534
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Alex Krieps's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Alex Krieps",
+                    "wikipedia_id": 1405573
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Veronica Franco's occupation?",
+        "output": {
+            "answer": "poet, or poetess, or bard",
+            "provenance": [
+                {
+                    "title": "Veronica Franco",
+                    "wikipedia_id": 867986
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Maev-Ann Wren's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Maev-Ann Wren",
+                    "wikipedia_id": 2232550
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Norman Crowther Hunt, Baron Crowther-Hunt's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Norman Crowther Hunt, Baron Crowther-Hunt",
+                    "wikipedia_id": 2353987
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Vincenzo Di Nicola's occupation?",
+        "output": {
+            "answer": "psychiatrist, or alienist, or head-shrinker, or shrinker, or psychologist, or psychologists",
+            "provenance": [
+                {
+                    "title": "Vincenzo Di Nicola",
+                    "wikipedia_id": 2750360
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Tor Aulin's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Tor Aulin",
+                    "wikipedia_id": 2721561
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Henry Tizard's occupation?",
+        "output": {
+            "answer": "chemist, or chemists",
+            "provenance": [
+                {
+                    "title": "Henry Tizard",
+                    "wikipedia_id": 2875946
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Glenn Albrecht's occupation?",
+        "output": {
+            "answer": "philosopher",
+            "provenance": [
+                {
+                    "title": "Glenn Albrecht",
+                    "wikipedia_id": 1862975
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Thomas Hinds's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Thomas Hinds",
+                    "wikipedia_id": 823032
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Tobias Lindholm's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Tobias Lindholm",
+                    "wikipedia_id": 837430
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Lisa McRee's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Lisa McRee",
+                    "wikipedia_id": 2194081
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Rick Gilmore's occupation?",
+        "output": {
+            "answer": "economist, or economists",
+            "provenance": [
+                {
+                    "title": "Rick Gilmore",
+                    "wikipedia_id": 2488055
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jon Eikemo's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Jon Eikemo",
+                    "wikipedia_id": 1346339
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jilly Cooper's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or novelist",
+            "provenance": [
+                {
+                    "title": "Jilly Cooper",
+                    "wikipedia_id": 474011
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ingrid Martinez's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "\u00cdngrid Martz",
+                    "wikipedia_id": 1645985
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Teddy Riley's occupation?",
+        "output": {
+            "answer": "record producer, or music producer, or singer-songwriter, or singer songwriter, or singer/songwriter, or singersongwriter, or singer-songwriter",
+            "provenance": [
+                {
+                    "title": "Teddy Riley",
+                    "wikipedia_id": 2893937
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Gillian Raine's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Gillian Raine",
+                    "wikipedia_id": 1859536
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Tolis Voskopoulos's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Tolis Voskopoulos",
+                    "wikipedia_id": 796936
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Marco Ameglio's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Marco Ameglio",
+                    "wikipedia_id": 381977
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Mohd Sharkar Shamsudin's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Mohd Sharkar Shamsudin",
+                    "wikipedia_id": 446989
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Anthony Sharp's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Anthony Sharp",
+                    "wikipedia_id": 2714677
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Valger\u00f0ur Bjarnad\u00f3ttir's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Valger\u00f0ur Bjarnad\u00f3ttir",
+                    "wikipedia_id": 1776055
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Wallace Dollase's occupation?",
+        "output": {
+            "answer": "horse trainer, or racehorse trainer",
+            "provenance": [
+                {
+                    "title": "Wallace Dollase",
+                    "wikipedia_id": 2765122
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Claire Berlinski's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Claire Berlinski",
+                    "wikipedia_id": 71750
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is James Cook's occupation?",
+        "output": {
+            "answer": "sailor, or seaman, or mariner, or seafarer, or merchant sailor, or merchant seaman, or merchant mariner",
+            "provenance": [
+                {
+                    "title": "James Cook",
+                    "wikipedia_id": 2483195
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Russell Stokes's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Russell Stokes",
+                    "wikipedia_id": 2518393
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Henk Bleker's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Henk Bleker",
+                    "wikipedia_id": 1869768
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jim Brown's occupation?",
+        "output": {
+            "answer": "radio personality, or radio presenter, or radio hostess, or host, or hostess, or radio host, or radio jockey, or radio program boss, or RJ",
+            "provenance": [
+                {
+                    "title": "Jim Brown (radio host)",
+                    "wikipedia_id": 2059616
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Christoph Schlingensief's occupation?",
+        "output": {
+            "answer": "theatrical director, or stage director, or theatre director, or play director, or director, or theater director",
+            "provenance": [
+                {
+                    "title": "Christoph Schlingensief",
+                    "wikipedia_id": 1325887
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is C. E. Webber's occupation?",
+        "output": {
+            "answer": "playwright, or dramatist, or playwrite, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "C. E. Webber",
+                    "wikipedia_id": 671860
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Gladwyn Jebb's occupation?",
+        "output": {
+            "answer": "diplomat, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Gladwyn Jebb",
+                    "wikipedia_id": 150410
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Dean Alfange's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Dean Alfange",
+                    "wikipedia_id": 1693626
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Tyler, the Creator's occupation?",
+        "output": {
+            "answer": "record producer, or music producer, or actor, or actress, or actors, or actresses, or graphic designer",
+            "provenance": [
+                {
+                    "title": "Tyler, the Creator",
+                    "wikipedia_id": 452674
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Edwin E. Ellis's occupation?",
+        "output": {
+            "answer": "photographer, or photog, or photographers",
+            "provenance": [
+                {
+                    "title": "Edwin E. Ellis",
+                    "wikipedia_id": 359531
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Muhammad Ali Luqman's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Muhammad Ali Luqman",
+                    "wikipedia_id": 2290860
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ivo Perilli's occupation?",
+        "output": {
+            "answer": "screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Ivo Perilli",
+                    "wikipedia_id": 835517
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Nathan Purdee's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Nathan Purdee",
+                    "wikipedia_id": 2329414
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Joseph Weydemeyer's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or revolutionary, or insurrectionist, or revolutionist, or revolutioner",
+            "provenance": [
+                {
+                    "title": "Joseph Weydemeyer",
+                    "wikipedia_id": 752569
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ai's occupation?",
+        "output": {
+            "answer": "poet, or poetess, or bard",
+            "provenance": [
+                {
+                    "title": "Ai (poet)",
+                    "wikipedia_id": 1263372
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Rinaldo del Mel's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Rinaldo del Mel",
+                    "wikipedia_id": 2489918
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Francis Howard, 5th Baron Howard of Effingham's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Francis Howard, 5th Baron Howard of Effingham",
+                    "wikipedia_id": 239320
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Lu\u00eds Marques Guedes's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Lu\u00eds Marques Guedes",
+                    "wikipedia_id": 103786
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Nigel Sheinwald's occupation?",
+        "output": {
+            "answer": "diplomat",
+            "provenance": [
+                {
+                    "title": "Nigel Sheinwald",
+                    "wikipedia_id": 1327616
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ge You's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Ge You",
+                    "wikipedia_id": 894905
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Annie Beustes's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Annie Beustes",
+                    "wikipedia_id": 948913
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Kazuyoshi Sekine's occupation?",
+        "output": {
+            "answer": "playwright, or dramatist, or playwrite, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Kazuyoshi Sekine",
+                    "wikipedia_id": 903447
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Elisa Bridges's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses, or Playboy Playmate, or Playmate",
+            "provenance": [
+                {
+                    "title": "Elisa Bridges",
+                    "wikipedia_id": 2879080
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Domingo Eyzaguirre's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Domingo Eyzaguirre",
+                    "wikipedia_id": 1716852
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Karol \u017byczkowski's occupation?",
+        "output": {
+            "answer": "physicist, or mathematician",
+            "provenance": [
+                {
+                    "title": "Karol \u017byczkowski",
+                    "wikipedia_id": 2120302
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Joyce Tang's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Joyce Tang",
+                    "wikipedia_id": 935382
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Suzanne Lilar's occupation?",
+        "output": {
+            "answer": "playwright, or dramatist, or playwrite, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Suzanne Lilar",
+                    "wikipedia_id": 660658
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Karen Redman's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Karen Redman",
+                    "wikipedia_id": 1053271
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jean-Yves Daniel-Lesur's occupation?",
+        "output": {
+            "answer": "composer, or organist, or organ player",
+            "provenance": [
+                {
+                    "title": "Jean-Yves Daniel-Lesur",
+                    "wikipedia_id": 2916258
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Eduard Looijenga's occupation?",
+        "output": {
+            "answer": "mathematician",
+            "provenance": [
+                {
+                    "title": "Eduard Looijenga",
+                    "wikipedia_id": 316184
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Petrus Camper's occupation?",
+        "output": {
+            "answer": "physician, or physicians, or medical doctor, or medical practitioner, or doctor, or medical doctors",
+            "provenance": [
+                {
+                    "title": "Petrus Camper",
+                    "wikipedia_id": 1226445
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Charles Harrison's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Charles Harrison (Bewdley MP)",
+                    "wikipedia_id": 1602408
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Pathit Pisitkul's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Pathit Pisitkul",
+                    "wikipedia_id": 160718
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jacopo Melani's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Jacopo Melani",
+                    "wikipedia_id": 961760
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jeremiah Smith's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Jeremiah Smith (lawyer)",
+                    "wikipedia_id": 920049
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Richard Harris's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Richard Harris (composer)",
+                    "wikipedia_id": 2484673
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Peter W. Barca's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Peter W. Barca",
+                    "wikipedia_id": 729767
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Harold Lever, Baron Lever of Manchester's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Harold Lever, Baron Lever of Manchester",
+                    "wikipedia_id": 1094888
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Peter Murnoy's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Peter Murnoy",
+                    "wikipedia_id": 2414934
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Spencer Williams's occupation?",
+        "output": {
+            "answer": "composer, or pianist",
+            "provenance": [
+                {
+                    "title": "Spencer Williams",
+                    "wikipedia_id": 153735
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Richard Lui's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Richard Lui",
+                    "wikipedia_id": 2485462
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Charlotte von Hagn's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Charlotte von Hagn",
+                    "wikipedia_id": 2685507
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is James M. Geraghty's occupation?",
+        "output": {
+            "answer": "lawyer, or attorney, or solicitor, or barrister, or lawyers, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "James M. Geraghty",
+                    "wikipedia_id": 2039312
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Michael Hutchings's occupation?",
+        "output": {
+            "answer": "chef, or chef de cuisine",
+            "provenance": [
+                {
+                    "title": "Michael Hutchings (chef)",
+                    "wikipedia_id": 380296
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Gideon Olin's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Gideon Olin",
+                    "wikipedia_id": 298912
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Cecil Aldin's occupation?",
+        "output": {
+            "answer": "illustrator",
+            "provenance": [
+                {
+                    "title": "Cecil Aldin",
+                    "wikipedia_id": 2926163
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Malcolm David Kelley's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Malcolm David Kelley",
+                    "wikipedia_id": 1023433
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is James Alex Msekela's occupation?",
+        "output": {
+            "answer": "diplomat, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "James Msekela",
+                    "wikipedia_id": 1726970
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Nancy Landon Kassebaum's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Nancy Kassebaum",
+                    "wikipedia_id": 1344682
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Reinhold Mack's occupation?",
+        "output": {
+            "answer": "audio engineer, or recording engineer, or sound producer, or sound director, or sound engineer, or music engineer, or musical engineer, or record producer, or music producer, or composer",
+            "provenance": [
+                {
+                    "title": "Reinhold Mack",
+                    "wikipedia_id": 2050438
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Del Quentin Wilber's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Del Quentin Wilber",
+                    "wikipedia_id": 1697342
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Pierre Pansu's occupation?",
+        "output": {
+            "answer": "mathematician",
+            "provenance": [
+                {
+                    "title": "Pierre Pansu",
+                    "wikipedia_id": 134183
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Larry Coon's occupation?",
+        "output": {
+            "answer": "computer scientist",
+            "provenance": [
+                {
+                    "title": "Larry Coon",
+                    "wikipedia_id": 2169082
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Masayoshi Nataniya's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Masayoshi Nataniya",
+                    "wikipedia_id": 2259285
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Leonida Tonelli's occupation?",
+        "output": {
+            "answer": "mathematician",
+            "provenance": [
+                {
+                    "title": "Leonida Tonelli",
+                    "wikipedia_id": 600831
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Judith Rakers's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or television presenter, or host, or hostess, or TV host, or television host, or TV presenter, or TV anchor, or television anchor",
+            "provenance": [
+                {
+                    "title": "Judith Rakers",
+                    "wikipedia_id": 2093133
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Hiroyuki Arai's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Hiroyuki Arai",
+                    "wikipedia_id": 1938988
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ernst Timme's occupation?",
+        "output": {
+            "answer": "farmer, or agriculturist, or grower, or raiser, or cultivator, or agriculturer, or farmer (occupation), or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Ernst Timme",
+                    "wikipedia_id": 1773516
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Bill Kintner's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Bill Kintner",
+                    "wikipedia_id": 389910
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Francesco Vettori's occupation?",
+        "output": {
+            "answer": "diplomat",
+            "provenance": [
+                {
+                    "title": "Francesco Vettori",
+                    "wikipedia_id": 168241
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Melinda Mullins's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Melinda Mullins",
+                    "wikipedia_id": 2272876
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Tachibana no Moroe's occupation?",
+        "output": {
+            "answer": "poet, or poetess, or bard",
+            "provenance": [
+                {
+                    "title": "Tachibana no Moroe",
+                    "wikipedia_id": 1034028
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Susan Kent's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Susan Kent (actress)",
+                    "wikipedia_id": 2622544
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Meyer Lutz's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Meyer Lutz",
+                    "wikipedia_id": 2277814
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ludwig Lichtschein's occupation?",
+        "output": {
+            "answer": "rabbi, or Rav",
+            "provenance": [
+                {
+                    "title": "Ludwig Lichtschein",
+                    "wikipedia_id": 2222741
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Will Smith's occupation?",
+        "output": {
+            "answer": "record producer, or music producer, or film director, or movie director, or director, or motion picture director, or film producer, or movie producer, or producer, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Will Smith",
+                    "wikipedia_id": 1260028
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Marjorie Margolies-Mezvinsky's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Marjorie Margolies",
+                    "wikipedia_id": 1619076
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is W\u0142adys\u0142aw S\u0142awny's occupation?",
+        "output": {
+            "answer": "photographer, or photog, or photographers",
+            "provenance": [
+                {
+                    "title": "W\u0142adys\u0142aw S\u0142awny",
+                    "wikipedia_id": 1166719
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Pierre Chatenet's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Pierre Chatenet",
+                    "wikipedia_id": 1132705
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Friedrich Carl von Savigny's occupation?",
+        "output": {
+            "answer": "jurist",
+            "provenance": [
+                {
+                    "title": "Friedrich Carl von Savigny",
+                    "wikipedia_id": 2638748
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Luciano Vincenzoni's occupation?",
+        "output": {
+            "answer": "screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Luciano Vincenzoni",
+                    "wikipedia_id": 2545161
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Thandiswa Mazwai's occupation?",
+        "output": {
+            "answer": "songwriter, or song writer",
+            "provenance": [
+                {
+                    "title": "Thandiswa Mazwai",
+                    "wikipedia_id": 1303727
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ameer Sultan's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Ameer (director)",
+                    "wikipedia_id": 1421207
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Wenceslao Vinzons's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Wenceslao Vinzons",
+                    "wikipedia_id": 1047561
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Maurizio Belpietro's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or television presenter, or host, or hostess, or TV host, or television host, or TV presenter, or TV anchor, or television anchor",
+            "provenance": [
+                {
+                    "title": "Maurizio Belpietro",
+                    "wikipedia_id": 1232402
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Dash's occupation?",
+        "output": {
+            "answer": "record producer, or music producer",
+            "provenance": [
+                {
+                    "title": "Dash (rapper)",
+                    "wikipedia_id": 611582
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Baton Haxhiu's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Baton Haxhiu",
+                    "wikipedia_id": 1491594
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Johnson's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Johnson (composer)",
+                    "wikipedia_id": 1152048
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Samuel Wells Williams's occupation?",
+        "output": {
+            "answer": "missionary, or Christian missionary",
+            "provenance": [
+                {
+                    "title": "Samuel Wells Williams",
+                    "wikipedia_id": 791184
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Walter K\u00f6bel's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Walter K\u00f6bel",
+                    "wikipedia_id": 56845
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Debbie Johnson's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Debbie Johnson",
+                    "wikipedia_id": 1694718
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John Scurti's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "John Scurti",
+                    "wikipedia_id": 631794
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John Barnes's occupation?",
+        "output": {
+            "answer": "monk, or monks",
+            "provenance": [
+                {
+                    "title": "John Barnes (monk)",
+                    "wikipedia_id": 2069200
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Kekko Fornarelli's occupation?",
+        "output": {
+            "answer": "composer, or pianist",
+            "provenance": [
+                {
+                    "title": "Kekko Fornarelli",
+                    "wikipedia_id": 1086409
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is T Power's occupation?",
+        "output": {
+            "answer": "record producer, or music producer",
+            "provenance": [
+                {
+                    "title": "T Power",
+                    "wikipedia_id": 448026
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Adil Shamoo's occupation?",
+        "output": {
+            "answer": "biochemist, or biological chemist",
+            "provenance": [
+                {
+                    "title": "Adil Shamoo",
+                    "wikipedia_id": 1384308
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Patrick Mulvany's occupation?",
+        "output": {
+            "answer": "farmer, or agriculturist, or grower, or raiser, or cultivator, or agriculturer, or farmer (occupation), or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Patrick Mulvany",
+                    "wikipedia_id": 2398926
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Graham Collier's occupation?",
+        "output": {
+            "answer": "composer, or bandleader, or Wind band conductor, or Harmony orchestra leader",
+            "provenance": [
+                {
+                    "title": "Graham Collier",
+                    "wikipedia_id": 299750
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Arcangelo Ghisleri's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Arcangelo Ghisleri",
+                    "wikipedia_id": 1176446
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Carlos Mar\u00eda Ram\u00edrez's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Carlos Mar\u00eda Ram\u00edrez",
+                    "wikipedia_id": 200157
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Tina Sloan's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Tina Sloan",
+                    "wikipedia_id": 1762515
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Andrew Trischitta's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Andrew Trischitta",
+                    "wikipedia_id": 412617
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Gerard Kennedy's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Gerard Kennedy (actor)",
+                    "wikipedia_id": 153998
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Giora Godik's occupation?",
+        "output": {
+            "answer": "impresario, or Talent Manager",
+            "provenance": [
+                {
+                    "title": "Giora Godik",
+                    "wikipedia_id": 1860110
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Lillian Lawrence's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Lillian Lawrence",
+                    "wikipedia_id": 107871
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Philip Rosenberg's occupation?",
+        "output": {
+            "answer": "production designer, or art director, or artistic coordinator",
+            "provenance": [
+                {
+                    "title": "Philip Rosenberg",
+                    "wikipedia_id": 732479
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Sudarshan Faakir's occupation?",
+        "output": {
+            "answer": "lyricist, or singer-lyricist",
+            "provenance": [
+                {
+                    "title": "Sudarshan Faakir",
+                    "wikipedia_id": 2572937
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Shonali Bose's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Shonali Bose",
+                    "wikipedia_id": 2566815
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Bruce Cockburn's occupation?",
+        "output": {
+            "answer": "composer, or singer-songwriter, or singer songwriter, or singer/songwriter, or singersongwriter, or singer-songwriter, or songwriter, or song writer",
+            "provenance": [
+                {
+                    "title": "Bruce Cockburn",
+                    "wikipedia_id": 2660203
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Archibald Thomas Pechey's occupation?",
+        "output": {
+            "answer": "lyricist, or singer-lyricist",
+            "provenance": [
+                {
+                    "title": "Archibald Thomas Pechey",
+                    "wikipedia_id": 1448300
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Thomas Challis's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Thomas Challis",
+                    "wikipedia_id": 370930
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Mariana Vicente's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Mariana Vicente",
+                    "wikipedia_id": 1231091
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Huntington Wilson's occupation?",
+        "output": {
+            "answer": "diplomat",
+            "provenance": [
+                {
+                    "title": "Huntington Wilson",
+                    "wikipedia_id": 77163
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Gaziza Zhubanova's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Gaziza Zhubanova",
+                    "wikipedia_id": 274377
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ek Yi Oun's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Ek Yi Oun",
+                    "wikipedia_id": 1750566
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Benjamin Mount's occupation?",
+        "output": {
+            "answer": "record producer, or music producer",
+            "provenance": [
+                {
+                    "title": "Ben Mount",
+                    "wikipedia_id": 830098
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ivan Ml\u00e1dek's occupation?",
+        "output": {
+            "answer": "composer, or songwriter, or song writer",
+            "provenance": [
+                {
+                    "title": "Ivan Ml\u00e1dek",
+                    "wikipedia_id": 207169
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Bala's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Bala (director)",
+                    "wikipedia_id": 1122452
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Steve Tom's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Steve Tom",
+                    "wikipedia_id": 1067322
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ilja Rosendahl's occupation?",
+        "output": {
+            "answer": "record producer, or music producer, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Ilja Rosendahl",
+                    "wikipedia_id": 60457
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ron Nyswaner's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Ron Nyswaner",
+                    "wikipedia_id": 153170
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Thanasis Pafilis's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Thanasis Pafilis",
+                    "wikipedia_id": 798418
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Nicholas Sanduleak's occupation?",
+        "output": {
+            "answer": "astronomer",
+            "provenance": [
+                {
+                    "title": "Nicholas Sanduleak",
+                    "wikipedia_id": 924257
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Christopher Butson's occupation?",
+        "output": {
+            "answer": "priest, or reverend, or priestess",
+            "provenance": [
+                {
+                    "title": "Christopher Butson (priest)",
+                    "wikipedia_id": 106064
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Otto Frankel's occupation?",
+        "output": {
+            "answer": "geneticist",
+            "provenance": [
+                {
+                    "title": "Otto Frankel",
+                    "wikipedia_id": 2381557
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Hate Man's occupation?",
+        "output": {
+            "answer": "philosopher",
+            "provenance": [
+                {
+                    "title": "Hate Man",
+                    "wikipedia_id": 1910680
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Rich Brightman's occupation?",
+        "output": {
+            "answer": "singer-songwriter, or singer songwriter, or singer/songwriter, or singersongwriter, or singer-songwriter",
+            "provenance": [
+                {
+                    "title": "Rich Brightman",
+                    "wikipedia_id": 649042
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Mr. Porter's occupation?",
+        "output": {
+            "answer": "record producer, or music producer",
+            "provenance": [
+                {
+                    "title": "Denaun Porter",
+                    "wikipedia_id": 1367479
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Felix Walker's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Felix Walker (American politician)",
+                    "wikipedia_id": 223912
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Javad Maroufi's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Javad Maroufi",
+                    "wikipedia_id": 926154
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Franz Seitz Sr.'s occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter, or film producer, or movie producer, or producer",
+            "provenance": [
+                {
+                    "title": "Franz Seitz Sr.",
+                    "wikipedia_id": 2885457
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Chris Jericho's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Chris Jericho",
+                    "wikipedia_id": 1314626
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Frederick Dundas's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Frederick Dundas",
+                    "wikipedia_id": 1823968
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Aim's occupation?",
+        "output": {
+            "answer": "disc jockey, or DJ, or dee jay, or dj, or D.J., or disk jockey, or dee-jay, or deejay, or disquaire, or discaire",
+            "provenance": [
+                {
+                    "title": "Aim (musician)",
+                    "wikipedia_id": 704058
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Nadia Giosia's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Nadia G",
+                    "wikipedia_id": 2323916
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Adele Capell, Countess of Essex's occupation?",
+        "output": {
+            "answer": "socialite, or prominent person",
+            "provenance": [
+                {
+                    "title": "Adele Capell, Countess of Essex",
+                    "wikipedia_id": 1383663
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Edward Francis Hutton's occupation?",
+        "output": {
+            "answer": "financier",
+            "provenance": [
+                {
+                    "title": "Edward Francis Hutton",
+                    "wikipedia_id": 1004974
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Kanye West's occupation?",
+        "output": {
+            "answer": "record producer, or music producer, or songwriter, or song writer",
+            "provenance": [
+                {
+                    "title": "Kanye West",
+                    "wikipedia_id": 345517
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Hawthorne James's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Hawthorne James",
+                    "wikipedia_id": 412729
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is S\u0131rr\u0131 S\u00fcreyya \u00d6nder's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter, or actor, or actress, or actors, or actresses, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "S\u0131rr\u0131 S\u00fcreyya \u00d6nder",
+                    "wikipedia_id": 2934962
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Edward Norton's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Edward Norton (MP)",
+                    "wikipedia_id": 1747225
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Linden Ashby's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Linden Ashby",
+                    "wikipedia_id": 1321587
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Lord Frederick Spencer Hamilton's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Lord Frederick Spencer Hamilton",
+                    "wikipedia_id": 636167
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ann Friedman's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Ann Friedman",
+                    "wikipedia_id": 388743
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Olav T. Laake's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Olav T. Laake",
+                    "wikipedia_id": 2368082
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Carolyn Eisele's occupation?",
+        "output": {
+            "answer": "mathematician",
+            "provenance": [
+                {
+                    "title": "Carolyn Eisele",
+                    "wikipedia_id": 548994
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jonathan Le Billon's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Jonathan Le Billon",
+                    "wikipedia_id": 2088776
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Mildred Okwo's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director",
+            "provenance": [
+                {
+                    "title": "Mildred Okwo",
+                    "wikipedia_id": 609900
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Eliza Lawrence's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Eliza Lawrence",
+                    "wikipedia_id": 1756324
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Charles Combe's occupation?",
+        "output": {
+            "answer": "physician, or physicians, or medical doctor, or medical practitioner, or doctor, or medical doctors",
+            "provenance": [
+                {
+                    "title": "Charles Combe",
+                    "wikipedia_id": 1600933
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is GQ's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "GQ (actor)",
+                    "wikipedia_id": 1832322
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John D. Maurice's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "John D. Maurice",
+                    "wikipedia_id": 2072019
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Harvey Benge's occupation?",
+        "output": {
+            "answer": "photographer, or photog, or photographers",
+            "provenance": [
+                {
+                    "title": "Harvey Benge",
+                    "wikipedia_id": 1908739
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is William Greaves's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director",
+            "provenance": [
+                {
+                    "title": "William Greaves",
+                    "wikipedia_id": 2789004
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is David Joyce's occupation?",
+        "output": {
+            "answer": "lawyer, or attorney, or solicitor, or barrister, or lawyers, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "David Joyce (politician)",
+                    "wikipedia_id": 2931028
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Emmanuel Nnamdi Uba's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Emmanuel Nnamdi Uba",
+                    "wikipedia_id": 1763092
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Zhu Houren's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Zhu Houren",
+                    "wikipedia_id": 1007130
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ayumi Hamasaki's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses, or singer-songwriter, or singer songwriter, or singer/songwriter, or singersongwriter, or singer-songwriter, or songwriter, or song writer, or lyricist, or singer-lyricist",
+            "provenance": [
+                {
+                    "title": "Ayumi Hamasaki",
+                    "wikipedia_id": 644402
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Kristina Lugn's occupation?",
+        "output": {
+            "answer": "playwright, or dramatist, or playwrite, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Kristina Lugn",
+                    "wikipedia_id": 912649
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Luca Coscioni's occupation?",
+        "output": {
+            "answer": "economist, or economists, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Luca Coscioni",
+                    "wikipedia_id": 2121528
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Raymond S. Burton's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Raymond S. Burton",
+                    "wikipedia_id": 2471256
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Beth Hart's occupation?",
+        "output": {
+            "answer": "singer-songwriter, or singer songwriter, or singer/songwriter, or singersongwriter, or singer-songwriter",
+            "provenance": [
+                {
+                    "title": "Beth Hart",
+                    "wikipedia_id": 719303
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Benazir Bhutto's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Benazir Bhutto",
+                    "wikipedia_id": 1126935
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Alan Huckle's occupation?",
+        "output": {
+            "answer": "diplomat",
+            "provenance": [
+                {
+                    "title": "Alan Huckle",
+                    "wikipedia_id": 1934357
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Gunnar Uldall's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Gunnar Uldall",
+                    "wikipedia_id": 45288
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Vishwanath Rao Ringe's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Vishwanath Rao Ringe",
+                    "wikipedia_id": 2751863
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Alfred Mombert's occupation?",
+        "output": {
+            "answer": "poet, or poetess, or bard",
+            "provenance": [
+                {
+                    "title": "Alfred Mombert",
+                    "wikipedia_id": 25152
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Famke Janssen's occupation?",
+        "output": {
+            "answer": "screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter, or actor, or actress, or actors, or actresses, or model, or fashion model, or sitter, or poser",
+            "provenance": [
+                {
+                    "title": "Famke Janssen",
+                    "wikipedia_id": 655385
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Sylwester Braun's occupation?",
+        "output": {
+            "answer": "photographer, or photog, or photographers",
+            "provenance": [
+                {
+                    "title": "Sylwester Braun",
+                    "wikipedia_id": 2627297
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jack Mackenzie's occupation?",
+        "output": {
+            "answer": "civil engineer",
+            "provenance": [
+                {
+                    "title": "Jack Mackenzie",
+                    "wikipedia_id": 2029012
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Kiko Mizuhara's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Kiko Mizuhara",
+                    "wikipedia_id": 28042
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Michael Radford's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Michael Radford",
+                    "wikipedia_id": 1397402
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Henry Campbell-Bannerman's occupation?",
+        "output": {
+            "answer": "diplomat, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Henry Campbell-Bannerman",
+                    "wikipedia_id": 38216
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Robert Voisey's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Robert Voisey",
+                    "wikipedia_id": 625477
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Richard Vaughan's occupation?",
+        "output": {
+            "answer": "bishop",
+            "provenance": [
+                {
+                    "title": "Richard Vaughan (bishop)",
+                    "wikipedia_id": 2486933
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Brian Eno's occupation?",
+        "output": {
+            "answer": "record producer, or music producer, or composer",
+            "provenance": [
+                {
+                    "title": "Brian Eno",
+                    "wikipedia_id": 1913319
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ernst Theodor Echtermeyer's occupation?",
+        "output": {
+            "answer": "philosopher",
+            "provenance": [
+                {
+                    "title": "Ernst Theodor Echtermeyer",
+                    "wikipedia_id": 2919084
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Felicia Chateloin's occupation?",
+        "output": {
+            "answer": "architect",
+            "provenance": [
+                {
+                    "title": "Felicia Chateloin",
+                    "wikipedia_id": 1554131
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Debra Weeks's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or television producer, or TV producer, or producer, or Tv producer, or Series Producer, or Producer (television), or Television executive producer",
+            "provenance": [
+                {
+                    "title": "Debra Weeks",
+                    "wikipedia_id": 1695100
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Bed\u0159ich Feigl's occupation?",
+        "output": {
+            "answer": "graphic designer",
+            "provenance": [
+                {
+                    "title": "Bed\u0159ich Feigl",
+                    "wikipedia_id": 1496631
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Richard Marles's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Richard Marles",
+                    "wikipedia_id": 2485567
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Burna Boy's occupation?",
+        "output": {
+            "answer": "songwriter, or song writer",
+            "provenance": [
+                {
+                    "title": "Burna Boy",
+                    "wikipedia_id": 537944
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Michael Costa's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Michael Costa (conductor)",
+                    "wikipedia_id": 663794
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Edward F. Cox's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Edward F. Cox",
+                    "wikipedia_id": 1745901
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Sven Alkalaj's occupation?",
+        "output": {
+            "answer": "diplomat",
+            "provenance": [
+                {
+                    "title": "Sven Alkalaj",
+                    "wikipedia_id": 221012
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Glenn Gould's occupation?",
+        "output": {
+            "answer": "composer, or pianist",
+            "provenance": [
+                {
+                    "title": "Glenn Gould",
+                    "wikipedia_id": 754472
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Alex Reid's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Alex Reid (actress)",
+                    "wikipedia_id": 1308463
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Isabelle Adriani's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Isabelle Adriani",
+                    "wikipedia_id": 1218623
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Edward Gunasekara's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Edward Gunasekara",
+                    "wikipedia_id": 1746155
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is David M. Westcott's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "David M. Westcott",
+                    "wikipedia_id": 1687998
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Carl Linnaeus's occupation?",
+        "output": {
+            "answer": "physician, or physicians, or medical doctor, or medical practitioner, or doctor, or medical doctors",
+            "provenance": [
+                {
+                    "title": "Carl Linnaeus",
+                    "wikipedia_id": 21982
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Firaq Gorakhpuri's occupation?",
+        "output": {
+            "answer": "poet, or poetess, or bard",
+            "provenance": [
+                {
+                    "title": "Firaq Gorakhpuri",
+                    "wikipedia_id": 2830109
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Gordie Gosse's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Gordie Gosse",
+                    "wikipedia_id": 1869749
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Nenad Popovi\u0107's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Nenad Popovi\u0107",
+                    "wikipedia_id": 1308707
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Bj\u00f6rn B\u00f6hning's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Bj\u00f6rn B\u00f6hning",
+                    "wikipedia_id": 55546
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Frederick Berry's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Frederick Berry",
+                    "wikipedia_id": 1823740
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Susan Soltero's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Susan Soltero",
+                    "wikipedia_id": 522355
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Joseph R. Perella's occupation?",
+        "output": {
+            "answer": "financier",
+            "provenance": [
+                {
+                    "title": "Joseph Perella",
+                    "wikipedia_id": 2093044
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Stanley Peiris's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Stanley Peiris",
+                    "wikipedia_id": 2602080
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is P. Palaniappan's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "P. Palaniappan",
+                    "wikipedia_id": 2384962
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Alice's occupation?",
+        "output": {
+            "answer": "pianist, or singer-songwriter, or singer songwriter, or singer/songwriter, or singersongwriter, or singer-songwriter",
+            "provenance": [
+                {
+                    "title": "Alice (singer)",
+                    "wikipedia_id": 952308
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is J. Da Silva's occupation?",
+        "output": {
+            "answer": "cricket umpire, or umpire",
+            "provenance": [
+                {
+                    "title": "J. Da Silva",
+                    "wikipedia_id": 393506
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Carsten Carlsen's occupation?",
+        "output": {
+            "answer": "composer, or pianist",
+            "provenance": [
+                {
+                    "title": "Carsten Carlsen",
+                    "wikipedia_id": 355220
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Josh Mankiewicz's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Josh Mankiewicz",
+                    "wikipedia_id": 2094078
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Shiva Nageswara Rao's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director",
+            "provenance": [
+                {
+                    "title": "Siva Nageswara Rao",
+                    "wikipedia_id": 2566262
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Abdirizak Haji Hussein's occupation?",
+        "output": {
+            "answer": "diplomat, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Abdirizak Haji Hussein",
+                    "wikipedia_id": 711151
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Fritz Goos's occupation?",
+        "output": {
+            "answer": "astronomer, or physicist",
+            "provenance": [
+                {
+                    "title": "Fritz Goos",
+                    "wikipedia_id": 249949
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Charles A. Gillespie, Jr.'s occupation?",
+        "output": {
+            "answer": "diplomat",
+            "provenance": [
+                {
+                    "title": "Charles A. Gillespie Jr.",
+                    "wikipedia_id": 1599925
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Tharman Shanmugaratnam's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Tharman Shanmugaratnam",
+                    "wikipedia_id": 2936189
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Alexander Gadolin's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Alexander Gadolin",
+                    "wikipedia_id": 749886
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Levi P. Powers's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Levi P. Powers",
+                    "wikipedia_id": 610438
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Kamya Panjabi's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Kamya Panjabi",
+                    "wikipedia_id": 2116047
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Robert Gwilym's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Robert Gwilym",
+                    "wikipedia_id": 2496229
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Min's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Min (South Korean singer)",
+                    "wikipedia_id": 1536322
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John Strange's occupation?",
+        "output": {
+            "answer": "diplomat",
+            "provenance": [
+                {
+                    "title": "John Strange (diplomat)",
+                    "wikipedia_id": 2083602
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Everley Gregg's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Everley Gregg",
+                    "wikipedia_id": 1783035
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ruby Rose's occupation?",
+        "output": {
+            "answer": "disc jockey, or DJ, or dee jay, or dj, or D.J., or disk jockey, or dee-jay, or deejay, or disquaire, or discaire, or actor, or actress, or actors, or actresses, or television presenter, or host, or hostess, or TV host, or television host, or TV presenter, or TV anchor, or television anchor",
+            "provenance": [
+                {
+                    "title": "Ruby Rose",
+                    "wikipedia_id": 1250433
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Meg McCall's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Meg McCall",
+                    "wikipedia_id": 2270826
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Walter de la Pole's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Walter de la Pole",
+                    "wikipedia_id": 462441
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Todd Verow's occupation?",
+        "output": {
+            "answer": "cinematographer, or director of photography, or DOP, or film director, or movie director, or director, or motion picture director, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Todd Verow",
+                    "wikipedia_id": 827104
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Kyaw Swe's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Kyaw Swe (actor)",
+                    "wikipedia_id": 2157263
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Guillaume du Tillot's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Guillaume du Tillot",
+                    "wikipedia_id": 1990297
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is James J. Gibson's occupation?",
+        "output": {
+            "answer": "psychologist, or psychologists",
+            "provenance": [
+                {
+                    "title": "James J. Gibson",
+                    "wikipedia_id": 2516414
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Edwin H. Knopf's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter, or film producer, or movie producer, or producer",
+            "provenance": [
+                {
+                    "title": "Edwin H. Knopf",
+                    "wikipedia_id": 158383
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Apurba Kishore Bir's occupation?",
+        "output": {
+            "answer": "cinematographer, or director of photography, or DOP, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Apurba Kishore Bir",
+                    "wikipedia_id": 2070153
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Prince Radu of Romania's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Prince Radu of Romania",
+                    "wikipedia_id": 998914
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Tatiana Doronina's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Tatiana Doronina",
+                    "wikipedia_id": 1281592
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Havergal Brian's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Havergal Brian",
+                    "wikipedia_id": 1835550
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Marina Baker's occupation?",
+        "output": {
+            "answer": "Playboy Playmate, or Playmate",
+            "provenance": [
+                {
+                    "title": "Marina Baker",
+                    "wikipedia_id": 2877329
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Naathan Phan's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Naathan Phan",
+                    "wikipedia_id": 2323455
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Paul Caillaud's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Paul Caillaud",
+                    "wikipedia_id": 1106216
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Rusty Willoughby's occupation?",
+        "output": {
+            "answer": "songwriter, or song writer",
+            "provenance": [
+                {
+                    "title": "Rusty Willoughby",
+                    "wikipedia_id": 123239
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Matthew Underwood's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Matthew Underwood (actor)",
+                    "wikipedia_id": 1872485
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is George Washington Owen's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "George Washington Owen",
+                    "wikipedia_id": 2611653
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ebenezer Webster's occupation?",
+        "output": {
+            "answer": "farmer, or agriculturist, or grower, or raiser, or cultivator, or agriculturer, or farmer (occupation), or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Ebenezer Webster",
+                    "wikipedia_id": 1739276
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Bridie O'Flaherty's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Bridie O'Flaherty",
+                    "wikipedia_id": 2884601
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John Jay's occupation?",
+        "output": {
+            "answer": "diplomat",
+            "provenance": [
+                {
+                    "title": "John Jay (lawyer)",
+                    "wikipedia_id": 1976886
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ivan Kulichenko's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Ivan Kulichenko",
+                    "wikipedia_id": 696536
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Christopher Beazley's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Christopher Beazley",
+                    "wikipedia_id": 1274383
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Christine Juarbe's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses, or model, or fashion model, or sitter, or poser",
+            "provenance": [
+                {
+                    "title": "Christine Juarbe",
+                    "wikipedia_id": 1620519
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Olivier Alary's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Olivier Alary",
+                    "wikipedia_id": 1099948
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Giuseppe Demachi's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Giuseppe Demachi",
+                    "wikipedia_id": 305924
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Affonso Beato's occupation?",
+        "output": {
+            "answer": "cinematographer, or director of photography, or DOP",
+            "provenance": [
+                {
+                    "title": "Affonso Beato",
+                    "wikipedia_id": 1227050
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Scott Z. Burns's occupation?",
+        "output": {
+            "answer": "screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Scott Z. Burns",
+                    "wikipedia_id": 841054
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Vanessa Angel's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Vanessa Angel",
+                    "wikipedia_id": 902405
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Atsushi Kaneko's occupation?",
+        "output": {
+            "answer": "mangaka, or manga artist",
+            "provenance": [
+                {
+                    "title": "Atsushi Kaneko",
+                    "wikipedia_id": 953290
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is William Molyneux's occupation?",
+        "output": {
+            "answer": "astronomer, or philosopher, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "William Molyneux",
+                    "wikipedia_id": 736008
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Richard Faith's occupation?",
+        "output": {
+            "answer": "composer, or pianist",
+            "provenance": [
+                {
+                    "title": "Richard Faith",
+                    "wikipedia_id": 2484235
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is E. David Redwine's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "E. David Redwine",
+                    "wikipedia_id": 1734908
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Kyriakos Mavronikolas's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Kyriakos Mavronikolas",
+                    "wikipedia_id": 350224
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John Blake, Jr.'s occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "John Blake Jr. (politician)",
+                    "wikipedia_id": 500340
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Amitabh Bachchan's occupation?",
+        "output": {
+            "answer": "film producer, or movie producer, or producer, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Amitabh Bachchan",
+                    "wikipedia_id": 2917223
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Mami Matsui's occupation?",
+        "output": {
+            "answer": "seiy\u016b, or Japanese voice actress, or seiyuu, or seiyu, or Japanese voice actor",
+            "provenance": [
+                {
+                    "title": "Mami Matsui",
+                    "wikipedia_id": 1078555
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Marie-France Mignal's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Marie-France Mignal",
+                    "wikipedia_id": 1080820
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Chiara Zanni's occupation?",
+        "output": {
+            "answer": "voice actor, or voice artist, or voice actress, or voice-over performer, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Chiara Zanni",
+                    "wikipedia_id": 1086261
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is P. J. Moloney's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "P. J. Moloney",
+                    "wikipedia_id": 2384857
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Andreas R\u00fcdiger's occupation?",
+        "output": {
+            "answer": "philosopher",
+            "provenance": [
+                {
+                    "title": "Andreas R\u00fcdiger",
+                    "wikipedia_id": 1312723
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Robert Lewis's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Robert Lewis (MP)",
+                    "wikipedia_id": 2497580
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Arthur W. Rice's occupation?",
+        "output": {
+            "answer": "architect",
+            "provenance": [
+                {
+                    "title": "Arthur W. Rice",
+                    "wikipedia_id": 595563
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Richard Franck's occupation?",
+        "output": {
+            "answer": "composer, or pianist",
+            "provenance": [
+                {
+                    "title": "Richard Franck",
+                    "wikipedia_id": 2280310
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Guillem Ramon de Gironella's occupation?",
+        "output": {
+            "answer": "troubadour",
+            "provenance": [
+                {
+                    "title": "Guillem Ramon de Gironella",
+                    "wikipedia_id": 1213446
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Dima Grigoriev's occupation?",
+        "output": {
+            "answer": "mathematician",
+            "provenance": [
+                {
+                    "title": "Dima Grigoriev",
+                    "wikipedia_id": 1710103
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Grace Frankland's occupation?",
+        "output": {
+            "answer": "microbiologist",
+            "provenance": [
+                {
+                    "title": "Grace Frankland",
+                    "wikipedia_id": 1452864
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Hermann Ahlwardt's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Hermann Ahlwardt",
+                    "wikipedia_id": 2430204
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Alexandre B\u00f3veda's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Alexandre B\u00f3veda",
+                    "wikipedia_id": 1091363
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Paddy Mullins's occupation?",
+        "output": {
+            "answer": "horse trainer, or racehorse trainer",
+            "provenance": [
+                {
+                    "title": "Paddy Mullins",
+                    "wikipedia_id": 2387235
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Alan Mauritz Swanson's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Alan Mauritz Swanson",
+                    "wikipedia_id": 689443
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Harvey William Burk's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Harvey William Burk",
+                    "wikipedia_id": 1909049
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Richard Sandrak's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Richard Sandrak",
+                    "wikipedia_id": 2385818
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Amin Amidu Sulemana's occupation?",
+        "output": {
+            "answer": "diplomat, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Amin Amidu Sulemana",
+                    "wikipedia_id": 447704
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jim Boyd's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Jim Boyd (newscaster)",
+                    "wikipedia_id": 634849
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Nosrat Karimi's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Nosrat Karimi",
+                    "wikipedia_id": 1098171
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ashlie Walker's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Ashlie Walker",
+                    "wikipedia_id": 1459352
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is J\u00f6rg A. Eggers's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "J\u00f6rg A. Eggers",
+                    "wikipedia_id": 114552
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Duilio Forte's occupation?",
+        "output": {
+            "answer": "architect",
+            "provenance": [
+                {
+                    "title": "Duilio Forte",
+                    "wikipedia_id": 1002673
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Petru Vlah's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Petru Vlah",
+                    "wikipedia_id": 2416946
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Richard Howland Hunt's occupation?",
+        "output": {
+            "answer": "architect",
+            "provenance": [
+                {
+                    "title": "Richard Howland Hunt",
+                    "wikipedia_id": 2484862
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Giovanni Grasso's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Giovanni Grasso",
+                    "wikipedia_id": 66557
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Adam Darr's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Adam Darr",
+                    "wikipedia_id": 1141769
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Pierre Abraham's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Pierre Abraham",
+                    "wikipedia_id": 1110137
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Paul Lieber's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Paul Lieber",
+                    "wikipedia_id": 806934
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Rumi's occupation?",
+        "output": {
+            "answer": "philosopher, or poet, or poetess, or bard",
+            "provenance": [
+                {
+                    "title": "Rumi",
+                    "wikipedia_id": 1301510
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Bernard Peiffer's occupation?",
+        "output": {
+            "answer": "pianist",
+            "provenance": [
+                {
+                    "title": "Bernard Peiffer",
+                    "wikipedia_id": 1306549
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Elvin Penner's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Elvin Penner",
+                    "wikipedia_id": 1759972
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Keiko Aizawa's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses, or seiy\u016b, or Japanese voice actress, or seiyuu, or seiyu, or Japanese voice actor",
+            "provenance": [
+                {
+                    "title": "Keiko Aizawa",
+                    "wikipedia_id": 734514
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Rodrigo Arocena's occupation?",
+        "output": {
+            "answer": "mathematician",
+            "provenance": [
+                {
+                    "title": "Rodrigo Arocena",
+                    "wikipedia_id": 1342180
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Robert Florey's occupation?",
+        "output": {
+            "answer": "screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Robert Florey",
+                    "wikipedia_id": 189665
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Petros Efthymiou's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Petros Efthymiou",
+                    "wikipedia_id": 2416888
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Fidel Antu\u00f1a Batista's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Fidel Antu\u00f1a Batista",
+                    "wikipedia_id": 631724
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Billy Flynn's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Billy Flynn (actor)",
+                    "wikipedia_id": 555126
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is \u015eefik Birkiye's occupation?",
+        "output": {
+            "answer": "architect",
+            "provenance": [
+                {
+                    "title": "\u015eefik Birkiye",
+                    "wikipedia_id": 637091
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Isobel Pravda's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Isobel Pravda",
+                    "wikipedia_id": 533627
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Natasha Leggero's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Natasha Leggero",
+                    "wikipedia_id": 689149
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Dorothy Hewett's occupation?",
+        "output": {
+            "answer": "playwright, or dramatist, or playwrite, or scriptwriter, or poet, or poetess, or bard, or novelist",
+            "provenance": [
+                {
+                    "title": "Dorothy Hewett",
+                    "wikipedia_id": 707906
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is William Phillips, Sr.'s occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "William Phillips Sr.",
+                    "wikipedia_id": 2792973
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Michael Jackson's occupation?",
+        "output": {
+            "answer": "record producer, or music producer, or beatboxing, or Human beat box, or film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter, or actor, or actress, or actors, or actresses, or composer, or businessperson, or business person, or dealer, or businesswoman, or business man, or business woman, or businessman, or singer-songwriter, or singer songwriter, or singer/songwriter, or singersongwriter, or singer-songwriter, or poet, or poetess, or bard, or musician, or musical artist, or songwriter, or song writer",
+            "provenance": [
+                {
+                    "title": "Michael Jackson",
+                    "wikipedia_id": 942710
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Rodrigo Cort\u00e9s's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Rodrigo Cort\u00e9s",
+                    "wikipedia_id": 646784
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Richard Rishi's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Richard Rishi",
+                    "wikipedia_id": 2486263
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Seungri's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Seungri",
+                    "wikipedia_id": 1295063
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Toni Jennings's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Toni Jennings",
+                    "wikipedia_id": 2701472
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Switch's occupation?",
+        "output": {
+            "answer": "disc jockey, or DJ, or dee jay, or dj, or D.J., or disk jockey, or dee-jay, or deejay, or disquaire, or discaire",
+            "provenance": [
+                {
+                    "title": "Switch (songwriter)",
+                    "wikipedia_id": 1021941
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Thomas Gifford's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Thomas Gifford (politician)",
+                    "wikipedia_id": 2684206
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is DM Sevilla's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "DM Sevilla",
+                    "wikipedia_id": 1667015
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Sardar Muhammad Yousaf Zaman's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Sardar Muhammad Yousuf",
+                    "wikipedia_id": 2539927
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jaclyn Stapp's occupation?",
+        "output": {
+            "answer": "model, or fashion model, or sitter, or poser",
+            "provenance": [
+                {
+                    "title": "Jaclyn Stapp",
+                    "wikipedia_id": 779348
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Thomas Jefferson Kaye's occupation?",
+        "output": {
+            "answer": "record producer, or music producer, or singer-songwriter, or singer songwriter, or singer/songwriter, or singersongwriter, or singer-songwriter",
+            "provenance": [
+                {
+                    "title": "Thomas Jefferson Kaye",
+                    "wikipedia_id": 2684977
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Pietro Marcenaro's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Pietro Marcenaro",
+                    "wikipedia_id": 1242910
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is William Australia Graham's occupation?",
+        "output": {
+            "answer": "farmer, or agriculturist, or grower, or raiser, or cultivator, or agriculturer, or farmer (occupation), or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "William Australia Graham",
+                    "wikipedia_id": 2785642
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Gino Copped\u00e8's occupation?",
+        "output": {
+            "answer": "architect",
+            "provenance": [
+                {
+                    "title": "Gino Copped\u00e8",
+                    "wikipedia_id": 1821469
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Richard Myers's occupation?",
+        "output": {
+            "answer": "songwriter, or song writer",
+            "provenance": [
+                {
+                    "title": "Richard Myers (songwriter)",
+                    "wikipedia_id": 2485785
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Robert Carson's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Robert Carson (actor)",
+                    "wikipedia_id": 751052
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Conrad Weiser's occupation?",
+        "output": {
+            "answer": "diplomat",
+            "provenance": [
+                {
+                    "title": "Conrad Weiser",
+                    "wikipedia_id": 747778
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Paul Hindemith's occupation?",
+        "output": {
+            "answer": "composer, or concertmaster, or principal violin, or principal violinist, or first chair, or leader",
+            "provenance": [
+                {
+                    "title": "Paul Hindemith",
+                    "wikipedia_id": 1925067
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Carlo Giustini's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Carlo Giustini",
+                    "wikipedia_id": 1184711
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Alfredo Narciso's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Alfredo Narciso",
+                    "wikipedia_id": 1410333
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Lindsay Ellingson's occupation?",
+        "output": {
+            "answer": "model, or fashion model, or sitter, or poser",
+            "provenance": [
+                {
+                    "title": "Lindsay Ellingson",
+                    "wikipedia_id": 873750
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Shelley Wark-Martyn's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Shelley Wark-Martyn",
+                    "wikipedia_id": 2563118
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jos\u00e9 Feliciano's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Jos\u00e9 Feliciano",
+                    "wikipedia_id": 1040727
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Hugo Becker's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Hugo Becker (actor)",
+                    "wikipedia_id": 425460
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Frits Castricum's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Frits Castricum",
+                    "wikipedia_id": 249437
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John Bell's occupation?",
+        "output": {
+            "answer": "surgeon, or surgeons",
+            "provenance": [
+                {
+                    "title": "John Bell (surgeon)",
+                    "wikipedia_id": 1049069
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is David Sharp's occupation?",
+        "output": {
+            "answer": "physician, or physicians, or medical doctor, or medical practitioner, or doctor, or medical doctors",
+            "provenance": [
+                {
+                    "title": "David Sharp (entomologist)",
+                    "wikipedia_id": 2902413
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Galina Starovoytova's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Galina Starovoytova",
+                    "wikipedia_id": 1524938
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Per Risvik's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Per Risvik",
+                    "wikipedia_id": 2409080
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Eleanor Yule's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director",
+            "provenance": [
+                {
+                    "title": "Eleanor Yule",
+                    "wikipedia_id": 1752740
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Claire Adams's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Claire Adams",
+                    "wikipedia_id": 982529
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Agneta Bolme B\u00f6rjefors's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or television presenter, or host, or hostess, or TV host, or television host, or TV presenter, or TV anchor, or television anchor",
+            "provenance": [
+                {
+                    "title": "Agneta Bolme B\u00f6rjefors",
+                    "wikipedia_id": 1107415
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Lothrop Stoddard's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Lothrop Stoddard",
+                    "wikipedia_id": 637546
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is G.E.M.'s occupation?",
+        "output": {
+            "answer": "singer-songwriter, or singer songwriter, or singer/songwriter, or singersongwriter, or singer-songwriter",
+            "provenance": [
+                {
+                    "title": "G.E.M.",
+                    "wikipedia_id": 2206596
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Larry Sitsky's occupation?",
+        "output": {
+            "answer": "composer, or pianist",
+            "provenance": [
+                {
+                    "title": "Larry Sitsky",
+                    "wikipedia_id": 2169648
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Brigitte Bardot's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses, or model, or fashion model, or sitter, or poser",
+            "provenance": [
+                {
+                    "title": "Brigitte Bardot",
+                    "wikipedia_id": 1177511
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Alexander Bogdanov's occupation?",
+        "output": {
+            "answer": "economist, or economists, or journalist, or journo, or journalists, or physician, or physicians, or medical doctor, or medical practitioner, or doctor, or medical doctors, or philosopher",
+            "provenance": [
+                {
+                    "title": "Alexander Bogdanov",
+                    "wikipedia_id": 1100125
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Chris Lang's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Chris Lang",
+                    "wikipedia_id": 413096
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Pamela Winslow's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Pamela Winslow",
+                    "wikipedia_id": 2390107
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Alan Bjerga's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Alan Bjerga",
+                    "wikipedia_id": 1397531
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Tadhg Dall \u00d3 hUiginn's occupation?",
+        "output": {
+            "answer": "poet, or poetess, or bard",
+            "provenance": [
+                {
+                    "title": "Tadhg Dall \u00d3 hUiginn",
+                    "wikipedia_id": 221360
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Leigh Whannell's occupation?",
+        "output": {
+            "answer": "screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Leigh Whannell",
+                    "wikipedia_id": 1401681
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Yannis Ritsos's occupation?",
+        "output": {
+            "answer": "poet, or poetess, or bard",
+            "provenance": [
+                {
+                    "title": "Yiannis Ritsos",
+                    "wikipedia_id": 982363
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Andy C's occupation?",
+        "output": {
+            "answer": "disc jockey, or DJ, or dee jay, or dj, or D.J., or disk jockey, or dee-jay, or deejay, or disquaire, or discaire, or record producer, or music producer",
+            "provenance": [
+                {
+                    "title": "Andy C",
+                    "wikipedia_id": 1235945
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Frequency's occupation?",
+        "output": {
+            "answer": "disc jockey, or DJ, or dee jay, or dj, or D.J., or disk jockey, or dee-jay, or deejay, or disquaire, or discaire, or record producer, or music producer",
+            "provenance": [
+                {
+                    "title": "Frequency (record producer)",
+                    "wikipedia_id": 1826643
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Zoran Ranki\u0107's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Zoran Ranki\u0107",
+                    "wikipedia_id": 325295
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Chitra Bahadur K.C.'s occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Chitra Bahadur K.C.",
+                    "wikipedia_id": 1187609
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ski Beatz's occupation?",
+        "output": {
+            "answer": "record producer, or music producer",
+            "provenance": [
+                {
+                    "title": "Ski Beatz",
+                    "wikipedia_id": 2578644
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Siegfried Czapski's occupation?",
+        "output": {
+            "answer": "physicist",
+            "provenance": [
+                {
+                    "title": "Siegfried Czapski",
+                    "wikipedia_id": 9961
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is George Minor's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "George Minor",
+                    "wikipedia_id": 1849459
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Lord George Hamilton's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Lord George Hamilton",
+                    "wikipedia_id": 1095769
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Mari\u00e1ngel  Carolina Ruiz Diaz's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses, or model, or fashion model, or sitter, or poser",
+            "provenance": [
+                {
+                    "title": "Mari\u00e1ngel Ruiz",
+                    "wikipedia_id": 700086
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Michael Shelley's occupation?",
+        "output": {
+            "answer": "singer-songwriter, or singer songwriter, or singer/songwriter, or singersongwriter, or singer-songwriter",
+            "provenance": [
+                {
+                    "title": "Michael Shelley (musician)",
+                    "wikipedia_id": 2281924
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Anjali Sudhakar's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Anjali Sudhakar",
+                    "wikipedia_id": 1435951
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Greg Miller's occupation?",
+        "output": {
+            "answer": "cartoonist, or graphic artist, or animator, or illustrator, or animator, or animation artist, or cartoonist, or graphic artist, or storyboard artist, or story artist, or visualizer",
+            "provenance": [
+                {
+                    "title": "Greg Miller (animator)",
+                    "wikipedia_id": 1879541
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Rose Beaudet's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Rose Beaudet",
+                    "wikipedia_id": 450993
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jean Gabriel Marie's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Jean Gabriel Marie (1907\u20131970)",
+                    "wikipedia_id": 356988
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ava Deluca-Verley's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Ava Deluca-Verley",
+                    "wikipedia_id": 397181
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Sayaka Ichii's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Sayaka Ichii",
+                    "wikipedia_id": 208638
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is George Birnie Esslemont's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "George Esslemont",
+                    "wikipedia_id": 1845415
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Tiffany Pollard's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Tiffany Pollard",
+                    "wikipedia_id": 1725234
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Shorty Hamilton's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Shorty Hamilton",
+                    "wikipedia_id": 1552082
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ajay Kumar Parida's occupation?",
+        "output": {
+            "answer": "biologist, or biologists",
+            "provenance": [
+                {
+                    "title": "Ajay Kumar Parida",
+                    "wikipedia_id": 453138
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Baruch Steinberg's occupation?",
+        "output": {
+            "answer": "rabbi, or Rav",
+            "provenance": [
+                {
+                    "title": "Baruch Steinberg",
+                    "wikipedia_id": 1324957
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Charles Martin Smith's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Charles Martin Smith",
+                    "wikipedia_id": 2472208
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Bobby Henon's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Bobby Henon",
+                    "wikipedia_id": 1528564
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Erwin Schulhoff's occupation?",
+        "output": {
+            "answer": "composer, or pianist",
+            "provenance": [
+                {
+                    "title": "Erwin Schulhoff",
+                    "wikipedia_id": 2872038
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is A. Lawrence Kocher's occupation?",
+        "output": {
+            "answer": "architect",
+            "provenance": [
+                {
+                    "title": "A. Lawrence Kocher",
+                    "wikipedia_id": 629267
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John Andrew Martin's occupation?",
+        "output": {
+            "answer": "lawyer, or attorney, or solicitor, or barrister, or lawyers, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "John Andrew Martin",
+                    "wikipedia_id": 499316
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Salvador Allende's occupation?",
+        "output": {
+            "answer": "physician, or physicians, or medical doctor, or medical practitioner, or doctor, or medical doctors, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Salvador Allende",
+                    "wikipedia_id": 1312407
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Nandor Balazs's occupation?",
+        "output": {
+            "answer": "physicist",
+            "provenance": [
+                {
+                    "title": "N\u00e1ndor Bal\u00e1zs",
+                    "wikipedia_id": 882234
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Maurice Le Boucher's occupation?",
+        "output": {
+            "answer": "composer, or organist, or organ player",
+            "provenance": [
+                {
+                    "title": "Maurice Le Boucher",
+                    "wikipedia_id": 2114786
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is T. P. Poonatchi's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "T. P. Poonatchi",
+                    "wikipedia_id": 447994
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Joni Jenkins's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Joni Jenkins",
+                    "wikipedia_id": 462088
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Martin Shapiro's occupation?",
+        "output": {
+            "answer": "screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Martin Shapiro",
+                    "wikipedia_id": 392528
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Gabriel Gonsum Ganaka's occupation?",
+        "output": {
+            "answer": "priest, or reverend, or priestess",
+            "provenance": [
+                {
+                    "title": "Gabriel Gonsum Ganaka",
+                    "wikipedia_id": 1832941
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Max Fechner's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Max Fechner",
+                    "wikipedia_id": 2890789
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Augustine Steward's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Augustine Steward",
+                    "wikipedia_id": 1466661
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Andrew Ure's occupation?",
+        "output": {
+            "answer": "chemist, or chemists",
+            "provenance": [
+                {
+                    "title": "Andrew Ure",
+                    "wikipedia_id": 1604224
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Guy Joseph Bonnet's occupation?",
+        "output": {
+            "answer": "major general, or major-general, or MG, or Maj.Gen., or M.Gen., or two-star general, or Major general",
+            "provenance": [
+                {
+                    "title": "Guy Joseph Bonnet",
+                    "wikipedia_id": 1029337
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Rhea Silvia's occupation?",
+        "output": {
+            "answer": "Vestal Virgin",
+            "provenance": [
+                {
+                    "title": "Rhea Silvia",
+                    "wikipedia_id": 761078
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jason Reitman's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "Jason Reitman",
+                    "wikipedia_id": 1037519
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Lewis J. Rachmil's occupation?",
+        "output": {
+            "answer": "film producer, or movie producer, or producer",
+            "provenance": [
+                {
+                    "title": "Lewis J. Rachmil",
+                    "wikipedia_id": 2012212
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ren\u00e9 B\u00e9gin's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Ren\u00e9 B\u00e9gin",
+                    "wikipedia_id": 747877
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Johann Heinrich Lambert's occupation?",
+        "output": {
+            "answer": "astronomer, or physicist, or mathematician",
+            "provenance": [
+                {
+                    "title": "Johann Heinrich Lambert",
+                    "wikipedia_id": 131586
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Robert Jonckheere's occupation?",
+        "output": {
+            "answer": "astronomer",
+            "provenance": [
+                {
+                    "title": "Robert Jonckh\u00e8ere",
+                    "wikipedia_id": 419074
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Klaus Rainer R\u00f6hl's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Klaus Rainer R\u00f6hl",
+                    "wikipedia_id": 2340375
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Yuki Kaida's occupation?",
+        "output": {
+            "answer": "seiy\u016b, or Japanese voice actress, or seiyuu, or seiyu, or Japanese voice actor",
+            "provenance": [
+                {
+                    "title": "Yuki Kaida",
+                    "wikipedia_id": 819189
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Tracy Coogan's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Tracy Coogan",
+                    "wikipedia_id": 2706594
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Arafan Camara's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Arafan Camara",
+                    "wikipedia_id": 950898
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is George Lewis's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "George Lewis (politician)",
+                    "wikipedia_id": 1848887
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Louis O'Dea's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Louis O'Dea",
+                    "wikipedia_id": 2217982
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Mohamed Bazoum's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Mohamed Bazoum",
+                    "wikipedia_id": 1090686
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Dennis Rodman's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Dennis Rodman",
+                    "wikipedia_id": 708379
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Guo Gengmao's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Guo Gengmao",
+                    "wikipedia_id": 1211908
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Derek Ingram Hill's occupation?",
+        "output": {
+            "answer": "priest, or reverend, or priestess",
+            "provenance": [
+                {
+                    "title": "Derek Ingram Hill",
+                    "wikipedia_id": 1702231
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jacques Monasch's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Jacques Monasch",
+                    "wikipedia_id": 801094
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Sebaki Devi Das Tatma's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Sebaki Devi Das Tatma",
+                    "wikipedia_id": 2549196
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Robert Antoine's occupation?",
+        "output": {
+            "answer": "missionary, or Christian missionary",
+            "provenance": [
+                {
+                    "title": "Robert Antoine",
+                    "wikipedia_id": 1124221
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Howard Fowles's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Howard Fowles",
+                    "wikipedia_id": 1984707
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Seif Sharif Hamad's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Seif Sharif Hamad",
+                    "wikipedia_id": 2550809
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Fernanda Vasconcellos's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Fernanda Vasconcellos",
+                    "wikipedia_id": 1092969
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Julia de Asensi's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Julia de Asensi",
+                    "wikipedia_id": 2099989
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is \u0110ur\u0111a Ivezi\u0107's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "\u0110ur\u0111a Ivezi\u0107",
+                    "wikipedia_id": 158769
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Rick Wilson's occupation?",
+        "output": {
+            "answer": "farmer, or agriculturist, or grower, or raiser, or cultivator, or agriculturer, or farmer (occupation), or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Rick Wilson (Australian politician)",
+                    "wikipedia_id": 392225
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John Campbell, 3rd Earl of Breadalbane and Holland's occupation?",
+        "output": {
+            "answer": "diplomat, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "John Campbell, 3rd Earl of Breadalbane and Holland",
+                    "wikipedia_id": 2558084
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ya'akov Ahimeir's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists",
+            "provenance": [
+                {
+                    "title": "Ya'akov Ahimeir",
+                    "wikipedia_id": 2806686
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jean-Baptiste de Lamarck's occupation?",
+        "output": {
+            "answer": "biologist, or biologists",
+            "provenance": [
+                {
+                    "title": "Jean-Baptiste Lamarck",
+                    "wikipedia_id": 2830398
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is James Anderson's occupation?",
+        "output": {
+            "answer": "physician, or physicians, or medical doctor, or medical practitioner, or doctor, or medical doctors",
+            "provenance": [
+                {
+                    "title": "James Anderson (botanist)",
+                    "wikipedia_id": 1826704
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jeet Ganguly's occupation?",
+        "output": {
+            "answer": "composer",
+            "provenance": [
+                {
+                    "title": "Jeet Gannguli",
+                    "wikipedia_id": 2052284
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is \u017darko Petan's occupation?",
+        "output": {
+            "answer": "film director, or movie director, or director, or motion picture director, or screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter",
+            "provenance": [
+                {
+                    "title": "\u017darko Petan",
+                    "wikipedia_id": 1248952
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Akimasa Nakamura's occupation?",
+        "output": {
+            "answer": "astronomer",
+            "provenance": [
+                {
+                    "title": "Akimasa Nakamura",
+                    "wikipedia_id": 1283304
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Thomas Widdrington's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Thomas Widdrington (died 1660)",
+                    "wikipedia_id": 2687244
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Will Smith's occupation?",
+        "output": {
+            "answer": "screenwriter, or scenarist, or writer, or screen writer, or script writer, or scriptwriter, or actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Will Smith (comedian)",
+                    "wikipedia_id": 2784618
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Jean-Marie-Victor Viel's occupation?",
+        "output": {
+            "answer": "architect",
+            "provenance": [
+                {
+                    "title": "Jean-Marie-Victor Viel",
+                    "wikipedia_id": 662588
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Eckart von Hirschhausen's occupation?",
+        "output": {
+            "answer": "physician, or physicians, or medical doctor, or medical practitioner, or doctor, or medical doctors",
+            "provenance": [
+                {
+                    "title": "Eckart von Hirschhausen",
+                    "wikipedia_id": 115302
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Enos Thompson Throop's occupation?",
+        "output": {
+            "answer": "diplomat, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Enos T. Throop",
+                    "wikipedia_id": 2864961
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ali Hillis's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Ali Hillis",
+                    "wikipedia_id": 987396
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Dinesh Singh's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Dinesh Singh (politician)",
+                    "wikipedia_id": 1710718
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Virginia Haviland's occupation?",
+        "output": {
+            "answer": "librarian, or library staff",
+            "provenance": [
+                {
+                    "title": "Virginia Haviland",
+                    "wikipedia_id": 2751331
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Val McLane's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses",
+            "provenance": [
+                {
+                    "title": "Val McLane",
+                    "wikipedia_id": 2739079
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Heinrich Hofmann's occupation?",
+        "output": {
+            "answer": "composer, or pianist",
+            "provenance": [
+                {
+                    "title": "Heinrich Hofmann (composer)",
+                    "wikipedia_id": 1037682
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Frances Josephy's occupation?",
+        "output": {
+            "answer": "journalist, or journo, or journalists, or politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Frances Josephy",
+                    "wikipedia_id": 277992
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Pyotr Lavrov's occupation?",
+        "output": {
+            "answer": "philosopher",
+            "provenance": [
+                {
+                    "title": "Pyotr Lavrov",
+                    "wikipedia_id": 1107971
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Uri Nakayama's occupation?",
+        "output": {
+            "answer": "singer-songwriter, or singer songwriter, or singer/songwriter, or singersongwriter, or singer-songwriter, or hairdresser, or hairstylist, or hair stylist, or hair dresser, or beautician, or hairdressers",
+            "provenance": [
+                {
+                    "title": "Uri Nakayama",
+                    "wikipedia_id": 1158214
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Edward Drinker Cope's occupation?",
+        "output": {
+            "answer": "geologist",
+            "provenance": [
+                {
+                    "title": "Edward Drinker Cope",
+                    "wikipedia_id": 986004
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Edwin N. Hubbell's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Edwin N. Hubbell",
+                    "wikipedia_id": 873117
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Donald Trump's occupation?",
+        "output": {
+            "answer": "actor, or actress, or actors, or actresses, or socialite, or prominent person, or real estate development, or property development, or Real estate development, or politician, or political leader, or political figure, or polit., or pol, or business magnate, or businessperson, or tycoon, or magnate",
+            "provenance": [
+                {
+                    "title": "Donald Trump",
+                    "wikipedia_id": 779697
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is John Williams Tobey's occupation?",
+        "output": {
+            "answer": "architect",
+            "provenance": [
+                {
+                    "title": "John Williams Tobey",
+                    "wikipedia_id": 2085562
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Ivan III Dra\u0161kovi\u0107's occupation?",
+        "output": {
+            "answer": "politician, or political leader, or political figure, or polit., or pol",
+            "provenance": [
+                {
+                    "title": "Ivan III Dra\u0161kovi\u0107",
+                    "wikipedia_id": 2340999
+                }
+            ]
+        }
+    },
+    {
+        "input": "What is Michael's occupation?",
+        "output": {
+            "answer": "priest, or reverend, or priestess",
+            "provenance": [
+                {
+                    "title": "Michael Dahulich",
+                    "wikipedia_id": 2278479
+                }
+            ]
+        }
+    }
+]
