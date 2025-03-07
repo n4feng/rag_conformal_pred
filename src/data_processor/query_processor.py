@@ -56,20 +56,6 @@ class QueryProcessor(IRawDataProcessor):
             if not os.path.exists(output_dir):
                 os.makedirs(output_dir)
 
-            # for file in os.listdir(input_file):
-            #     if file.endswith('.json'):
-            #         with open(f"{input_file}/{file}", 'r', encoding='utf-8') as jsonfile:
-            #             data = json.load(jsonfile)
-            #             queries = []
-            #             for item in data:                                   
-            #                 query = {"input": item['Question'], 
-            #                         "output": {
-            #                                 "answer": item['Must_have'], 
-            #                                 "provenance": [{"title": item['Question']}]}}
-            #                 queries.append(query)
-            #                 with open(f"{output_file}", 'w', encoding='utf-8') as jsonfile:
-            #                     json.dump(queries, jsonfile, indent=4)
-
             for file in os.listdir(input_file):
                 if file.endswith('.json'):
                     with open(f"{input_file}/{file}", 'r', encoding='utf-8') as jsonfile:
