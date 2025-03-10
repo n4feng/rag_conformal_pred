@@ -3,10 +3,13 @@ venv/
 
 # Other files and folders to ignore
 *.pyc
-__pycache__/  
 .*
 *.txt
 *.pyc
 *.faiss
 *.db
 documents
+__pycache__/
+.json
+
+!data/raw/FactScore/names.txt

@@ -82,8 +82,9 @@ class DataLoader:
             print(f'Created database at {output_path}')
 
 
-def load_fact_score_data():
-    raise NotImplementedError
+def load_fact_score_data(output_path: str):
+    # raise NotImplementedError
+    pass
 
 def load_hotpot_qa_data(output_path: str):
     """Load HotpotQA dataset and save validation set to json file."""

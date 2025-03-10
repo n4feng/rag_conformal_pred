@@ -1,158 +1,196 @@
 import os
-import ast
 import json
+import random
 from jsonschema import RefResolver, validate
 
 from src.common.retrieval import DocDB
-from src.common.string_utils import extract_tag_content
 from src.data_processor.raw_data_processor import IRawDataProcessor
+from src.data_processor.fact_score_processor import FactScoreProcessor
+from src.data_processor.hotpot_qa_processor import HotpotQAProcessor
+from src.data_processor.pop_qa_processor import PopQAProcessor
+from src.data_processor.medlf_qa_processor import MedLFQAProcessor
+
 
 class QueryProcessor(IRawDataProcessor):
-    def __init__(self, db_path: str = ""):
-        self.db = DocDB(db_path = db_path, data_path = None)
-    
-    def get_queries(self, dataset: str, input_file: str, output_file: str):
+    """Main query processor that delegates to specific dataset processors"""
+
+    def __init__(
+        self,
+        db_path: str = "data/raw/WikiDB/enwiki-20230401.db",
+        query_size: int = None,
+    ):
+        self.db = DocDB(db_path=db_path, data_path=None)
+        self.dataset = None
+        self.query_size = query_size
+        self.processors = {
+            "fact_score": FactScoreProcessor(),
+            "hotpot_qa": HotpotQAProcessor(),
+            "pop_qa": PopQAProcessor(),
+            "medlf_qa": MedLFQAProcessor(),
+        }
+
+    def get_queries(
+        self,
+        dataset: str,
+        input_file: str,
+        output_dir: str,
+        output_file: str,
+        seed: int = 42,
+    ):
         """
-        Reads raw data from a CSV file and extracts queries, storing them in a JSON file.
+        Reads raw data from a file and extracts queries, storing them in a JSON file.
+        Returns a dictionary mapping query inputs to their answers.
+
+        Args:
+            dataset: The name of the dataset to process
+            input_file: Path to the input file with raw data
+            output_file: Path where processed queries will be saved
+            query_size: Number of queries to sample (None or -1 for all)
+            seed: Random seed for reproducible sampling
+
+        Returns:
+            dict: A dictionary mapping query inputs to their answers
         """
         self.dataset = dataset
+        self.input_file = input_file
 
-        if os.path.exists(output_file):
-            print(f"{output_file} already exists.")
-            return
-        
-        if dataset in ["fact_score", "hotpot_qa", "pop_qa"]:
-            queries = []
-            with open(input_file, 'r', encoding='utf-8') as file:
-            
-                for line in file:
-                    #get base_schema from base_schema.json
-                    if dataset == "fact_score":
-                        title = line.strip()
-                        query = {"input": f"What is {title}'s occupation?", 
-                                "output": {"answer": "", "provenance": [{"title": title}]}}
-                    elif dataset == "hotpot_qa":
-                        data = json.loads(line)
-                        query = {"input": data['input'], 
-                                "output": {
-                                        "answer": data['output'][0]['answer'],
-                                        "provenance": [{"title": item['title'],
-                                                        "wikipedia_id": int(item['wikipedia_id']),} for item in data['output'][0]['provenance']]}}
-                    elif dataset == "pop_qa":
-                        data = json.loads(line)
-                        query = {"input": data['question'], 
-                                "output": {
-                                        "answer": ', or '.join(ast.literal_eval(data['possible_answers'])), 
-                                        "provenance": [{"title": data['s_wiki_title'],
-                                                        "wikipedia_id": data['subj_id'],}]}}
-                
-                with open(output_file, 'w', encoding='utf-8') as jsonfile:
-                    json.dump(queries, jsonfile, indent=4)
+        # Case 1: Output file already exists - load instead of process
+        query_path = os.path.join(output_dir, output_file)
+        if os.path.exists(query_path):
+            print(f"{query_path} already exists.")
+            with open(query_path, "r", encoding="utf-8") as jsonfile:
+                queries = json.load(jsonfile)
 
-        elif dataset == "medlfqa":
-            all_queries = []
-
-            output_dir = os.path.dirname(output_file)
+        # Case 2: Output file doesn't exist - process and save
+        else:
             if not os.path.exists(output_dir):
                 os.makedirs(output_dir)
 
-            for file in os.listdir(input_file):
-                if file.endswith('.json'):
-                    with open(f"{input_file}/{file}", 'r', encoding='utf-8') as jsonfile:
-                        data = json.load(jsonfile)
-                        for item in data:
-                            query = {
-                                "input": item['Question'],
-                                "output": {
-                                    "answer": item['Must_have'],
-                                    "provenance": [{"title": item['Question']}]}
-                            }
-                            all_queries.append(query)
+            # Get the appropriate processor
+            processor = self.processors.get(dataset)
+            if not processor:
+                raise ValueError(f"Unsupported dataset: {dataset}")
 
-            with open(output_file, 'w', encoding='utf-8') as jsonfile:
-                json.dump(all_queries, jsonfile, indent=4)
+            # Process the queries
+            queries = processor.process_queries(input_file)
 
-    def get_documents(self, query_file: str, output_file: str):
+            # Save processed queries
+            with open(query_path, "w", encoding="utf-8") as jsonfile:
+                json.dump(queries, jsonfile, indent=4)
+
+            print(f"Queries saved to {output_file}")
+
+        # Sample queries if needed
+        if self.query_size and self.query_size != -1 and len(queries) > self.query_size:
+            random.seed(seed)
+            sampled_indices = random.sample(range(len(queries)), self.query_size)
+            self.queries = [queries[i] for i in sampled_indices]
+
+            # Write the sampled queries back to the output file
+            query_path = os.path.join(
+                output_dir, f"sampled_{self.query_size}_{output_file}"
+            )
+            with open(query_path, "w", encoding="utf-8") as jsonfile:
+                json.dump(self.queries, jsonfile, indent=4)
+
+        else:
+            self.queries = queries
+
+        # Create input to answer mapping
+        return {
+            query["input"]: query["output"]["answer"] for query in self.queries
+        }, query_path
+
+    def get_documents(self, query_dir: str, output_dir: str, output_file: str) -> str:
         """
         Reads structured query data from a JSON file and generates a corresponding document list.
-        """
-        if os.path.exists(output_file):
-            print(f"{output_file} already exists.")
-            return
 
+        Args:
+            query_dir: Directory containing query data.
+            output_dir: Directory to save the output file.
+            output_file: Name of the output file.
+
+        Returns:
+            Path to the output file.
+        """
+        # Create output directory if it doesn't exist
+        os.makedirs(output_dir, exist_ok=True)
+
+        # Construct output path
+        output_path = os.path.join(
+            output_dir, f"sampled_{self.query_size}_{output_file}"
+        )
+
+        # Return if output file already exists
+        if os.path.exists(output_path):
+            print(f"{output_path} already exists.")
+            return output_path
+
+        # Validate processor exists for the dataset
+        processor = self.processors.get(self.dataset)
+        if not processor:
+            raise ValueError(f"Unsupported dataset: {self.dataset}")
+
+        # Validate schema for specific datasets
+        if self.dataset in ["fact_score", "hotpot_qa", "pop_qa"]:
+            for query in self.queries:
+                self._validate_schema(query)
+
+        # Determine queries to use
+        queries_to_use = None
+        if self.query_size and self.query_size != -1:
+            queries_to_use = self.queries
+
+        # Process documents
+        documents = processor.process_documents(
+            query_dir, self.db, queries_to_use, self.input_file
+        )
+
+        # Save documents to output file
+        with open(output_path, "w", encoding="utf-8") as jsonfile:
+            json.dump(documents, jsonfile, indent=4, ensure_ascii=False)
+
+        print(f"Document list saved to {output_path}.")
+        return output_path
+
+    def _validate_schema(self, query: dict):
+        """Validate a query against schema"""
         base_schema = None
         wiki_schema = None
-        with open("data/processed/base_schema.json", 'r', encoding='utf-8') as schemafile:
+        with open(
+            "data/processed/base_schema.json", "r", encoding="utf-8"
+        ) as schemafile:
             base_schema = json.load(schemafile)
 
-        with open("data/processed/wiki_schema.json", 'r', encoding='utf-8') as schemafile:
+        with open(
+            "data/processed/wiki_schema.json", "r", encoding="utf-8"
+        ) as schemafile:
             wiki_schema = json.load(schemafile)
-        
-        if self.dataset in ["fact_score", "hotpot_qa", "pop_qa"]:
-            documents = {}
-            with open(query_file, 'r', encoding='utf-8') as jsonfile:
-                queries = json.load(jsonfile)
-                for query in queries:
-                    resolver = RefResolver("data/processed/base_schema.json", base_schema)
-                    validate(instance=query, schema=wiki_schema, resolver=resolver)
-                    title = query["output"]["provenance"][0]["title"]
-                    document = self.get_documents_per_query(title)
-                    documents[title] = document
-            
-            with open(output_file, 'w', encoding='utf-8') as jsonfile:
-                json.dump(documents, jsonfile, indent=4)
-        elif self.dataset == "medlfqa":
-            
-            datasets = {}
-            input_file = "data/raw/MedLFQA"
-            for file in os.listdir(input_file):
-                if file.endswith('.json'):
-                    print(f"{input_file}/{file}")
-                    with open(f"{input_file}/{file}", 'r', encoding='utf-8') as jsonfile:
-                        datasets[file] = json.load(jsonfile)
-            
-            documents = {}
-            for name, dataset in datasets.items():
-                for pt in dataset:
-                    pt_docs = []
-                    pt_docs.extend([item.strip() for item in pt["Free_form_answer"].rstrip('.').split('.')])
-                    pt_docs.extend(pt['Nice_to_have'])
-                    documents[pt["Question"]] = pt_docs
-                
-            with open(output_file, 'w', encoding='utf-8') as f:
-                json.dump(documents, f, indent=4, ensure_ascii=False)
 
-        print(f"Document list saved to {output_file}.")
-        
+        resolver = RefResolver("data/processed/base_schema.json", base_schema)
+        validate(instance=query, schema=wiki_schema, resolver=resolver)
 
-    def get_documents_per_query(self, title) -> list:
-        """
-        Returns a list of documents for a given query.
-        """
-        contents = ""
-        try:
-            docs = self.db.get_text_from_title(title)
-            for data in docs:
-                contents += data["text"]
-            return extract_tag_content(contents)
-        except Exception as e:
-            print(f"Error retrieving documents for title {title}: {e}")
-            return []
 
-# Example usage
 if __name__ == "__main__":
-    # processor = QueryProcessor("data/raw/enwiki-20230401.db")
-    # processor.get_queries("fact_score", "data/raw/FactScore/factscore_names.txt", "data/processed/FactScore/fact_score_queries.json")
-    # processor.get_documents("data/processed/FactScore/fact_score_queries.json", "data/processed/FactScore/title_text_map_factscore.txt")
-    
-    # processor = QueryProcessor("data/raw/enwiki-20230401.db")
-    # processor.get_queries("hotpot_qa", "data/raw/HotpotQA/hotpotqa-dev-kilt-500.jsonl", "data/processed/HotpotQA/hotpotqa_queries.json")
-    # processor.get_documents("data/processed/HotpotQA/hotpotqa_queries.json", "data/processed/HotpotQA/title_text_map_hotpotqa.txt")
-    
-    # processor = QueryProcessor("data/raw/enwiki-20230401.db")
-    # processor.get_queries("pop_qa", "data/raw/PopQA/popQA_test.json", "data/processed/PopQA/popqa_queries.json")
-    # processor.get_documents("data/processed/PopQA/popqa_queries.json", "data/processed/PopQA/title_text_map_popqa.txt")
+    # wiki_query_processor = QueryProcessor(db_path="data/raw/WikiDB/enwiki-20230401.db")
+    # wiki_query_processor.get_queries(dataset="fact_score", input_file="data/raw/FactScore/raw_fact_score.json", output_file="data/processed/FactScore/fact_score_queries.json")
+    # wiki_query_processor.get_documents(query_dir="data/processed/FactScore/fact_score_queries.json", output_file="data/processed/FactScore/fact_score_documents.txt")
 
-    processor = QueryProcessor("data/raw/enwiki-20230401.db")
-    processor.get_queries("medlfqa", "data/raw/MedLFQA/", "data/processed/MedLFQA/medlf_qa_queries.json")
-    processor.get_documents("data/processed/MedLFQA/medlf_qa_queries.json", "data/processed/MedLFQA/title_text_map_medlfqa.txt")
+    # wiki_query_processor = QueryProcessor(db_path="data/raw/WikiDB/enwiki-20230401.db")
+    # wiki_query_processor.get_queries(dataset="hotpot_qa", input_file="data/raw/HotpotQA/raw_hotpot_qa.json", output_file="data/processed/HotpotQA/hotpot_qa_queries.json")
+    # wiki_query_processor.get_documents(query_dir="data/processed/HotpotQA/hotpot_qa_queries.json", output_file="data/processed/HotpotQA/hotpot_qa_documents.txt")
+
+    # wiki_query_processor = QueryProcessor(db_path="data/raw/WikiDB/enwiki-20230401.db")
+    # wiki_query_processor.get_queries(dataset="pop_qa", input_file="data/raw/PopQA/raw_pop_qa.json", output_file="data/processed/PopQA/pop_qa_queries.json")
+    # wiki_query_processor.get_documents(query_dir="data/processed/PopQA/pop_qa_queries.json", output_file="data/processed/PopQA/pop_qa_documents.txt")
+
+    medlf_query_processor = QueryProcessor(db_path="data/raw/WikiDB/enwiki-20230401.db")
+    medlf_query_processor.get_queries(
+        dataset="medlf_qa",
+        input_file="data/raw/MedLFQA",
+        output_file="data/processed/MedLFQA/medlf_qa_queries.json",
+    )
+    medlf_query_processor.get_documents(
+        query_dir="data/processed/MedLFQA/medlf_qa_queries.json",
+        output_file="data/processed/MedLFQA/medlf_qa_documents.txt",
+    )
