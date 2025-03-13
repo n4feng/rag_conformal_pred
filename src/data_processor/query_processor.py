@@ -143,7 +143,7 @@ class QueryProcessor(IRawDataProcessor):
 
         # Process documents
         documents = processor.process_documents(
-            query_dir, self.db, queries_to_use, self.input_file
+            query_dir, self.db, queries_to_use, input_file=self.input_file
         )
 
         # Save documents to output file
