@@ -76,7 +76,7 @@ class FactScoreProcessor(IQueryProcessor):
                     else:
                         score = self.scorer.score(subclaim["subclaim"])
                     subclaim["scores"].append(
-                        {"type": self.scorer.get_type(), "score": score}
+                        {"type": self.scorer.get_type(), "score": float(score)}
                     )
 
         with open(subclaim_file, "w", encoding="utf-8") as jsonfile:
@@ -123,11 +123,11 @@ if __name__ == "__main__":
     faiss_manager = FAISSIndexManager()
     # load file manager text into faiss index
     faiss_manager.upsert_file_to_faiss(document_file)
-    scorer = SimilarityScorer(faiss_manager)
+    scorer = SimilarityScorer()
     processor = FactScoreProcessor(faiss_manager, scorer)
     processor.get_subclaims(
         "data/processed/FactScore/sampled_10_fact_score_queries.json",
         "data/out/FactScore/fact_score_10_subclaims.json",
     )
     processor.score_subclaim("data/out/FactScore/fact_score_10_subclaims.json")
-    processor.annotate_subclaim("data/out/FactScore/fact_score_subclaims.json")
+    processor.annotate_subclaim("data/out/FactScore/fact_score_10_subclaims.json")
