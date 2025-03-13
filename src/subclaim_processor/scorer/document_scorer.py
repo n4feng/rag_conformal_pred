@@ -1,7 +1,8 @@
 from abc import abstractmethod
 from typing import List
 from langchain.schema import Document
-from src.evaluating.scorer.base_scorer import IScorer
+from src.subclaim_processor.scorer.base_scorer import IScorer
+
 
 class IDocumentScorer(IScorer):
 

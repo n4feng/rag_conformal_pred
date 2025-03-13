@@ -7,30 +7,43 @@ from sklearn.metrics.pairwise import cosine_similarity
 from src.common.faiss_manager import FAISSIndexManager
 from src.common.file_manager import FileManager
 from src.common.llm.openai_atomicfact_generator import OpenAIAtomicFactGenerator
-from src.evaluating.scorer.document_scorer import IDocumentScorer
+from src.subclaim_processor.scorer.document_scorer import IDocumentScorer
+
 
 class SimilarityScorer(IDocumentScorer):
-    def __init__(self, faiss_manager, model="text-embedding-3-large"):
-        self.model = model
-        self.faiss_manager = FAISSIndexManager()
+    def __init__(
+        self,
+        embedding_model="text-embedding-3-large",
+        index_path="index_store/index.faiss",
+        indice2fm_path="index_store/indice2fm.json",
+    ):
+        self.embedding_model = embedding_model
+        self.faiss_manager = FAISSIndexManager(
+            index_path=index_path, indice2fm_path=indice2fm_path
+        )
         self.gen = OpenAIAtomicFactGenerator()
-        self.faiss_manager = faiss_manager
 
-    def create_embedding(self, file_path):
+    def create_or_update_index(self, file_path):
         file_manager = FileManager(file_path)
-        #only process the file and dump the documents if ..._texts.json metadata file is not created
-        if(not file_manager.texts):
-            with open(file_path, 'r', encoding='utf-8') as f:
-            # Load the file content as a dictionary
+        # only process the file and dump the documents if ..._texts.json metadata file is not created
+        if not file_manager.texts:
+            with open(file_path, "r", encoding="utf-8") as f:
+                # Load the file content as a dictionary
                 data = json.load(f)
                 documents = []
                 for title, texts in data.items():
                     # Create embeddings for each text
                     for text in texts:
-                        doc = Document(page_content=title+": "+text, metadata={'source': title, 'file_path': file_path})
+                        doc = Document(
+                            page_content=title + ": " + text,
+                            metadata={"source": title, "file_path": file_path},
+                        )
                         documents.append(doc)
                 file_manager.dump_documents(documents)
-        self.faiss_manager.upsert_file_to_faiss(file_manager, self.model)
+        self.faiss_manager.upsert_file_to_faiss(file_manager, self.embedding_model)
+
+    def delete_faiss_index(self):
+        self.faiss_manager.delete_index()
 
     def query_model(self, prompt, model, max_tokens=1000, temperature=0, n_samples=1):
         messages = [{"role": "user", "content": prompt}]
@@ -48,36 +61,54 @@ class SimilarityScorer(IDocumentScorer):
         doc_scores = []
         for doc in retrived_docs:
             parsed_doc = self.faiss_manager.parse_result(doc)
-            claim_embedding = self.faiss_manager.openaiManager.client.embeddings.create(input=[claim], model=self.model)
-            claim_vector = np.array(claim_embedding.data[0].embedding).astype('float32').reshape(1, -1)
-            doc_embedding = self.faiss_manager.index.reconstruct(parsed_doc['indice'])
-            doc_scores.append(parsed_doc["score"] * cosine_similarity(claim_vector, doc_embedding.reshape(1, -1))[0][0])
+            claim_embedding = self.faiss_manager.openaiManager.client.embeddings.create(
+                input=[claim], model=self.embedding_model
+            )
+            claim_vector = (
+                np.array(claim_embedding.data[0].embedding)
+                .astype("float32")
+                .reshape(1, -1)
+            )
+            doc_embedding = self.faiss_manager.index.reconstruct(parsed_doc["indice"])
+            doc_scores.append(
+                parsed_doc["score"]
+                * cosine_similarity(claim_vector, doc_embedding.reshape(1, -1))[0][0]
+            )
         return 0 if len(retrived_docs) == 0 else max(doc_scores)
-    
-    def say_less(self, prompt, thresholds, model='gpt-4'):
+
+    def say_less(self, prompt, thresholds, model="gpt-4"):
         """
         say_less takes in the model prompt, generate output, breaks it down into subclaims, and removes sub-claims up to the threshold value.
         """
         output = ""
         retrieved_docs = self.faiss_manager.search_faiss_index(prompt, 10, 0.3)
-        output = self.faiss_manager.generate_response_from_context(prompt, retrieved_docs)
+        output = self.faiss_manager.generate_response_from_context(
+            prompt, retrieved_docs
+        )
         atomicFacts = self.gen.get_facts_from_text(output)
         subclaims_with_score = []
         for fact in atomicFacts:
-            purefact = fact.rpartition(':')[0] if ':' in fact else fact
+            purefact = fact.rpartition(":")[0] if ":" in fact else fact
             score = self.score(purefact, retrieved_docs)
-            #store purefact and score pair into list
+            # store purefact and score pair into list
             subclaims_with_score.append((purefact, score))
         accepted_subclaims_per_threshold = []
         mergerd_output_per_threshold = []
         for threshold in thresholds:
-            accepted_subclaims = [subclaim for subclaim in subclaims_with_score if subclaim[1] > threshold]
+            accepted_subclaims = [
+                subclaim for subclaim in subclaims_with_score if subclaim[1] > threshold
+            ]
             mergerd_output = self.merge_subclaims(accepted_subclaims, model, prompt)
             accepted_subclaims_per_threshold.append(accepted_subclaims)
             mergerd_output_per_threshold.append(mergerd_output)
-        return (output, mergerd_output_per_threshold, subclaims_with_score, accepted_subclaims_per_threshold)
-    
-    def default_merge_prompt( subclaims, prompt):
+        return (
+            output,
+            mergerd_output_per_threshold,
+            subclaims_with_score,
+            accepted_subclaims_per_threshold,
+        )
+
+    def default_merge_prompt(subclaims, prompt):
         claim_string = "\n".join(
             [str(i) + ": " + subclaim[0] for i, subclaim in enumerate(subclaims)]
         )
@@ -98,20 +129,28 @@ class SimilarityScorer(IDocumentScorer):
         return output
 
 
-#python -m rag.scorer.wikitexts_embedding --file_path 'index_store/magazine/title_text_map.txt'
 def main():
-    parser = argparse.ArgumentParser(description="transfer wiki text into embedding format.")
-    parser.add_argument("--file_path", required=True, type=str, help="path to the wiki text file")
+    parser = argparse.ArgumentParser(
+        description="transfer wiki text into embedding format."
+    )
+    parser.add_argument(
+        "--file_path", required=True, type=str, help="path to the wiki text file"
+    )
     args = parser.parse_args()
 
     wikitexts_embedding = SimilarityScorer()
     wikitexts_embedding.create_embedding(args.file_path)
-    query = "Which magazine was started first Arthur\'s Magazine or First for Women?"
-    retrieved_docs = wikitexts_embedding.faiss_manager.search_faiss_index(query, top_k=10)
+    query = "Which magazine was started first Arthur's Magazine or First for Women?"
+    retrieved_docs = wikitexts_embedding.faiss_manager.search_faiss_index(
+        query, top_k=10
+    )
     print(retrieved_docs)
-    response = wikitexts_embedding.faiss_manager.generate_response_from_context(query, retrieved_docs)
+    response = wikitexts_embedding.faiss_manager.generate_response_from_context(
+        query, retrieved_docs
+    )
     print(response)
     print(wikitexts_embedding.score(query, retrieved_docs))
+
 
 if __name__ == "__main__":
     print("Running wikitexts_embedding.py")
