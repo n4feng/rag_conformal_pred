@@ -1,6 +1,0 @@
-ruff
-openai
-numpy
-matplotlib
-scipy
-datasets
