@@ -563,7 +563,7 @@ class DynamicConditionalConformalCalibration(ConditionalConformalCalibration):
                 results_for_alpha[0].append(1 - alpha)
                 results_for_alpha[1].append(fraction_correct)
             results.append(results_for_alpha)
-            with open(f"test_data_thresholds_alpha={alpha:.2f}.json", "w") as fopen:
+            with open(f"data/out/dynamic/test_data_thresholds_alpha={alpha:.2f}.json", "w") as fopen:
                 json.dump(self.test_data_thresholds, fopen)
             self.test_data_thresholds = {}
         return results   
