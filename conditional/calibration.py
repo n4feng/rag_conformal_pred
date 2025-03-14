@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 from math import ceil
 from abc import ABC, abstractmethod
+from collections import defaultdict
+from src.common.faiss_manager import FAISSIndexManager
 
 # Constants
 METHOD_SUPPORT_CONDITION = ['similarity', 'gpt']
@@ -149,7 +151,7 @@ class ConformalCalibration(ICalibration):
 
     def _compute_results(self, data, alphas, a, confidence_method, pre_defined_group=None):
         results = []
-        for alpha in alphas:
+        for alpha in tqdm(alphas):
             results_for_alpha = [[], []]
             for i in range(len(data)):
                 calibration_data = data[:i] + data[i + 1 :]
@@ -235,7 +237,7 @@ class ConformalCalibration(ICalibration):
     
     def _process_calibration(self, data, alphas, a, confidence_method):
         results = []
-        for alpha in alphas:
+        for alpha in tqdm(alphas):
             results_for_alpha = [[], []]
             for _ in range(1000):
                 random.shuffle(data)
@@ -278,12 +280,7 @@ class ConditionalConformalCalibration(ConformalCalibration):
             return
         
         print(f"Producing conditional conformal plot: {fig_filename}")
-        # this will run almost same logic in ConformalCalibration, but with different calculate_correctness_and_removal implmentation in this class
         self._calibrate_removal(dataset_prefixs, confidence_method, datasets, alphas, a, fig_filename, csv_filename, suffix="_conditional")
-    
-    def calculate_correctness_and_removal(self, data, alphas, a, confidence_method):
-        pre_defined_group = self._group_data(data)
-        return self._compute_results(data, alphas, a, confidence_method, pre_defined_group)
 
     def _compute_results(self, data, alphas, a, confidence_method, pre_defined_group=None):
         pre_defined_group = self._group_data(data)
@@ -310,8 +307,7 @@ class ConditionalConformalCalibration(ConformalCalibration):
                 group_threshold_cache = {}
                 random.shuffle(data)
                 calibration_data, test_data = self.split_each_group(data)
-                pre_defined_group = self._regroup_calibration_data(calibration_data)
-                accepted_subclaim_list = self._get_group_accepted_subclaims(test_data, pre_defined_group, alpha, a, confidence_method, group_threshold_cache)
+                accepted_subclaim_list = self._get_group_accepted_subclaims(test_data, calibration_data, alpha, a, confidence_method, group_threshold_cache)
                 fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
                 results_for_alpha[0].append(1 - alpha)
                 results_for_alpha[1].append(fraction_correct)
@@ -319,28 +315,25 @@ class ConditionalConformalCalibration(ConformalCalibration):
         return results
 
     # Make sure the split calibrate_range ratio are all same not just in overall level but in group level
+    # not return data in list but in a map with each group name as key
     def split_each_group(self, data, calibrate_range=0.5):
-        group_data = {}
-        calibration_data = []
+        group_data = defaultdict(list)
+        calibration_data = defaultdict(list)
         test_data = []
+
         for entry in data:
             group = entry["groups"][0]  # Use first group as default
-            group_data.setdefault(group, []).append(entry)
-        for group_entries in group_data.values():
+            group_data[group].append(entry)
+
+        for group, group_entries in group_data.items():
             split_index = ceil(len(group_entries) * calibrate_range)
-            calibration_data.extend(group_entries[:split_index])
+            calibration_data[group].extend(group_entries[:split_index])
             test_data.extend(group_entries[split_index:])
+
         return calibration_data, test_data
 
-    def _regroup_calibration_data(self, calibration_data):
-        pre_defined_group = {}
-        for item in calibration_data:
-            for group in item['groups']:
-                pre_defined_group.setdefault(group, []).append(item)
-        return pre_defined_group
-
     # Calibrate based on group own threshold
-    def _get_group_accepted_subclaims(self, test_data, pre_defined_group, alpha, a, confidence_method, group_threshold_cache):
+    def _get_group_accepted_subclaims(self, test_data, calibration_data, alpha, a, confidence_method, group_threshold_cache):
         accepted_subclaim_list = []
         for test_data_point in test_data:
             threshold = 1.0
@@ -348,7 +341,7 @@ class ConditionalConformalCalibration(ConformalCalibration):
                 if group in group_threshold_cache:
                     group_tresh = group_threshold_cache[group]
                 else:
-                    group_tresh = compute_threshold(alpha, pre_defined_group[group], a, confidence_method)
+                    group_tresh = compute_threshold(alpha, calibration_data[group], a, confidence_method)
                     group_threshold_cache[group] = group_tresh
                 threshold = min(threshold, group_tresh)
             accepted_subclaim_list.append(
@@ -370,7 +363,7 @@ class ConditionalConformalCalibrationWithGroup(ConditionalConformalCalibration):
             if confidence_method not in METHOD_SUPPORT_CONDITION:
                 continue
             data = datasets[dataset_prefix]
-            results = self.calculate_correctness_and_removal(data, alphas, a, confidence_method)
+            results = self._compute_results(data, alphas, a, confidence_method)
             self._process_results(dataset_prefix, results, csv_filename, suffix="_conditional")
             self._process_group_results(dataset_prefix, results, csv_filename)
         
@@ -397,7 +390,7 @@ class ConditionalConformalCalibrationWithGroup(ConditionalConformalCalibration):
         plt.scatter(x_point, y_point, color="black", marker="*", s=235, label="Base factuality", zorder=1000)
 
 
-    def calculate_correctness_and_removal(self, data, alphas, a, confidence_method):
+    def _compute_results(self, data, alphas, a, confidence_method):
         """
         Calculates correctness and fraction removed for a dataset over a range of alphas.
 
@@ -458,9 +451,8 @@ class ConditionalConformalCalibrationWithGroup(ConditionalConformalCalibration):
                 group_threshold_cache = {}
                 random.shuffle(data)
                 calibration_data, test_data = self.split_each_group(data)
-                pre_defined_group = self._regroup_calibration_data(calibration_data)
                 accepted_subclaim_list, accepted_subclaim_list_pergroup = self._get_group_accepted_subclaims_with_groups(
-                    test_data, pre_defined_group, alpha, a, confidence_method, group_threshold_cache
+                    test_data, calibration_data, alpha, a, confidence_method, group_threshold_cache
                 )
                 fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
                 results_for_alpha[0].append(1 - alpha)
@@ -471,7 +463,7 @@ class ConditionalConformalCalibrationWithGroup(ConditionalConformalCalibration):
             results.append(results_for_alpha)
         return results
 
-    def _get_group_accepted_subclaims_with_groups(self, test_data, pre_defined_group, alpha, a, confidence_method, group_threshold_cache):
+    def _get_group_accepted_subclaims_with_groups(self, test_data, calibration_data, alpha, a, confidence_method, group_threshold_cache):
         accepted_subclaim_list = []
         accepted_subclaim_list_pergroup = {}
         for test_data_point in test_data:
@@ -480,7 +472,7 @@ class ConditionalConformalCalibrationWithGroup(ConditionalConformalCalibration):
                 if group in group_threshold_cache:
                     group_tresh = group_threshold_cache[group]
                 else:
-                    group_tresh = compute_threshold(alpha, pre_defined_group[group], a, confidence_method)
+                    group_tresh = compute_threshold(alpha, calibration_data[group], a, confidence_method)
                     group_threshold_cache[group] = group_tresh
                     accepted_subclaim_list_pergroup[group] = []
                 threshold = min(threshold, group_tresh)
@@ -492,3 +484,103 @@ class ConditionalConformalCalibrationWithGroup(ConditionalConformalCalibration):
             for group in test_data_point['groups']:
                 accepted_subclaim_list_pergroup[group].append(accepted_subclaims)
         return accepted_subclaim_list, accepted_subclaim_list_pergroup
+    
+class DynamicConditionalConformalCalibration(ConditionalConformalCalibration):
+    """
+    First dynamicly form group of calibration data based on retrived document type
+    Then use that group to calculate threshold for test data
+    """
+    def __init__(self):
+        self.faiss_manager = FAISSIndexManager()
+        self.test_data_thresholds = {}
+        self.doc_fraction_cache = {}
+
+    def calibrate_removal(self, dataset_prefixs, confidence_method, datasets, alphas, a, fig_filename, csv_filename):
+        if confidence_method not in METHOD_SUPPORT_CONDITION:
+            return
+        
+        print(f"Producing conditional conformal plot: {fig_filename}")
+        self._calibrate_removal(dataset_prefixs, confidence_method, datasets, alphas, a, fig_filename, csv_filename, suffix="_conditional")
+        
+    def _dynamic_group_data(self, entry, group_data, group_size=500):
+        calibration_data = []
+        group_target_size = {}
+        if entry["prompt"] in self.doc_fraction_cache:
+            group_target_size =  self.doc_fraction_cache[entry["prompt"]]
+        else:
+            retrieved_docs = self.faiss_manager.search_faiss_index(entry["prompt"], 10, 0.3)
+            parsed_docs = [self.faiss_manager.parse_result(doc) for doc in retrieved_docs]
+            #count each filepath in metadata
+            doc_count = defaultdict(int)
+            for doc in parsed_docs:  
+                doc_count[doc['metadata']['file_path']] += 1
+            total_docs = len(parsed_docs)
+            #calculate fraction of each group
+            group_target_size = {k: ceil(v / total_docs * group_size) for k, v in doc_count.items()}
+            self.doc_fraction_cache[entry["prompt"]] = group_target_size
+
+        # Randomly sample the data to match target size
+        for filename, size in group_target_size.items():
+            for group in group_data.keys():
+                if group.lower() in filename.lower():
+                    if len(group_data[group]) < size:
+                        calibration_data.extend(group_data[group])
+                    else:
+                        calibration_data.extend(random.sample(group_data[group], size))
+        
+        return calibration_data
+    
+    def _compute_results(self, data, alphas, a, confidence_method, pre_defined_group=None):
+        results = []
+        group_data = defaultdict(list)
+        for item in data:
+            groups = item['groups']
+            for group in groups:
+                group_data[group].append(item)
+        for alpha in tqdm(alphas):
+            results_for_alpha = [[], []]
+            for i in range(len(data)):
+                test_data = data[i]
+                # dynamicly form calibration data
+                calibration_data = self._dynamic_group_data(test_data, group_data)
+                threshold = compute_threshold(alpha, calibration_data, a, confidence_method)
+                correctness, fraction_removed = self._evaluate_test_data(test_data, threshold, a, confidence_method)
+                results_for_alpha[0].append(correctness)
+                results_for_alpha[1].append(fraction_removed)
+            results.append(results_for_alpha)
+        return results
+    
+    def _process_calibration(self, data, alphas, a, confidence_method):
+        results = []
+        for alpha in tqdm(alphas):
+            #too time consuming to do customize calibration for each test data
+            results_for_alpha = [[], []]
+            for _ in range(1000):
+                random.shuffle(data)
+                calibration_data, test_data = self.split_each_group(data)
+                accepted_subclaim_list = self._get_group_accepted_subclaims(test_data, calibration_data, alpha, a, confidence_method)
+                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
+                results_for_alpha[0].append(1 - alpha)
+                results_for_alpha[1].append(fraction_correct)
+            results.append(results_for_alpha)
+            with open(f"test_data_thresholds_alpha={alpha:.2f}.json", "w") as fopen:
+                json.dump(self.test_data_thresholds, fopen)
+            self.test_data_thresholds = {}
+        return results   
+    
+    # Calibrate based on each test data customized calibration set
+    def _get_group_accepted_subclaims(self, test_data, calibration_data, alpha, a, confidence_method):
+        accepted_subclaim_list = []
+        for test_data_point in test_data:
+            selected_calibration_data = self._dynamic_group_data(test_data_point, calibration_data)
+            threshold = compute_threshold(alpha, selected_calibration_data, a, confidence_method)
+            # Track threshold per test_data["prompt"]
+            prompt = test_data_point["prompt"]
+            if prompt not in self.test_data_thresholds:
+                self.test_data_thresholds[prompt] = []
+            self.test_data_thresholds[prompt].append(f"{threshold:.5f}")
+            accepted_subclaim_list.append(
+                [subclaim for subclaim in test_data_point["claims"]
+                 if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold]
+            )
+        return accepted_subclaim_list
