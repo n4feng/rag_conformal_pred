@@ -3,11 +3,17 @@ import json
 import csv
 import random
 import matplotlib.pyplot as plt
+import os
+import diskcache as dc
+from dotenv import load_dotenv
 from tqdm import tqdm
 from math import ceil
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from src.common.faiss_manager import FAISSIndexManager
+from sklearn.metrics.pairwise import cosine_similarity
+from openai import OpenAI
+
 
 # Constants
 METHOD_SUPPORT_CONDITION = ['similarity', 'gpt']
@@ -30,6 +36,46 @@ def compute_threshold(alpha, calibration_data, a, confidence_method):
     quantile_target_index = ceil((len(r_scores) + 1) * (1 - alpha))
     threshold = sorted(r_scores)[quantile_target_index - 1]
     return threshold
+
+# Common base functions used everywhere
+def compute_weighted_threshold(alpha, calibration_data, calibration_data_weight, a, confidence_method):
+    """
+    Computes the quantile/threshold from conformal prediction.
+    # alpha: float in (0, 1)
+    # calibration_data: calibration data
+    # calibration_data_weight: calibration data weight, same length as calibration_data
+    # a: as in paper, required fraction correct, section 4.1
+    # confidence_method: string
+    """
+    # Compute r score for each example.
+    r_scores = [get_r_score(entry, confidence_method, a) for entry in calibration_data]
+
+    return weighted_quantile(r_scores, calibration_data_weight, alpha)
+
+def weighted_quantile(x, w, p):
+    """
+    Compute the accurate weighted (1 - p)th quantile by explicitly tilting the dataset.
+
+    Parameters:
+        x (array-like): intrinsic score value.
+        w (array-like): Corresponding weights.
+        p (float): Quantile level (e.g., 0.95 for 95th percentile).
+
+    Returns:
+        int or float: The exact weighted quantile.
+    """
+    x, w = np.asarray(x), np.asarray(w)
+    assert len(x) == len(w), "x and w must have the same length"
+    assert 0 <= p <= 1, "p must be in [0, 1]"
+    
+    # Scale weights to determine repetition count
+    repetitions = np.round(np.clip(w, 0, None) * 10).astype(int)  # Scale by 10 and round
+    expanded_x = np.repeat(x, repetitions)
+    expanded_x.sort()
+
+    # Compute the (1 - p) quantile index
+    quantile_index = int(np.floor((1 - p) * len(expanded_x)))
+    return expanded_x[quantile_index]  # Return the exact quantile value
 
 def get_r_score(entry, confidence_method, a):
     """
@@ -98,6 +144,9 @@ def append_result_to_csv(csv_filename, label, y, yerr):
     with open(csv_filename, mode="a", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(row)
+
+def make_key(s1, s2):
+    return tuple(sorted([s1, s2]))
 
 class ICalibration(ABC):
     """
@@ -271,6 +320,83 @@ class ConformalCalibration(ICalibration):
         correctness_list = [entailed_fraction >= a for entailed_fraction in entailed_fraction_list]
         return sum(correctness_list) / len(correctness_list)
 
+class WeightedConformalCalibration(ConformalCalibration):
+    def __init__(self, embedding_model = "text-embedding-3-large"):
+        super().__init__()
+        self.prompt_embedding_cache = dc.Cache("data/cache/prompt_embedding")
+        dotenv_path = os.path.join(os.getcwd(), '.env')
+        load_dotenv(dotenv_path)
+        self.client = OpenAI()
+        self.weight_cache = {} #key is  sorted than concat prompts
+        self.embedding_model = embedding_model
+
+    def _compute_results(self, data, alphas, a, confidence_method, pre_defined_group=None):
+        results = []
+        for alpha in tqdm(alphas):
+            #record threshold per datapoint
+            threshold_record = {}
+            results_for_alpha = [[], []]
+            for i in range(len(data)):
+                calibration_data = data[:i] + data[i + 1 :]
+                test_data = data[i]
+                threshold = self._compute_group_threshold(alpha, calibration_data, test_data, a, confidence_method)
+                threshold_record[test_data["prompt"]] = threshold
+                correctness, fraction_removed = self._evaluate_test_data(test_data, threshold, a, confidence_method)
+                results_for_alpha[0].append(correctness)
+                results_for_alpha[1].append(fraction_removed)
+            results.append(results_for_alpha)
+            with open(f"data/out/dynamic/threshold_record_{alpha:.2f}.json", "w") as fopen:
+                json.dump(threshold_record, fopen, indent=4)
+        return results
+    
+    def _compute_group_threshold(self, alpha, calibration_data, test_data, a, confidence_method, pre_defined_group=None):
+        weight = []
+        for entry in calibration_data:
+            key = make_key(entry["prompt"], test_data["prompt"])
+            if key in self.weight_cache:
+                weight.append(self.weight_cache[key])
+            else:
+                test_data_embedding = None
+                if test_data["prompt"] in self.prompt_embedding_cache:
+                    test_data_embedding = self.prompt_embedding_cache[test_data["prompt"]]
+                else:
+                    test_data_embedding = self.client.embeddings.create(input=[test_data["prompt"]], model=self.embedding_model)
+                    self.prompt_embedding_cache[test_data["prompt"]] = test_data_embedding
+                test_vector = np.array(test_data_embedding.data[0].embedding).astype('float32').reshape(1, -1)
+                calibration_data_embedding = None
+                if entry["prompt"] in self.prompt_embedding_cache:
+                    calibration_data_embedding = self.prompt_embedding_cache[entry["prompt"]]
+                else:
+                    calibration_data_embedding = self.client.embeddings.create(input=[entry["prompt"]], model=self.embedding_model)
+                    self.prompt_embedding_cache[entry["prompt"]] = calibration_data_embedding
+                calibration_vector = np.array(calibration_data_embedding.data[0].embedding).astype('float32').reshape(1, -1)
+                cal_weight = cosine_similarity(test_vector, calibration_vector)[0][0]
+                self.weight_cache[key] = cal_weight
+                weight.append(cal_weight)
+        return compute_weighted_threshold(alpha, calibration_data, weight, a, confidence_method)
+    
+    def _process_calibration(self, data, alphas, a, confidence_method):
+        results = []
+        for alpha in tqdm(alphas):
+            results_for_alpha = [[], []]
+            for _ in range(1000):
+                random.shuffle(data)
+                split_index = len(data) // 2
+                calibration_data = data[:split_index]
+                test_data = data[split_index:]
+                accepted_subclaim_list = []
+                for entry in test_data:
+                    threshold = self._compute_group_threshold(alpha, calibration_data, entry, a, confidence_method)
+                    accepted_subclaim_list.append(
+                        [subclaim for subclaim in entry["claims"]
+                         if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold]
+                    )
+                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
+                results_for_alpha[0].append(1 - alpha)
+                results_for_alpha[1].append(fraction_correct)
+            results.append(results_for_alpha)
+        return results
+
 class ConditionalConformalCalibration(ConformalCalibration):
     """
     Implementation of conditional conformal calibration.
@@ -301,7 +427,7 @@ class ConditionalConformalCalibration(ConformalCalibration):
     
     def _process_calibration(self, data, alphas, a, confidence_method):
         results = []
-        for alpha in tqdm(alphas):
+        for alpha in alphas:
             results_for_alpha = [[], []]
             for _ in range(1000):
                 group_threshold_cache = {}

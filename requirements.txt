@@ -6,3 +6,5 @@ PyPDF2
 langchain
 transformers
 sentence-transformers
+diskcache
+matplotlib
