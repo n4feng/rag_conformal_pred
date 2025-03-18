@@ -23,28 +23,6 @@ class SimilarityScorer(IDocumentScorer):
         )
         self.gen = OpenAIAtomicFactGenerator()
 
-    def create_or_update_index(self, file_path):
-        file_manager = FileManager(file_path)
-        # only process the file and dump the documents if ..._texts.json metadata file is not created
-        if not file_manager.texts:
-            with open(file_path, "r", encoding="utf-8") as f:
-                # Load the file content as a dictionary
-                data = json.load(f)
-                documents = []
-                for title, texts in data.items():
-                    # Create embeddings for each text
-                    for text in texts:
-                        doc = Document(
-                            page_content=title + ": " + text,
-                            metadata={"source": title, "file_path": file_path},
-                        )
-                        documents.append(doc)
-                file_manager.dump_documents(documents)
-        self.faiss_manager.upsert_file_to_faiss(file_manager, self.embedding_model)
-
-    def delete_faiss_index(self):
-        self.faiss_manager.delete_index()
-
     def query_model(self, prompt, model, max_tokens=1000, temperature=0, n_samples=1):
         messages = [{"role": "user", "content": prompt}]
         completion = self.faiss_manager.openaiManager.client.chat.completions.create(
@@ -112,7 +90,7 @@ class SimilarityScorer(IDocumentScorer):
         claim_string = "\n".join(
             [str(i) + ": " + subclaim[0] for i, subclaim in enumerate(subclaims)]
         )
-        return f"You will get an instruction and a set of facts that are true. Construct an answer using ONLY the facts provided, and try to use all facts as long as its possible. If no facts are given, reply to the instruction incorporating the fact that you dont know enough to fully respond. \n\nThe facts:\n{claim_string}\n\nThe instruction:\n{prompt}"
+        return f"You will get an instruction and a set of facts that are true. Construct an answer using ONLY the facts provided, and try to use all facts as long as its possible. If no facts are given, reply to the instruction incorporating the fact that you don't know enough to fully respond. \n\nThe facts:\n{claim_string}\n\nThe instruction:\n{prompt}"
 
     def merge_subclaims(
         self, subclaims, model, prompt, create_merge_prompt=default_merge_prompt

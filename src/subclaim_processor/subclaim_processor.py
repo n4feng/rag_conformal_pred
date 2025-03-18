@@ -1,4 +1,5 @@
 import json
+from tqdm import tqdm
 from jsonschema import RefResolver, validate
 from src.subclaim_processor.query_processor import IQueryProcessor
 from src.common.llm.openai_rag_agent import OpenAIRAGAgent
@@ -11,12 +12,13 @@ from src.common.faiss_manager import FAISSIndexManager
 from src.common.file_manager import FileManager
 
 
-class FactScoreProcessor(IQueryProcessor):
+class SubclaimProcessor(IQueryProcessor):
     def __init__(
         self,
         faiss_manager,
         scorer: IScorer,
     ):
+        self.faiss_manager = faiss_manager
         self.response_agent = OpenAIRAGAgent(faiss_manager)
         self.generator = OpenAIAtomicFactGenerator()
         self.verifier = OpenAIClaimVerification()
@@ -27,19 +29,27 @@ class FactScoreProcessor(IQueryProcessor):
             self.subclaim_schema = json.load(schemafile)
 
     def get_subclaims(self, query_file: str, subclaims_file: str):
+        self.subclaims_file = subclaims_file
         with open(query_file, "r", encoding="utf-8") as jsonfile:
             queries = json.load(jsonfile)
 
         with open(subclaims_file, "w", encoding="utf-8") as subclaimsfile:
             subclaimsfile.write("[\n")
 
-        for i, query in enumerate(queries):
+        for i, query in enumerate(tqdm(queries, desc="Processing queries")):
             question = query["input"]
-            response = self.response_agent.answer(question)
+
+            # document retrieval
+            self.retrieved_docs = retrieved_docs = (
+                self.faiss_manager.search_faiss_index(question, top_k=10, threshold=0.3)
+            )
+
+            response = self.response_agent.answer(question, retrieved_docs)
             subclaims = self.generator.get_facts_from_text(response)
             subclaims_entry = {
                 "query": question,
                 "gld_ans": query["output"]["answer"],
+                "retrieved_docs": retrieved_docs,
                 "response": response,
                 "subclaims": [],
             }
@@ -48,8 +58,8 @@ class FactScoreProcessor(IQueryProcessor):
                 subclaims_entry["subclaims"].append(
                     {
                         "subclaim": subclaim,
-                        "scores": [],  # Add logic to populate scores if available
-                        "annotations": [],  # Add logic to populate annotations if available
+                        "scores": {},  # Add logic to populate scores if available
+                        "annotations": {},  # Add logic to populate annotations if available
                     }
                 )
 
@@ -60,38 +70,34 @@ class FactScoreProcessor(IQueryProcessor):
 
         with open(subclaims_file, "a", encoding="utf-8") as subclaimsfile:
             subclaimsfile.write("\n]")
+        print(f"Query responses saved to {subclaims_file}.")
 
-    def score_subclaim(self, subclaim_file: str):
-        with open(subclaim_file, "r", encoding="utf-8") as jsonfile:
+    def score_subclaim(self):
+        with open(self.subclaims_file, "r", encoding="utf-8") as jsonfile:
             subclaims_data = json.load(jsonfile)
-            for entry in subclaims_data:
+            for entry in tqdm(subclaims_data, desc="Scoring subclaims"):
                 validate(instance=entry, schema=self.subclaim_schema)
                 for subclaim in entry["subclaims"]:
                     score = 0.0
                     if isinstance(self.scorer, IDocumentScorer):
-                        retrived_docs = self.scorer.faiss_manager.search_faiss_index(
-                            entry["query"], 10, 0.3
+                        score = self.scorer.score(
+                            subclaim["subclaim"], self.retrieved_docs
                         )
-                        score = self.scorer.score(subclaim["subclaim"], retrived_docs)
                     else:
                         score = self.scorer.score(subclaim["subclaim"])
-                    subclaim["scores"].append(
-                        {"type": self.scorer.get_type(), "score": float(score)}
-                    )
+                    subclaim["scores"][self.scorer.get_type()] = float(score)
 
-        with open(subclaim_file, "w", encoding="utf-8") as jsonfile:
+        with open(self.subclaims_file, "w", encoding="utf-8") as jsonfile:
             json.dump(subclaims_data, jsonfile, indent=4)
+        print(f"Subclaims with scores saved to {self.subclaims_file}.")
 
-    def annotate_subclaim(self, subclaim_file):
-        with open(subclaim_file, "r", encoding="utf-8") as jsonfile:
+    def annotate_subclaim(self):
+        with open(self.subclaims_file, "r", encoding="utf-8") as jsonfile:
             subclaims_data = json.load(jsonfile)
-            for entry in subclaims_data:
+            for entry in tqdm(subclaims_data, desc="Annotating subclaims"):
                 validate(instance=entry, schema=self.subclaim_schema)
-                retrieved_docs = self.scorer.faiss_manager.search_faiss_index(
-                    entry["query"], 10, 0.3
-                )
                 doc_contents = []
-                for doc in retrieved_docs:
+                for doc in self.retrieved_docs:
                     try:
                         # Split the document string into page_content and metadata
                         doc_parts = doc.split("metadata=")
@@ -106,11 +112,10 @@ class FactScoreProcessor(IQueryProcessor):
                     annotation = self.verifier.annotate(
                         entry["query"], entry["gld_ans"], context, subclaim["subclaim"]
                     )
-                    subclaim["annotations"].append(
-                        {"type": "gpt", "annotation": annotation}
-                    )
-        with open(subclaim_file, "w", encoding="utf-8") as jsonfile:
+                    subclaim["annotations"]["gpt"] = annotation
+        with open(self.subclaims_file, "w", encoding="utf-8") as jsonfile:
             json.dump(subclaims_data, jsonfile, indent=4)
+        print(f"Subclaims with annotations saved to {self.subclaims_file}.")
 
 
 # Example usage
@@ -119,15 +124,14 @@ if __name__ == "__main__":
         "data/processed/FactScore/sampled_10_fact_score_documents.txt"
     )
     # load the txt file into file manager
-    document_file.process_wiki_embedding()
     faiss_manager = FAISSIndexManager()
     # load file manager text into faiss index
     faiss_manager.upsert_file_to_faiss(document_file)
     scorer = SimilarityScorer()
-    processor = FactScoreProcessor(faiss_manager, scorer)
+    processor = SubclaimProcessor(faiss_manager, scorer)
     processor.get_subclaims(
         "data/processed/FactScore/sampled_10_fact_score_queries.json",
         "data/out/FactScore/fact_score_10_subclaims.json",
     )
-    processor.score_subclaim("data/out/FactScore/fact_score_10_subclaims.json")
-    processor.annotate_subclaim("data/out/FactScore/fact_score_10_subclaims.json")
+    processor.score_subclaim()
+    processor.annotate_subclaim()
