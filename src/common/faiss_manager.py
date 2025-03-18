@@ -55,8 +55,10 @@ class FAISSIndexManager:
     def delete_index(self):
         self.index.reset()
         self.indice2fm = {}
-        os.remove(self.index_path)
-        os.remove(self.indice2fm_path)
+        if os.path.exists(self.index_path):
+            os.remove(self.index_path)
+        if os.path.exists(self.indice2fm_path):
+            os.remove(self.indice2fm_path)
         print("FAISS index deleted.")
 
     def upsert_file_to_faiss(self, file_manager, model="text-embedding-3-large"):
@@ -70,7 +72,7 @@ class FAISSIndexManager:
 
         # Process the file if necessary
         if not file_manager.texts:
-            file_manager.process_pdf()
+            file_manager.process_wiki_document()
 
         # Generate embeddings and append to index if not already present
         if not file_manager.file_path in self.indice2fm:
@@ -150,18 +152,34 @@ class FAISSIndexManager:
                 )
 
                 if file_manager:
-                    # Get the text from the file_manager
-                    text = file_manager.texts[relative_idx][
-                        1
-                    ]  # Assuming (index, text) tuples in file_manager.texts
-                    results.append(
-                        f"{text} indice={idx} fileposition={relative_idx} score={dist:.4f}"
-                    )
+                    # Process the file if necessary
+                    file_manager.process_wiki_document()
+                    try:
+                        # Get the text from the file_manager
+                        text = file_manager.texts[relative_idx][
+                            1
+                        ]  # Assuming (index, text) tuples in file_manager.texts
+                        results.append(
+                            f"{text} indice={idx} fileposition={relative_idx} score={dist:.4f}"
+                            # TODO reformat this
+                            # {
+                            #     "text": text,
+                            #     "indice": idx,
+                            #     "fileposition": relative_idx,
+                            #     "score": round(dist, 4),
+                            # }
+                        )
+                    except:
+                        print(
+                            "Error while retriving id={relative_idx} from file manager. Skipping over id={relative_idx}."
+                        )
+
                 else:
                     results.append(
                         f"File manager not found for '{file_path_found}' score={dist:.4f}"
                     )
             else:
+                # TODO reformat this
                 results.append(f"Index not mapped, score={dist:.4f}")
 
         return results
