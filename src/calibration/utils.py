@@ -6,10 +6,10 @@ from math import ceil
 CORRECT_ANNOTATIONS = ["Y", "S"]
 
 
-def load_calibration(file_path):
-    """Load calibration data from a JSONL file"""
-    with open(file_path, "r") as file:
-        return [json.loads(line) for line in file]
+def load_subclaim_data(file_path):
+    """Load calibration data from a JSON file"""
+    with open(file_path, "r", encoding="utf-8") as file:
+        return json.load(file)
 
 
 def append_result_to_csv(csv_filename, label, y, yerr):
@@ -26,9 +26,8 @@ def _get_accepted_subclaims(entry, threshold, confidence_method):
     """Helper function to get accepted subclaims based on threshold"""
     return [
         subclaim
-        for subclaim in entry["claims"]
-        if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0)
-        >= threshold
+        for subclaim in entry["subclaims"]
+        if subclaim["scores"][confidence_method] >= threshold
     ]
 
 
@@ -37,13 +36,16 @@ def _calculate_entailed_fraction(subclaims):
     if not subclaims:
         return 1.0
     return np.mean(
-        [subclaim["annotation"] in CORRECT_ANNOTATIONS for subclaim in subclaims]
+        [
+            subclaim["annotations"]["gpt"] in CORRECT_ANNOTATIONS
+            for subclaim in subclaims
+        ]
     )
 
 
-def get_r_score(entry, confidence_method, a):
+def get_r_score(entry: list, confidence_method: str, a: float):
     """
-    Compute the r_a score for entry when confidence_method is used as the sub-claim scoring function.
+    Compute the r_a score for each data entry when confidence_method is used as the sub-claim scoring function.
 
     This function calculates the minimum threshold at which the fraction of correct subclaims
     falls below the required threshold 'a'. The r_a score represents the confidence score
@@ -70,10 +72,7 @@ def get_r_score(entry, confidence_method, a):
     if r_score_key in entry:
         return entry[r_score_key]
 
-    scores = [
-        subclaim[confidence_method + "-score"] + subclaim.get("noise", 0)
-        for subclaim in entry["claims"]
-    ]
+    scores = [subclaim["scores"][confidence_method] for subclaim in entry["subclaims"]]
     threshold_set = sorted(scores, reverse=True)
 
     for threshold in threshold_set:
@@ -106,5 +105,5 @@ def compute_threshold(alpha, calibration_data, a, confidence_method):
     sorted_r_scores = sorted(
         [get_r_score(entry, confidence_method, a) for entry in calibration_data]
     )
-    quantile_target_index = ceil((len(sorted_r_scores) + 1) * (1 - alpha)) - 1
+    quantile_target_index = ceil((len(sorted_r_scores)) * (1 - alpha)) - 1
     return sorted_r_scores[quantile_target_index]

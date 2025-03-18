@@ -1,18 +1,16 @@
 import os
 import argparse
-import json
 import numpy as np
-from tqdm import tqdm
-from datetime import datetime
 
 from src.dataloader.dataloader import DataLoader
 from src.data_processor.query_processor import QueryProcessor
+from src.common.file_manager import FileManager
+from src.common.faiss_manager import FAISSIndexManager
 from src.subclaim_processor.scorer.similarity_scorer import SimilarityScorer
+from src.subclaim_processor.subclaim_processor import SubclaimProcessor
+from src.calibration.utils import load_subclaim_data
+from src.calibration.conformal import SplitConformalCalibration
 
-from src.calibration.conformal import ConformalCalibration
-from src.calibration.utils import load_calibration
-
-from src.common.llm.openai_atomicfact_generator import OpenAIAtomicFactGenerator
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -24,7 +22,7 @@ if __name__ == "__main__":
         choices=["fact_score", "hotpot_qa", "pop_qa", "medlf_qa"],
     )
     parser.add_argument(
-        "--wiki_db_dir",
+        "--wiki_db_file",
         type=str,
         default="enwiki-20230401.db",
         help="Name of the Wiki database file",
@@ -35,27 +33,24 @@ if __name__ == "__main__":
     parser.add_argument(
         "--delete_existing_index", action="store_true", help="Delete Faiss index"
     )
-    # parser.add_argument(
-    #     "--embedding_model",
-    #     type=str,
-    #     default="text-embedding-3-large",
-    #     help="Name of the embedding model for Faiss index",
-    # )
-    # parser.add_argument(
-    #     "--retrieve_top_k", type=int, default=10, help="Number of documents to retrieve"
-    # )
-    # parser.add_argument(
-    #     "--run_standard_conformal_prediction",
-    #     action="store_true",
-    #     help="Run full conformal prediction",
-    # )
-    # parser.add_argument(
-    #     "--run_group_conditional_conformal",
-    #     action="store_true",
-    #     help="Run group conditional conformal prediction",
-    # )
-    # parser.add_argument("--a", type=float, default=1.0)
-    # parser.add_argument("--confidence_methods", type=str, default="similarity")
+    parser.add_argument(
+        "--embedding_model",
+        type=str,
+        default="text-embedding-3-large",
+        help="Name of the embedding model for Faiss index",
+    )
+    parser.add_argument(
+        "--run_split_conformal_prediction",
+        action="store_true",
+        help="Run full conformal prediction",
+    )
+    parser.add_argument(
+        "--run_group_conditional_conformal",
+        action="store_true",
+        help="Run group conditional conformal prediction",
+    )
+    parser.add_argument("--a", type=float, default=1.0)
+    parser.add_argument("--confidence_methods", type=str, default="similarity")
     args = parser.parse_args()
 
     ####################################### Data and Folder Set up ############################################
@@ -63,9 +58,9 @@ if __name__ == "__main__":
     conformal_alphas = np.arange(0.05, 0.45, 0.05)
 
     DATASET_CONFIG = {
-        "fact_score": {"name": "FactScore", "index_store": "index_store/Wiki"},
-        "hotpot_qa": {"name": "HotpotQA", "index_store": "index_store/Wiki"},
-        "pop_qa": {"name": "PopQA", "index_store": "index_store/Wiki"},
+        "fact_score": {"name": "FactScore", "index_store": "index_store/FactScore"},
+        "hotpot_qa": {"name": "HotpotQA", "index_store": "index_store/HotpotQA"},
+        "pop_qa": {"name": "PopQA", "index_store": "index_store/PopQA"},
         "medlf_qa": {"name": "MedLFQA", "index_store": "index_store/MedLFQA"},
     }
 
@@ -81,11 +76,11 @@ if __name__ == "__main__":
     raw_data_dir = os.path.join("data", "raw", dataset_name)
     processed_data_dir = os.path.join("data", "processed", dataset_name)
     response_dir = os.path.join("data", "out", dataset_name)
-    wiki_data_dir = os.path.join("data", "raw", "WikiDB", args.wiki_db_dir)
+    wiki_db_path = os.path.join("data", "raw", "WikiDB", args.wiki_db_file)
 
-    # Check if wiki database exists early # TODO remove this check if dataset is not Wiki - need to fix DocDB class accordingly
-    if not os.path.isfile(wiki_data_dir):
-        raise FileNotFoundError(f"Database file '{wiki_data_dir}' not found.")
+    # set up results directory
+    for dir in [raw_data_dir, processed_data_dir, response_dir]:
+        os.makedirs(dir, exist_ok=True)
 
     # Determine raw data file path
     if args.dataset == "medlfqa":
@@ -97,43 +92,39 @@ if __name__ == "__main__":
 
     # Load data if needed
     if not os.path.exists(raw_data_path):
-        # Create directories if they don't exist
-        os.makedirs(raw_data_dir, exist_ok=True)
-
         data_loader = DataLoader(args.dataset)
         data_loader.load_qa_data(ouptut_path=raw_data_path)
 
-        wiki_db_path = os.path.join("data", "raw", "WikiDB", args.wiki_db_dir)
-        if not os.path.exists(wiki_db_path):
-            wiki_source = (
-                "data/raw/WikiDB/enwiki-20171001-pages-meta-current-withlinks-abstracts"
-            )
-            wiki_output = "data/raw/WikiDB/enwiki_20190113.db"
-            data_loader.create_wiki_db(source_path=wiki_source, output_path=wiki_output)
+    # create wiki db if needed
+    if not os.path.exists(wiki_db_path) or not os.path.isfile(wiki_db_path):
+        wiki_source = (
+            "data/raw/WikiDB/enwiki-20171001-pages-meta-current-withlinks-abstracts"
+        )
+        if not os.path.exists(wiki_source):
+            raise FileNotFoundError(f"Wiki source data not found at {wiki_source}")
+        data_loader.create_wiki_db(source_path=wiki_source, output_path=wiki_db_path)
 
     # Process queries and documents
-    if args.dataset == "medlf_qa":
-        input_file = os.path.join("data", "raw", "MedLFQA")
-    else:
-        input_file = raw_data_path
+    input_file = (
+        os.path.join("data", "raw", "MedLFQA")
+        if args.dataset == "medlf_qa"
+        else raw_data_path
+    )
     query_output_file = f"{args.dataset}_queries.json"
     document_output_file = f"{args.dataset}_documents.txt"
 
-    # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    raw_response_path = os.path.join(
-        response_dir, f"{args.dataset}_{args.query_size}_raw_response.json"
-    )
     subclaims_path = os.path.join(
         response_dir, f"{args.dataset}_{args.query_size}_subclaims_with_scores.json"
     )
-    result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.confidence_methods}_a={args.a:.2f}_removal_fig.png"
+    CP_result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.confidence_methods}_a={args.a:.2f}_CP_removal.png"
+    factual_result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.confidence_methods}_a={args.a:.2f}_factual_removal.png"
     result_path = f"data/result/{dataset_name}/{args.dataset}_{args.confidence_methods}_a={args.a:.2f}_removal.csv"
     ####################################### End of Data and Folder Set up ######################################
 
     # Create directories if they don't exist
     os.makedirs(processed_data_dir, exist_ok=True)
 
-    query_processor = QueryProcessor(db_path=wiki_data_dir, query_size=args.query_size)
+    query_processor = QueryProcessor(db_path=wiki_db_path, query_size=args.query_size)
 
     # Create queries data
     queries, query_path = query_processor.get_queries(
@@ -151,138 +142,86 @@ if __name__ == "__main__":
         output_file=document_output_file,
     )
 
-    # # Index creation and retrieval
-    # # TODO: break apart embedding and scorer
-    # wikitexts_embedding = SimilarityScorer(
-    #     embedding_model=args.embedding_model,
-    #     index_path=f"{index_store_dir}/index.faiss",
-    #     indice2fm_path=f"{index_store_dir}/indice2fm.json",
-    # )
+    # Index creation and retrieval
+    index_file_path = os.path.join(index_store_dir, "index.faiss")
+    indice2fm_path = os.path.join(index_store_dir, "indice2fm.json")
+    faiss_manager = FAISSIndexManager(
+        index_path=index_file_path, indice2fm_path=indice2fm_path
+    )
+    if args.delete_existing_index:
+        faiss_manager.delete_index()
 
-    # if args.delete_existing_index:
-    #     wikitexts_embedding.faiss_manager.delete_faiss_index()
-    # # create index if it does not exist
+    # Create index if it does not exist
+    print(document_path)
+    document_file = FileManager(document_path)
 
-    # if not os.path.exists(f"{index_store_dir}/index.faiss"):
-    #     wikitexts_embedding.create_or_update_index(document_path)
-    # elif (
-    #     document_path not in wikitexts_embedding.faiss_manager.indice2fm.keys()
-    #     and wikitexts_embedding.faiss_manager.is_indice_align()
-    # ):
-    #     print(
-    #         f"There has exist an index, However, document '{document_path}' is not indexed. Adding it to the index store."
-    #     )
-    #     wikitexts_embedding.create_or_update_index(document_path)
+    # If Index doesn't exist yet
+    if not os.path.exists(index_file_path):
+        try:
+            faiss_manager.upsert_file_to_faiss(document_file)
+            print(f"Created new index with document '{document_path}'")
+        except Exception as e:
+            raise RuntimeError(f"Failed to create new index: {str(e)}")
 
-    # # check if index and indice2fm are aligned
-    # if not wikitexts_embedding.faiss_manager.is_indice_align():
-    #     raise ValueError("Index and indice2fm are not aligned.")
+    # If Index exists but current document isn't indexed
+    elif document_path not in faiss_manager.indice2fm:
+        # Verify index integrity
+        if not faiss_manager.is_indice_align():
+            raise ValueError(
+                "Index corruption detected: index and indice2fm are not aligned"
+            )
 
-    # # query the index and generate response
-    # responses = {}
-    # retrieved_docs_all = {}
-    # for query in tqdm(queries.keys(), desc="Processing queries"):
-    #     retrieved_docs = wikitexts_embedding.faiss_manager.search_faiss_index(
-    #         query, top_k=10
-    #     )
-    #     retrieved_docs_all[query] = retrieved_docs
-    #     response = wikitexts_embedding.faiss_manager.generate_response_from_context(
-    #         query, retrieved_docs
-    #     )
-    #     responses[query] = response
+        try:
+            print(f"Adding document '{document_path}' to existing index")
+            faiss_manager.upsert_file_to_faiss(document_file)
+        except Exception as e:
+            raise RuntimeError(f"Failed to add document to index: {str(e)}")
 
-    # # set up results directory
-    # if not os.path.exists(response_dir):
-    #     os.makedirs(response_dir)
+    # Case 3: Document is already indexed
+    else:
+        print(f"Document '{document_path}' is already indexed")
 
-    # # baseline scoring of the responses without removing subclaims
-    # for query, docs in retrieved_docs_all.items():
-    #     similarity_score = wikitexts_embedding.score(query, docs)
+    # generate subclaims with scores
+    scorer = SimilarityScorer(
+        embedding_model=args.embedding_model,
+        index_path=f"{index_store_dir}/index.faiss",
+        indice2fm_path=f"{index_store_dir}/indice2fm.json",
+    )
 
-    #     # Load existing responses if the file exists
-    #     existing_responses = {}
-    #     if os.path.exists(raw_response_path):
-    #         with open(raw_response_path, "r", encoding="utf-8") as f:
-    #             for line in f:
-    #                 record = json.loads(line)
-    #                 existing_responses[record["query"]] = record
+    if not os.path.exists(
+        subclaims_path
+    ):  # TODO check if score and annotations are non empty
+        processor = SubclaimProcessor(faiss_manager, scorer)
+        processor.get_subclaims(query_path, subclaims_path)
+        processor.score_subclaim()
+        processor.annotate_subclaim()
+    else:  # TODO check if subclaim data is valid json and non empty for score and annotation
+        print(f"Subclaims data already exists in {subclaims_path}.")
 
-    #     # Append new responses only if they are not already in the file
-    #     with open(raw_response_path, "a", encoding="utf-8") as f:
-    #         for query, response in responses.items():
-    #             if query not in existing_responses:
-    #                 f.write(
-    #                     json.dumps(
-    #                         {
-    #                             "query": query,
-    #                             "response": response,
-    #                             "similarity_score": f"{similarity_score:.2f}",
-    #                         }
-    #                     )
-    #                     + "\n"
-    #                 )
+    # calibration and conformal prediction results
+    data = load_subclaim_data(subclaims_path)
 
-    # print(f"Raw responses saved to '{raw_response_path}'")
+    if args.run_split_conformal_prediction:
+        # TODO rename class
+        conformal = SplitConformalCalibration(
+            dataset_name=args.dataset, confidence_method=args.confidence_methods
+        )
+        conformal.plot_conformal_removal(
+            data=data,
+            alphas=conformal_alphas,
+            a=args.a,
+            fig_filename=CP_result_fig_path,
+            csv_filename=result_path,
+        )
+        conformal.plot_factual_removal(
+            data=data,
+            alphas=conformal_alphas,
+            a=args.a,
+            fig_filename=factual_result_fig_path,
+            csv_filename=result_path,
+        )
 
-    # # generate subclaims from the response
-    # if not os.path.exists(subclaims_path):
-    #     print(f"Generating subclaims at '{subclaims_path}'")
-    #     with open(subclaims_path, "w", encoding="utf-8") as f:
-    #         f.write("")
-    #     # generate subclaims if not exist
-    #     gen = OpenAIAtomicFactGenerator()
-    #     for query, response in responses.items():
-    #         atomicFacts = gen.get_facts_from_text(response)
-    #         subclaims_score = {}
-    #         for fact in atomicFacts:
-    #             purefact = fact.rpartition(":")[0] if ":" in fact else fact
-    #             score = wikitexts_embedding.score(purefact, retrieved_docs)
-    #             subclaims_score[purefact] = float(score)
-
-    #         subclaims_score = sorted(
-    #             subclaims_score.items(), key=lambda x: x[1], reverse=True
-    #         )
-    #         ground_truth_answer = queries[query]
-    #         raw_score = float(
-    #             wikitexts_embedding.score(
-    #                 query + " " + ground_truth_answer, retrieved_docs
-    #             )
-    #         )
-    #         with open(subclaims_path, "a", encoding="utf-8") as f:
-    #             f.write(
-    #                 json.dumps(
-    #                     {
-    #                         "query": query,
-    #                         "answer": ground_truth_answer,
-    #                         "calibrate_score": f"{raw_score:.2f}",
-    #                         "response": response,
-    #                         "subclaims_score": subclaims_score,
-    #                     }
-    #                 )
-    #                 + "\n"
-    #             )
-
-    #     print(f"Subclaims saved to '{subclaims_path}'")
-    # else:
-    #     print(f"Subclaims already exist at '{subclaims_path}'")
-
-    # # calibration and conformal prediction results
-    # data = load_calibration(subclaims_path)
-
-    # if args.run_standard_conformal_prediction:
-    #     conformal = ConformalCalibration(
-    #         dataset_name=args.dataset, confidence_method=args.confidence_methods
-    #     )
-    # elif args.run_group_conditional_conformal:
-    #     raise NotImplementedError("Group conditional conformal not implemented")
-    # else:
-    #     raise ValueError("Invalid calibration method")
-
-    # conformal.plot_conformal_removal(
-    #     data,
-    #     conformal_alphas,
-    #     args.a,
-    #     result_fig_path,
-    #     result_path,
-    #     plot_group_results=False,
-    # )
+    elif args.run_group_conditional_conformal:
+        raise NotImplementedError("Group conditional conformal not implemented")
+    else:
+        raise ValueError("Invalid calibration method")
