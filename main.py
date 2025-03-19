@@ -7,8 +7,7 @@ from src.data_processor.query_processor import QueryProcessor
 from src.common.file_manager import FileManager
 from src.common.faiss_manager import FAISSIndexManager
 from src.subclaim_processor.scorer.similarity_scorer import SimilarityScorer
-from src.subclaim_processor.subclaim_processor import SubclaimProcessor
-from src.calibration.utils import load_subclaim_data
+from src.subclaim_processor.subclaim_processor import process_subclaims
 from src.calibration.conformal import SplitConformalCalibration
 
 
@@ -143,8 +142,8 @@ if __name__ == "__main__":
     )
 
     # Index creation and retrieval
-    index_file_path = os.path.join(index_store_dir, "index.faiss")
-    indice2fm_path = os.path.join(index_store_dir, "indice2fm.json")
+    index_file_path = os.path.join(index_store_dir, f"index_{args.query_size}.faiss")
+    indice2fm_path = os.path.join(index_store_dir, f"indice2fm_{args.query_size}.json")
     faiss_manager = FAISSIndexManager(
         index_path=index_file_path, indice2fm_path=indice2fm_path
     )
@@ -184,37 +183,29 @@ if __name__ == "__main__":
     # generate subclaims with scores
     scorer = SimilarityScorer(
         embedding_model=args.embedding_model,
-        index_path=f"{index_store_dir}/index.faiss",
-        indice2fm_path=f"{index_store_dir}/indice2fm.json",
+        index_path=index_file_path,
+        indice2fm_path=indice2fm_path,
     )
 
-    if not os.path.exists(
-        subclaims_path
-    ):  # TODO check if score and annotations are non empty
-        processor = SubclaimProcessor(faiss_manager, scorer)
-        processor.get_subclaims(query_path, subclaims_path)
-        processor.score_subclaim()
-        processor.annotate_subclaim()
-    else:  # TODO check if subclaim data is valid json and non empty for score and annotation
-        print(f"Subclaims data already exists in {subclaims_path}.")
+    subclaim_with_annotation_data = process_subclaims(
+        query_path, subclaims_path, faiss_manager, scorer
+    )
 
     # calibration and conformal prediction results
-    data = load_subclaim_data(subclaims_path)
-
     if args.run_split_conformal_prediction:
         # TODO rename class
         conformal = SplitConformalCalibration(
             dataset_name=args.dataset, confidence_method=args.confidence_methods
         )
         conformal.plot_conformal_removal(
-            data=data,
+            data=subclaim_with_annotation_data,
             alphas=conformal_alphas,
             a=args.a,
             fig_filename=CP_result_fig_path,
             csv_filename=result_path,
         )
         conformal.plot_factual_removal(
-            data=data,
+            data=subclaim_with_annotation_data,
             alphas=conformal_alphas,
             a=args.a,
             fig_filename=factual_result_fig_path,

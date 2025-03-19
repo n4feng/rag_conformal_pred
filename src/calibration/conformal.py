@@ -28,7 +28,7 @@ class SplitConformalCalibration(ICalibration):
 
         # compute the correctness and fraction removed for each alpha
         results = self.compute_conformal_results(data, alphas, a, plot_group_results)
-        x, y, yerr = self.process_results(results, process_removal_rate=True)
+        x, y, yerr = self.process_conformal_removal_results(results)
 
         # write the results to csv file
         self._write_csv_header(csv_filename, alphas)
@@ -49,15 +49,8 @@ class SplitConformalCalibration(ICalibration):
         self, data: list, alphas: np.ndarray, a: float, plot_group_results: bool = False
     ):
 
-        split_index = len(data) // 2
-        calibration_data = data[:split_index]
-        test_data = data[split_index:]
-
-        assert len(calibration_data) != 0, "Calibration data should not be empty"
-        assert len(test_data) != 0, "Test data should not be empty"
-
         results = {}
-        for alpha in alphas:
+        for alpha in tqdm(alphas, desc="Computing conformal results"):
             # TODO add grouping
             groups = None
             if plot_group_results:
@@ -66,46 +59,60 @@ class SplitConformalCalibration(ICalibration):
                     "Plotting by group is currently not supported."
                 )
 
-            threshold = self._compute_threshold_by_group(
-                alpha, calibration_data, a, groups=groups
-            )
+            thresholds = []
+            correctness_list = []
+            fraction_removed_list = []
+            for _ in range(1000):
+                random.shuffle(data)
+                split_index = len(data) // 2
+                calibration_data = data[:split_index]
+                test_data = data[split_index:]
 
-            correctness, fraction_removed = self._evaluate_conformal_correctness(
-                test_data, threshold, a
-            )
+                assert (
+                    len(calibration_data) != 0
+                ), "Calibration data should not be empty"
+                assert len(test_data) != 0, "Test data should not be empty"
+
+                threshold = self._compute_threshold_by_group(
+                    alpha, calibration_data, a, groups=groups
+                )
+
+                correctness, fraction_removed = self._evaluate_conformal_correctness(
+                    test_data, threshold, a
+                )
+                thresholds.append(threshold)
+                correctness_list.append(correctness)
+                fraction_removed_list.append(fraction_removed)
 
             results[alpha] = {
-                "threshold": threshold,
-                "correctness": correctness,
-                "fraction_removed": fraction_removed,
+                "threshold": thresholds,  # TODO: thresholds to be a list, same for correctness and faction removed
+                "correctness": correctness_list,
+                "fraction_removed": fraction_removed_list,
             }
 
         return results
 
-    def process_results(self, results: dict, process_removal_rate: bool):
+    def process_conformal_removal_results(self, results: dict):
         """
         x: list of average correctness
         y: list of average fraction removed
         yerr: list of standard error of fraction removed
         """
-        field = "fraction_removed" if process_removal_rate else "factuality"
         x, y, yerr = [], [], []
         for alpha, results_for_alpha in results.items():
             x_per_alpha = np.mean(
                 results_for_alpha["correctness"]
             )  # correct retainment percentage at a specific alpha value, averaging over all test data points
             y_per_alpha = np.mean(
-                results_for_alpha[field]
+                results_for_alpha["fraction_removed"]
             )  # removal percentage at a specific alpha value, averaging over all test data points
             x.append(x_per_alpha)
             y.append(y_per_alpha)
             yerr.append(
                 (
-                    np.std(results_for_alpha[field])
+                    np.std(results_for_alpha["fraction_removed"])
                     * 1.96
-                    / np.sqrt(len(results_for_alpha[field]))
-                    if process_removal_rate
-                    else 0
+                    / np.sqrt(len(results_for_alpha["fraction_removed"]))
                 )
             )
 
@@ -215,7 +222,7 @@ class SplitConformalCalibration(ICalibration):
         )
 
         results = self.compute_factual_results(data, alphas, a)
-        x, y, yerr = self.process_results(results, process_removal_rate=False)
+        x, y, yerr = self.process_factual_correctness_results(results)
 
         append_result_to_csv(
             csv_filename=csv_filename,
@@ -233,25 +240,55 @@ class SplitConformalCalibration(ICalibration):
     def compute_factual_results(self, data, alphas, a):
         results = {}
         for alpha in tqdm(alphas, desc="Computing factual results"):
+            thresholds = []
             correctness = []
             for _ in range(1000):
                 random.shuffle(data)
                 split_index = len(data) // 2
                 calibration_data = data[:split_index]
                 test_data = data[split_index:]
+
+                assert (
+                    len(calibration_data) != 0
+                ), "Calibration data should not be empty"
+                assert len(test_data) != 0, "Test data should not be empty"
+
                 threshold = self._compute_threshold_by_group(
                     alpha, calibration_data, a, groups=None
                 )
                 fraction_correct = self._evaluate_factual_correctness(
                     test_data, threshold, a
                 )
+                thresholds.append(threshold)
                 correctness.append(fraction_correct)
+
             results[alpha] = {
-                "threshold": threshold,
-                "correctness": np.mean(correctness),
+                "threshold": thresholds,
+                "correctness": correctness,
                 "factuality": 1 - alpha,
             }
         return results
+
+    def process_factual_correctness_results(self, results: dict):
+        """
+        x: confidence level
+        y: list of average factual correctness
+        yerr: list of standard error of factual correctness
+        """
+        x, y, yerr = [], [], []
+        for alpha, results_for_alpha in results.items():
+
+            x.append(1 - alpha)
+            y.append(np.mean(results_for_alpha["correctness"]))
+            yerr.append(
+                (
+                    np.std(results_for_alpha["correctness"])
+                    * 1.96
+                    / np.sqrt(len(results_for_alpha["correctness"]))
+                )
+            )
+
+        return x, y, yerr
 
     def plot_factual_removal_rate_by_alpha(self, x, y, fig_filename):
         plt.plot(x, y, label=self.dataset_name, linewidth=2)
