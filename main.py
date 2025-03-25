@@ -115,9 +115,9 @@ if __name__ == "__main__":
     subclaims_path = os.path.join(
         response_dir, f"{args.dataset}_{args.query_size}_subclaims_with_scores.json"
     )
-    CP_result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.confidence_methods}_a={args.a:.2f}_CP_removal.png"
-    factual_result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.confidence_methods}_a={args.a:.2f}_factual_removal.png"
-    result_path = f"data/result/{dataset_name}/{args.dataset}_{args.confidence_methods}_a={args.a:.2f}_removal.csv"
+    CP_result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.query_size}_{args.confidence_methods}_a={args.a:.2f}_CP_removal.png"
+    factual_result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.query_size}_{args.confidence_methods}_a={args.a:.2f}_factual_removal.png"
+    result_path = f"data/result/{dataset_name}/{args.dataset}_{args.query_size}_{args.confidence_methods}_a={args.a:.2f}_removal.csv"
     ####################################### End of Data and Folder Set up ######################################
 
     # Create directories if they don't exist

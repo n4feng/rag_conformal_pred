@@ -109,8 +109,13 @@ class SubclaimProcessor(IQueryProcessor):
                 # Combine the formatted documents into a single context
                 context = "\n".join(doc_contents)
                 for subclaim in entry["subclaims"]:
+                    gold_answer = (
+                        " ".join(entry["gld_ans"])
+                        if isinstance(entry["gld_ans"], list)
+                        else entry["gld_ans"]
+                    )
                     annotation = self.verifier.annotate(
-                        entry["query"], entry["gld_ans"], context, subclaim["subclaim"]
+                        entry["query"], gold_answer, context, subclaim["subclaim"]
                     )
                     subclaim["annotations"]["gpt"] = annotation
         with open(self.subclaims_file, "w", encoding="utf-8") as jsonfile:
