@@ -14,6 +14,10 @@
         "type": "string",
         "description": "LLM-generated response."
       },
+      "retrieved_docs": {
+        "type": "array",
+        "description": "Document retrival results."
+      },
       "subclaims": {
         "type": "array",
         "description": "Array of subclaims related to the response.",
@@ -25,42 +29,22 @@
               "description": "one subclaim string."
             },
             "scores": {
-              "type": "array",
-              "description": "Optional list of scores associated with the subclaim.",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "description": "The type of score."
-                  },
-                  "score": {
-                    "type": "number",
-                    "description": "The score as a float."
-                  }
-                },
-                "required": ["type", "score"]
-              },
-              "optional": true
+              "type": "object",
+              "properties": {
+                "similarity": {
+                  "type": "number",
+                  "description": "The similarity score associated with the subclaim."
+                }
+              }
             },
             "annotations": {
-              "type": "array",
-              "description": "Optional list of annotations associated with the subclaim.",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "description": "The type of annotation."
-                  },
-                  "annotation": {
-                    "type": "string",
-                    "description": "The annotation text."
-                  }
-                },
-                "required": ["type", "annotation"]
-              },
-              "optional": true
+              "type": "object",
+              "properties": {
+                "gpt": {
+                  "type": "string",
+                  "description": "Annotation provided by GPT."
+                }
+              }
             }
           },
           "required": ["subclaim"]
