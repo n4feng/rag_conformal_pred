@@ -18,9 +18,16 @@ class SplitConformalCalibration(ICalibration):
     Implementation of standard conformal calibration.
     """
 
-    def __init__(self, dataset_name: str, confidence_method: str):
+    def __init__(self, dataset_name: str):
         self.dataset_name = dataset_name
-        self.confidence_method = confidence_method
+        self.confidence_method = [
+            "relavance",
+            "frequency",
+            "cosine_similarity",
+            "min_log_prob",
+            "random",
+            "ordinal",
+        ]
 
     def plot_conformal_removal(
         self, data, alphas, a, fig_filename, csv_filename, plot_group_results=False
@@ -28,68 +35,95 @@ class SplitConformalCalibration(ICalibration):
 
         # compute the correctness and fraction removed for each alpha
         results = self.compute_conformal_results(data, alphas, a, plot_group_results)
-        x, y, yerr = self.process_conformal_removal_results(results)
+        ax = None
+        for confidence_method, result in results.items():
+            correctness, fraction_removed, yerr = (
+                self.process_conformal_removal_results(result)
+            )
 
-        # write the results to csv file
-        self._write_csv_header(csv_filename, alphas)
-        append_result_to_csv(
-            csv_filename=csv_filename,
-            label=f"{self.dataset_name}_factual",
-            y=y,
-            yerr=yerr,
-        )
+            # write the results to csv file
+            self._write_csv_header(csv_filename, alphas)
+            append_result_to_csv(
+                csv_filename=csv_filename,
+                label=f"{confidence_method}_conformal_removal_rate",
+                y=fraction_removed,
+                yerr=yerr,
+            )
 
-        # plot the results
-        print(f"Producing conformal plot: {fig_filename}")
-        self.plot_conformal_removal_rate_by_alpha(
-            self.dataset_name, x, y, yerr, a, fig_filename
-        )
+            # plot the results
+            print(f"Producing conformal plot for {confidence_method}")
+            ax = self.plot_conformal_removal_rate_by_alpha(
+                correctness,
+                fraction_removed,
+                yerr,
+                a,
+                confidence_method,
+                fig_filename,
+                ax,
+            )
+            print(f"Conformal plot saved to {fig_filename}")
 
     def compute_conformal_results(
         self, data: list, alphas: np.ndarray, a: float, plot_group_results: bool = False
     ):
 
+        for entry in data:
+            for subclaim in entry["subclaims"]:
+                subclaim["scores"]["min_log_prob"] = min(subclaim["scores"]["log_prob"])
+                subclaim["scores"]["mean_log_prob"] = np.mean(
+                    subclaim["scores"]["log_prob"]
+                )
+
         results = {}
-        for alpha in tqdm(alphas, desc="Computing conformal results"):
-            # TODO add grouping
-            groups = None
-            if plot_group_results:
-                # groups = test_data["groups"]
-                raise NotImplementedError(
-                    "Plotting by group is currently not supported."
-                )
+        for confidence_method in self.confidence_method:
+            results[confidence_method] = {}
+            for alpha in tqdm(
+                alphas, desc=f"Computing conformal results for {confidence_method}"
+            ):
+                # TODO add grouping
+                groups = None
+                if plot_group_results:
+                    # groups = test_data["groups"]
+                    raise NotImplementedError(
+                        "Plotting by group is currently not supported."
+                    )
 
-            thresholds = []
-            correctness_list = []
-            fraction_removed_list = []
-            for _ in range(1000):
-                random.shuffle(data)
-                split_index = len(data) // 2
-                calibration_data = data[:split_index]
-                test_data = data[split_index:]
+                thresholds = []
+                correctness_list = []
+                fraction_removed_list = []
+                for _ in range(1):  # TODO
+                    random.shuffle(data)
+                    split_index = len(data) // 2
+                    calibration_data = data[:split_index]
+                    test_data = data[split_index:]
 
-                assert (
-                    len(calibration_data) != 0
-                ), "Calibration data should not be empty"
-                assert len(test_data) != 0, "Test data should not be empty"
+                    assert (
+                        len(calibration_data) != 0
+                    ), "Calibration data should not be empty"
+                    assert len(test_data) != 0, "Test data should not be empty"
 
-                threshold = self._compute_threshold_by_group(
-                    alpha, calibration_data, a, groups=groups
-                )
+                    threshold = self._compute_threshold_by_group(
+                        alpha, calibration_data, a, confidence_method, groups=groups
+                    )
 
-                correctness, fraction_removed = self._evaluate_conformal_correctness(
-                    test_data, threshold, a
-                )
-                thresholds.append(threshold)
-                correctness_list.append(correctness)
-                fraction_removed_list.append(fraction_removed)
+                    correctness, fraction_removed = (
+                        self._evaluate_conformal_correctness(
+                            calibration_data, #test_data, 
+                            threshold, a, confidence_method
+                        )
+                    )
+                    thresholds.append(threshold)
+                    correctness_list.append(correctness)
+                    fraction_removed_list.append(fraction_removed)
 
-            results[alpha] = {
-                "threshold": thresholds,  # TODO: thresholds to be a list, same for correctness and faction removed
-                "correctness": correctness_list,
-                "fraction_removed": fraction_removed_list,
-            }
+                results[confidence_method][alpha] = {
+                    "threshold": thresholds,
+                    "correctness": correctness_list,
+                    "fraction_removed": fraction_removed_list,
+                }
+                # print(confidence_method, alpha, f"\n correctness: {correctness}", f"\n fraction_removed: {fraction_removed}")
 
+        
         return results
 
     def process_conformal_removal_results(self, results: dict):
@@ -102,10 +136,10 @@ class SplitConformalCalibration(ICalibration):
         for alpha, results_for_alpha in results.items():
             x_per_alpha = np.mean(
                 results_for_alpha["correctness"]
-            )  # correct retainment percentage at a specific alpha value, averaging over all test data points
+            )  # correct retainment percentage at a specific alpha value, averaging over 1000 times of shuffled data
             y_per_alpha = np.mean(
                 results_for_alpha["fraction_removed"]
-            )  # removal percentage at a specific alpha value, averaging over all test data points
+            )  # removal percentage at a specific alpha value, averaging, averaging over 1000 times of shuffled data
             x.append(x_per_alpha)
             y.append(y_per_alpha)
             yerr.append(
@@ -119,25 +153,37 @@ class SplitConformalCalibration(ICalibration):
         return x, y, yerr
 
     def plot_conformal_removal_rate_by_alpha(
-        self, dataset_name, x, y, yerr, a, fig_filename
+        self, x, y, yerr, a, confidence_method, fig_filename, ax=None
     ):
+        if not ax:
+            fig, ax = plt.subplots(figsize=(8, 6), dpi=800)
+            ax.set_title(
+                f"Conformal Plots for {self.dataset_name} Datasets (a={a})", fontsize=20
+            )
+            x_label = (
+                f"Fraction achieving avg factuality >= {a}"
+                if a != 1
+                else "Fraction of factual outputs"
+            )
+            ax.set_xlabel(x_label, fontsize=16)
+            ax.set_ylabel("Average percent removed", fontsize=16)
+        else:
+            fig = ax.figure
 
-        plt.figure(dpi=800)
-        plt.errorbar(x, y, yerr=yerr, label=dataset_name, linewidth=2)
+        # Plot the data
+        ax.errorbar(x, y, yerr=yerr, label=confidence_method, linewidth=2)
 
-        plt.xlabel(
-            f"Fraction achieving avg factuality >= {a}"
-            if a != 1
-            else "Fraction of factual outputs"
-        )
-        plt.ylabel("Average percent removed")
-        plt.legend(loc="upper left", bbox_to_anchor=(0.02, 0.98), fontsize=10)
-        plt.title(f"Conformal Plots for {dataset_name} Datasets (a={a})", fontsize=20)
-        plt.savefig(fig_filename, bbox_inches="tight")
+        # set the legend
+        ax.legend(loc="upper left", bbox_to_anchor=(0.02, 0.98), fontsize=10)
+
+        # Save the figure
+        fig.savefig(fig_filename, bbox_inches="tight")
+
+        return ax  # Return the ax for further modifications if needed
 
     def _write_csv_header(self, csv_filename, alphas):
         target_factuality = [f"{(1-x):.2f}" for x in alphas][::-1]
-        header = ["dataset"] + target_factuality
+        header = ["target_factuality"] + target_factuality
 
         # Ensure the directory exists
         os.makedirs(os.path.dirname(csv_filename), exist_ok=True)
@@ -147,19 +193,25 @@ class SplitConformalCalibration(ICalibration):
                 csv.writer(file).writerow(header)
 
     def _compute_threshold_by_group(
-        self, alpha, calibration_data, a, groups: list | None = None
+        self,
+        alpha: float,
+        calibration_data: list,
+        a: float,
+        confidence_method: str,
+        groups: list | None = None,
     ):
-        # TODO: clarify why take the min of the threshold of each group instead of returning a list of thresholds
         if groups:
             return min(
-                compute_threshold(alpha, groups[group], a, self.confidence_method)
+                compute_threshold(alpha, groups[group], a, confidence_method)
                 for group in groups
             )
         else:
             # treat the whole data as calibration data
-            return compute_threshold(alpha, calibration_data, a, self.confidence_method)
+            return compute_threshold(alpha, calibration_data, a, confidence_method)
 
-    def _evaluate_conformal_correctness(self, data: list, threshold: float, a: float):
+    def _evaluate_conformal_correctness(
+        self, data: list, threshold: float, a: float, confidence_method: str
+    ):
         """
         Evaluates the performance of a conformal prediction model on test data.
         Parameters:
@@ -168,8 +220,8 @@ class SplitConformalCalibration(ICalibration):
         a (float): The threshold for the correctly retained percentage to consider an entry as correctly retained.
         Returns:
         tuple: A tuple containing two lists:
-            - correctly_retained (list): A list of boolean values indicating whether each entry is correctly retained.
-            - fraction_removed (list): A list of floats representing the fraction of subclaims removed for each entry.
+            - correctly_retained (float): Percentage of data that are correctly retained.
+            - fraction_removed (float): Percentage of subclaims removed for each entry.
         """
 
         correctly_retained = []
@@ -177,12 +229,16 @@ class SplitConformalCalibration(ICalibration):
 
         for entry in data:
             removal_count = 0
+            retained_cnt = 0
             correctly_retained_count = 0
 
             for subclaim in entry["subclaims"]:
                 # Find similarity score
-                similarity_score = subclaim.get("scores", {}).get("similarity", np.nan)
-                if similarity_score >= threshold:
+                score = subclaim.get("scores", {}).get(
+                    confidence_method, np.nan
+                )
+                if score >= threshold:
+                    retained_cnt += 1
                     if (
                         subclaim.get("annotations", {}).get("gpt", "")
                         in CORRECT_ANNOTATIONS
@@ -192,7 +248,6 @@ class SplitConformalCalibration(ICalibration):
                     removal_count += 1
 
             total_subclaims = len(entry["subclaims"])
-            retained_cnt = total_subclaims - removal_count
 
             # Calculate fraction of removed subclaims
             entry_removal_rate = (
@@ -208,65 +263,81 @@ class SplitConformalCalibration(ICalibration):
             )
             correctly_retained.append(correctly_retained_percentage >= a)
 
-        return correctly_retained, fraction_removed
+        return np.mean(correctly_retained), np.mean(fraction_removed)
 
     def plot_factual_removal(
         self, data, alphas, a, fig_filename, csv_filename, plot_group_results=False
     ):
-        """ """
-        print(f"Producing factual removal plot: {fig_filename}")
         x_values = np.linspace(1 - alphas[-1] - 0.05, 1 - alphas[0] + 0.03, 100)
-        plt.figure(dpi=800)
-        plt.plot(
-            x_values, x_values, "--", color="gray", linewidth=2, label="Thrm 3.1 bounds"
+        fig, ax = plt.subplots(figsize=(8, 6), dpi=800)
+        ax.plot(
+            x_values,
+            x_values,
+            "--",
+            color="gray",
+            linewidth=2,
+            label="Conformal guarantee lower bounds",
         )
 
         results = self.compute_factual_results(data, alphas, a)
-        x, y, yerr = self.process_factual_correctness_results(results)
+        for confidence_method, result in results.items():
+            conf_level, corretness, yerr = self.process_factual_correctness_results(
+                result
+            )
 
-        append_result_to_csv(
-            csv_filename=csv_filename,
-            label=f"{self.dataset_name}_conformal",
-            y=y,
-            yerr=yerr,
-        )
+            append_result_to_csv(
+                csv_filename=csv_filename,
+                label=f"{confidence_method}_factual_correctness",
+                y=corretness,
+                yerr=yerr,
+            )
 
-        self.plot_factual_removal_rate_by_alpha(x, y, fig_filename)
+            print(
+                f"Producing factual removal plot for {confidence_method}: {fig_filename}"
+            )
+            ax = self.plot_factual_removal_rate_by_alpha(
+                conf_level, corretness, a, confidence_method, fig_filename, ax
+            )
+            print(f"Conformal plot saved to {fig_filename}")
 
-        if plot_group_results:
-            # self.plot_factual_group_results(results, csv_filename, x)
-            raise NotImplementedError("Not implemented")
+            if plot_group_results:
+                # self.plot_factual_group_results(results, csv_filename, x)
+                raise NotImplementedError("Not implemented")
 
     def compute_factual_results(self, data, alphas, a):
         results = {}
-        for alpha in tqdm(alphas, desc="Computing factual results"):
-            thresholds = []
-            correctness = []
-            for _ in range(1000):
-                random.shuffle(data)
-                split_index = len(data) // 2
-                calibration_data = data[:split_index]
-                test_data = data[split_index:]
+        for confidence_method in self.confidence_method:
+            results[confidence_method] = {}
+            for alpha in tqdm(
+                alphas, desc=f"Computing factual results for {confidence_method}"
+            ):
+                thresholds = []
+                correctness = []
+                for _ in range(1000):
+                    random.shuffle(data)
+                    split_index = len(data) // 2
+                    calibration_data = data[:split_index]
+                    test_data = data[split_index:]
 
-                assert (
-                    len(calibration_data) != 0
-                ), "Calibration data should not be empty"
-                assert len(test_data) != 0, "Test data should not be empty"
+                    assert (
+                        len(calibration_data) != 0
+                    ), "Calibration data should not be empty"
+                    assert len(test_data) != 0, "Test data should not be empty"
 
-                threshold = self._compute_threshold_by_group(
-                    alpha, calibration_data, a, groups=None
-                )
-                fraction_correct = self._evaluate_factual_correctness(
-                    test_data, threshold, a
-                )
-                thresholds.append(threshold)
-                correctness.append(fraction_correct)
+                    threshold = self._compute_threshold_by_group(
+                        alpha, calibration_data, a, confidence_method, groups=None
+                    )
+                    fraction_correct = self._evaluate_factual_correctness(
+                        test_data, threshold, a, confidence_method
+                    )
+                    thresholds.append(threshold)
+                    correctness.append(fraction_correct)
 
-            results[alpha] = {
-                "threshold": thresholds,
-                "correctness": correctness,
-                "factuality": 1 - alpha,
-            }
+                results[confidence_method][alpha] = {
+                    "threshold": thresholds,
+                    "correctness": correctness,
+                    "factuality": 1 - alpha,
+                }
         return results
 
     def process_factual_correctness_results(self, results: dict):
@@ -290,31 +361,34 @@ class SplitConformalCalibration(ICalibration):
 
         return x, y, yerr
 
-    def plot_factual_removal_rate_by_alpha(self, x, y, fig_filename):
-        plt.plot(x, y, label=self.dataset_name, linewidth=2)
+    def plot_factual_removal_rate_by_alpha(
+        self, x, y, a, confidence_method, fig_filename, ax=None
+    ):
+        if not ax:
+            fig, ax = plt.subplots(figsize=(8, 6), dpi=800)
+        else:
+            fig = ax.figure  # Get the figure from the provided ax
 
-        plt.xlabel(f"Target factuality (1 - {chr(945)})", fontsize=16)
-        plt.ylabel("Empirical factuality", fontsize=16)
-        plt.legend(loc="upper left", bbox_to_anchor=(0.02, 0.98), fontsize=10)
-        plt.savefig(fig_filename, bbox_inches="tight", dpi=800)
+        ax.set_xlabel(f"Target factuality (1 - {chr(945)})", fontsize=16)
+        ax.set_ylabel("Empirical factuality", fontsize=16)
+        ax.set_title(
+            f"Factual correctness for {self.dataset_name} Datasets (a={a})", fontsize=20
+        )
 
-    # def plot_factual_group_results(self, results, csv_filename, x):
-    #     y_groups = {}
-    #     y_groups_err = {}
+        # Plot the data
+        ax.plot(x, y, label=confidence_method, linewidth=2)
 
-    #     for result in results:
-    #         for group, y_result in result[2].items():  # TODO: clarify why result[2]
-    #             y_group = np.mean(y_result)
-    #             y_group_err = np.std(y_result)
-    #             y_groups.setdefault(group, []).append(y_group)
-    #             y_groups_err.setdefault(group, []).append(y_group_err)
+        # Set legend
+        ax.legend(loc="upper left", bbox_to_anchor=(0.02, 0.98), fontsize=10)
 
-    #     for group, y_group in y_groups.items():
-    #         label = f"{self.dataset_name}_conditional_{group}"
-    #         # append_result_to_csv(csv_filename, label, y_group, y_groups_err[group])
-    #         plt.plot(x, y_group, label=label, linewidth=2)
+        # Save the figure
+        fig.savefig(fig_filename, bbox_inches="tight", dpi=800)
 
-    def _evaluate_factual_correctness(self, data: list, threshold: float, a: float):
+        return ax  # Return the ax for further modifications if needed
+
+    def _evaluate_factual_correctness(
+        self, data: list, threshold: float, a: float, confidence_method: str
+    ):
         """
         Evaluates the factual correctness of subclaims within the provided data.
         This function processes a list of data entries, each containing subclaims with similarity scores.
@@ -337,7 +411,9 @@ class SplitConformalCalibration(ICalibration):
             for subclaim in entry["subclaims"]:
 
                 # Extract the similarity score
-                similarity_score = subclaim.get("scores", {}).get("similarity", np.nan)
+                similarity_score = subclaim.get("scores", {}).get(
+                    confidence_method, np.nan
+                )
 
                 # Add the subcla 0-94=3im to the collection if similarity score is above threshold
                 if similarity_score > threshold:
