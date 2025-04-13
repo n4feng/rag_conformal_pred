@@ -66,7 +66,7 @@ def weighted_quantile(x, w, p):
         int or float: The exact weighted quantile.
     """
     # A hyper parameter temperature to control entropy of the weights
-    TEMP = 5
+    TEMP = 1
     w = [math.exp(weight / TEMP) for weight in w]
     sum_w = sum(w)
     normalized_w = [weight / sum_w for weight in w] # Standard Softmax
@@ -419,6 +419,7 @@ class WeightedConformalCalibration(ConformalCalibration):
         load_dotenv(dotenv_path)
         self.client = OpenAI()
         self.distance_cache = {} #key is  sorted than concat prompts
+        self.test_data_thresholds = {}
         self.embedding_model = embedding_model
 
     def _compute_results(self, data, alphas, a, confidence_method, pre_defined_group=None):
@@ -448,8 +449,9 @@ class WeightedConformalCalibration(ConformalCalibration):
                 distance.append(self.distance_cache[key])
             else:
                 cal_distance = calculate_calibration_distance(test_data, entry, self.prompt_embedding_cache, self.client, self.embedding_model)
-                self.distance_cache[key] = cal_distance
-                distance.append(cal_distance)
+                l2_distance = cal_distance * cal_distance
+                self.distance_cache[key] = l2_distance
+                distance.append(l2_distance)
         return compute_weighted_threshold(alpha, calibration_data, distance, a, confidence_method)
     
     def _process_calibration(self, data, alphas, a, confidence_method):
@@ -459,7 +461,7 @@ class WeightedConformalCalibration(ConformalCalibration):
             for _ in range(1000):
                 random.shuffle(data)
                 split_index = len(data) // 2
-                pickup_calibration =1000
+                pickup_calibration = 1000
                 if split_index <= pickup_calibration:
                     calibration_data = data[:split_index]
                 else:
@@ -469,6 +471,9 @@ class WeightedConformalCalibration(ConformalCalibration):
                 accepted_subclaim_list = []
                 for entry in test_data:
                     threshold = self._compute_group_threshold(alpha, calibration_data, entry, a, confidence_method)
+                    if entry["prompt"] not in self.test_data_thresholds:
+                        self.test_data_thresholds[entry["prompt"]] = []
+                    self.test_data_thresholds[entry["prompt"]].append(f"{threshold:.5f}")
                     accepted_subclaim_list.append(
                         [subclaim for subclaim in entry["claims"]
                          if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold]
@@ -477,6 +482,9 @@ class WeightedConformalCalibration(ConformalCalibration):
                 results_for_alpha[0].append(1 - alpha)
                 results_for_alpha[1].append(fraction_correct)
             results.append(results_for_alpha)
+            with open(f"data/out/weighted/test_data_thresholds_alpha={alpha:.2f}.json", "w") as fopen:
+                json.dump(self.test_data_thresholds, fopen)
+            self.test_data_thresholds = {}
         return results
     
     def _load_threshold(self, filename):
