@@ -10,3 +10,4 @@ __pycache__/
 *.faiss
 *.db
 documents
+conditional/data/cache/
