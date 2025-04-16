@@ -154,7 +154,6 @@ class OpenAIAtomicFactGenerator(object):
                 print(f"removing last subclaim {reduced_subclaim_log_probs[-1][0][0]}")
                 del reduced_subclaim_log_probs[-1]
             else:
-                breakpoint()
                 raise ValueError(
                     f"""facts list and subclaim_mean_log_probs list must have the same length. 
                     Fact count: {len(subclaims)}; 

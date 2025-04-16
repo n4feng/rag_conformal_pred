@@ -18,23 +18,37 @@ class SplitConformalCalibration(ICalibration):
     Implementation of standard conformal calibration.
     """
 
-    def __init__(self, dataset_name: str):
+    def __init__(self, dataset_name: str, runs: int = 1000):
         self.dataset_name = dataset_name
         self.confidence_method = [
             "relavance",
             "frequency",
-            "cosine_similarity",
+            "query_claim_cosine_similarity",
+            "doc_claim_cosine_similarity",
             "min_log_prob",
             "random",
             "ordinal",
         ]
+        self.runs = runs
 
     def plot_conformal_removal(
         self, data, alphas, a, fig_filename, csv_filename, plot_group_results=False
     ):
 
         # compute the correctness and fraction removed for each alpha
-        results = self.compute_conformal_results(data, alphas, a, plot_group_results)
+
+        cache_filename = f"{os.path.splitext(os.path.abspath(csv_filename))[0]}_conformal_removal_cache.npy"
+        if not os.path.exists(cache_filename):
+            results = self.compute_conformal_results(
+                data, alphas, a, plot_group_results
+            )
+            print(f"Caching results to {cache_filename}")
+            np.save(cache_filename, results)
+
+        else:
+            print(f"Loading cached results from {cache_filename}")
+            results = np.load(cache_filename, allow_pickle=True).item()
+
         ax = None
         for confidence_method, result in results.items():
             correctness, fraction_removed, yerr = (
@@ -67,13 +81,6 @@ class SplitConformalCalibration(ICalibration):
         self, data: list, alphas: np.ndarray, a: float, plot_group_results: bool = False
     ):
 
-        for entry in data:
-            for subclaim in entry["subclaims"]:
-                subclaim["scores"]["min_log_prob"] = min(subclaim["scores"]["log_prob"])
-                subclaim["scores"]["mean_log_prob"] = np.mean(
-                    subclaim["scores"]["log_prob"]
-                )
-
         results = {}
         for confidence_method in self.confidence_method:
             results[confidence_method] = {}
@@ -91,7 +98,7 @@ class SplitConformalCalibration(ICalibration):
                 thresholds = []
                 correctness_list = []
                 fraction_removed_list = []
-                for _ in range(1):  # TODO
+                for _ in range(self.runs):
                     random.shuffle(data)
                     split_index = len(data) // 2
                     calibration_data = data[:split_index]
@@ -108,8 +115,7 @@ class SplitConformalCalibration(ICalibration):
 
                     correctness, fraction_removed = (
                         self._evaluate_conformal_correctness(
-                            calibration_data, #test_data, 
-                            threshold, a, confidence_method
+                            test_data, threshold, a, confidence_method
                         )
                     )
                     thresholds.append(threshold)
@@ -121,9 +127,7 @@ class SplitConformalCalibration(ICalibration):
                     "correctness": correctness_list,
                     "fraction_removed": fraction_removed_list,
                 }
-                # print(confidence_method, alpha, f"\n correctness: {correctness}", f"\n fraction_removed: {fraction_removed}")
 
-        
         return results
 
     def process_conformal_removal_results(self, results: dict):
@@ -228,24 +232,26 @@ class SplitConformalCalibration(ICalibration):
         fraction_removed = []
 
         for entry in data:
+            # print(f"Question: {entry['query']}\ngolder answer: {entry['gld_ans']}")  # TODO
             removal_count = 0
             retained_cnt = 0
             correctly_retained_count = 0
 
             for subclaim in entry["subclaims"]:
                 # Find similarity score
-                score = subclaim.get("scores", {}).get(
-                    confidence_method, np.nan
-                )
-                if score >= threshold:
+                score = subclaim["scores"][confidence_method]
+                noise = subclaim["scores"]["noise"]
+                if score + noise >= threshold:
                     retained_cnt += 1
                     if (
                         subclaim.get("annotations", {}).get("gpt", "")
                         in CORRECT_ANNOTATIONS
                     ):
                         correctly_retained_count += 1
+                        # print(f"Correctly retained {subclaim["subclaim"]}\n\tscore: {score}\n\tthreshold: {threshold}\n\ttotal_subclaims: {len(entry["subclaims"])}\n\tretained count: {retained_cnt}\n\tcorrectly retained cnt:{correctly_retained_count}\n\tremoval count: {removal_count}")  # TODO
                 else:
                     removal_count += 1
+                    # print(f"Removed {subclaim["subclaim"]}\n\tscore: {score}\n\tthreshold: {threshold}\n\ttotal_subclaims: {len(entry["subclaims"])}\n\tretained count: {retained_cnt}\n\tcorrectly retained cnt:{correctly_retained_count}\n\tremoval count: {removal_count}")  # TODO
 
             total_subclaims = len(entry["subclaims"])
 
@@ -262,6 +268,7 @@ class SplitConformalCalibration(ICalibration):
                 correctly_retained_count / retained_cnt if retained_cnt > 0 else 1
             )
             correctly_retained.append(correctly_retained_percentage >= a)
+            # print(correctly_retained) # TODO
 
         return np.mean(correctly_retained), np.mean(fraction_removed)
 
@@ -279,7 +286,16 @@ class SplitConformalCalibration(ICalibration):
             label="Conformal guarantee lower bounds",
         )
 
-        results = self.compute_factual_results(data, alphas, a)
+        cache_filename = f"{os.path.splitext(os.path.abspath(csv_filename))[0]}_factual_correctness_cache.npy"
+        if not os.path.exists(cache_filename):
+            results = self.compute_factual_results(data, alphas, a)
+            print(f"Caching results to {cache_filename}")
+            np.save(cache_filename, results)
+
+        else:
+            print(f"Loading cached results from {cache_filename}")
+            results = np.load(cache_filename, allow_pickle=True).item()
+
         for confidence_method, result in results.items():
             conf_level, corretness, yerr = self.process_factual_correctness_results(
                 result
@@ -313,7 +329,7 @@ class SplitConformalCalibration(ICalibration):
             ):
                 thresholds = []
                 correctness = []
-                for _ in range(1000):
+                for _ in range(self.runs):
                     random.shuffle(data)
                     split_index = len(data) // 2
                     calibration_data = data[:split_index]
@@ -410,13 +426,12 @@ class SplitConformalCalibration(ICalibration):
             correctly_retained_count = 0
             for subclaim in entry["subclaims"]:
 
-                # Extract the similarity score
-                similarity_score = subclaim.get("scores", {}).get(
-                    confidence_method, np.nan
-                )
+                # Extract the score and noise
+                score = subclaim["scores"][confidence_method]
+                noise = subclaim["scores"]["noise"]
 
-                # Add the subcla 0-94=3im to the collection if similarity score is above threshold
-                if similarity_score > threshold:
+                # Add the subclaim to the collection if similarity score is above threshold
+                if score + noise >= threshold:
                     retained_cnt += 1
                     if (
                         subclaim.get("annotations", {}).get("gpt", "")

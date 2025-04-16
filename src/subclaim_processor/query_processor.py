@@ -2,16 +2,21 @@ from abc import ABC, abstractmethod
 
 class IQueryProcessor(ABC):
     # take query file path output query with subclaims
+    
     @abstractmethod
-    def get_subclaims(self, query_file:str, subclaims_file: str):
+    def generate_responses(self, query_file:str):
+        pass
+    
+    @abstractmethod
+    def get_subclaims_from_responses(self):
         pass
 
     # add score into subclaim file
     @abstractmethod
-    def score_subclaim(self, subclaim_file:str):
+    def score_subclaim(self):
         pass
 
     # add annotation into subclaim file
     @abstractmethod
-    def annotate_subclaim(self, subclaim_file:str):
+    def annotate_subclaim(self):
         pass

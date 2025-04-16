@@ -1,6 +1,7 @@
 import os
 import json
 import random
+import numpy as np
 from typing import Union, Optional
 from tqdm import tqdm
 from jsonschema import RefResolver, validate
@@ -29,23 +30,80 @@ class SubclaimProcessor(IQueryProcessor):
         ) as schemafile:
             self.subclaim_schema = json.load(schemafile)
 
-    def get_subclaims(
+    # def get_subclaims(
+    #     self,
+    #     query_file: str,
+    #     truncation_strategy: Optional[Union[str, bool]] = "fixed_length",
+    #     truncate_by: Optional[str] = "\n",
+    # ):
+
+    #     with open(query_file, "r", encoding="utf-8") as jsonfile:
+    #         queries = json.load(jsonfile)
+
+    #     with open(self.subclaims_file, "w", encoding="utf-8") as subclaimsfile:
+    #         subclaimsfile.write("[\n")
+
+    #     for i, query in enumerate(tqdm(queries, desc="Processing queries")):
+    #         question = query["input"]
+
+    #         # document retrieval
+    #         retrieved_docs = self.faiss_manager.search_faiss_index(
+    #             question,
+    #             top_k=10,
+    #             threshold=0.3,
+    #             truncation_strategy=truncation_strategy,
+    #             truncate_by=truncate_by,
+    #         )
+
+    #         chat_response = self.response_agent.answer(
+    #             question, retrieved_docs, temperature=0.7, n_samples=1
+    #         )
+    #         response = chat_response.choices[0].message.content
+    #         subclaims_with_log_probs = self.generator.get_facts_from_text(response)
+    #         subclaims_entry = {
+    #             "query": question,
+    #             "gld_ans": query["output"]["answer"],
+    #             "retrieved_docs": retrieved_docs,
+    #             "response": response,
+    #             "subclaims": [],
+    #         }
+
+    #         for subclaim in subclaims_with_log_probs:
+    #             subclaims_entry["subclaims"].append(
+    #                 {
+    #                     "subclaim": subclaim[0],
+    #                     "scores": {
+    #                         "log_prob": [score for token, score in subclaim[1]]
+    #                     },  # Add logic to populate scores if available
+    #                     "annotations": {},  # Add logic to populate annotations if available
+    #                 }
+    #             )
+
+    #         with open(self.subclaims_file, "a", encoding="utf-8") as subclaimsfile:
+    #             json.dump(subclaims_entry, subclaimsfile, indent=4)
+    #             if i < len(queries) - 1:
+    #                 subclaimsfile.write(",\n")
+
+    #     with open(self.subclaims_file, "a", encoding="utf-8") as subclaimsfile:
+    #         subclaimsfile.write("\n]")
+    #     print(f"Query responses saved to {self.subclaims_file}.")
+
+    def generate_responses(
         self,
         query_file: str,
         truncation_strategy: Optional[Union[str, bool]] = "fixed_length",
         truncate_by: Optional[str] = "\n",
     ):
-
+        """Generate responses for queries"""
+        # Read queries
         with open(query_file, "r", encoding="utf-8") as jsonfile:
             queries = json.load(jsonfile)
 
-        with open(self.subclaims_file, "w", encoding="utf-8") as subclaimsfile:
-            subclaimsfile.write("[\n")
-
-        for i, query in enumerate(tqdm(queries, desc="Processing queries")):
+        responses = []
+        for query in tqdm(queries, desc="Generating responses"):
             question = query["input"]
 
-            # document retrieval
+            # Document retrieval
             retrieved_docs = self.faiss_manager.search_faiss_index(
                 question,
                 top_k=10,
@@ -54,38 +112,77 @@ class SubclaimProcessor(IQueryProcessor):
                 truncate_by=truncate_by,
             )
 
+            # Generate response
             chat_response = self.response_agent.answer(
                 question, retrieved_docs, temperature=0.7, n_samples=1
             )
             response = chat_response.choices[0].message.content
-            subclaims_with_log_probs = self.generator.get_facts_from_text(response)
-            subclaims_entry = {
-                "query": question,
-                "gld_ans": query["output"]["answer"],
-                "retrieved_docs": retrieved_docs,
-                "response": response,
-                "subclaims": [],
-            }
 
-            for subclaim in subclaims_with_log_probs:
-                subclaims_entry["subclaims"].append(
-                    {
-                        "subclaim": subclaim[0],
-                        "scores": {
-                            "log_prob": [score for token, score in subclaim[1]]
-                        },  # Add logic to populate scores if available
-                        "annotations": {},  # Add logic to populate annotations if available
-                    }
-                )
+            responses.append(
+                {
+                    "query": question,
+                    "gld_ans": query["output"]["answer"],
+                    "retrieved_docs": retrieved_docs,
+                    "response": response,
+                    "subclaims": [],
+                }
+            )
 
-            with open(self.subclaims_file, "a", encoding="utf-8") as subclaimsfile:
-                json.dump(subclaims_entry, subclaimsfile, indent=4)
-                if i < len(queries) - 1:
-                    subclaimsfile.write(",\n")
+        # Save responses
+        with open(self.subclaims_file, "w", encoding="utf-8") as f:
+            json.dump(responses, f, indent=4)
+        print(f"Responses saved to {self.subclaims_file}")
 
-        with open(self.subclaims_file, "a", encoding="utf-8") as subclaimsfile:
-            subclaimsfile.write("\n]")
-        print(f"Query responses saved to {self.subclaims_file}.")
+    def get_subclaims_from_responses(self):
+        """Process existing responses to extract subclaims and save updates incrementally"""
+        # Read existing responses
+        with open(self.subclaims_file, "r", encoding="utf-8") as jsonfile:
+            queries = json.load(jsonfile)
+
+        # Process each query and save updates in batches
+        batch_size = 10  # Adjust batch size as needed
+        for i in tqdm(range(0, len(queries), batch_size), desc="Extracting subclaims"):
+            batch = queries[i : i + batch_size]
+            modified = False
+
+            # Process each query in the batch
+            for query in batch:
+                if query["response"] and not query.get(
+                    "subclaims"
+                ):  # Only process if no subclaims exist
+                    try:
+                        subclaims_with_log_probs = self.generator.get_facts_from_text(
+                            query["response"]
+                        )
+                        query["subclaims"] = [
+                            {
+                                "subclaim": subclaim[0],
+                                "scores": {
+                                    "log_prob": [score for token, score in subclaim[1]]
+                                },
+                                "annotations": {},
+                            }
+                            for subclaim in subclaims_with_log_probs
+                        ]
+                        modified = True
+                    except Exception as e:
+                        print(
+                            f"Error processing query: {query['query'][:50]}... Error: {str(e)}"
+                        )
+                        query["subclaims"] = (
+                            []
+                        )  # Add empty subclaims to mark as processed
+                        modified = True
+
+            # Save updates if any changes were made in this batch
+            if modified:
+                with open(self.subclaims_file, "w", encoding="utf-8") as f:
+                    json.dump(queries, f, indent=4)
+                    print(
+                        f"Saved updates through batch ending at index {min(i + batch_size, len(queries))}"
+                    )
+
+        print(f"Completed subclaim extraction. Results saved in {self.subclaims_file}")
 
     def score_subclaim(self):
         with open(self.subclaims_file, "r", encoding="utf-8") as jsonfile:
@@ -93,34 +190,42 @@ class SubclaimProcessor(IQueryProcessor):
             for entry in tqdm(subclaims_data, desc="Scoring subclaims"):
                 validate(instance=entry, schema=self.subclaim_schema)
                 for i, subclaim in enumerate(entry["subclaims"]):
-                    score = 0.0
                     if isinstance(self.scorer, IDocumentScorer):
+                        if "noise" not in subclaim["scores"].keys():
+                            subclaim["scores"]["noise"] = np.random.normal(0, 0.001)
                         if "relavance" not in subclaim["scores"].keys():
-                            if "conditional_similarity" in subclaim["scores"].keys():
-                                subclaim["scores"]["relavance"] = subclaim[
-                                    "scores"
-                                ].pop("conditional_similarity")
-                            elif "joint_similarity" in subclaim["scores"].keys():
-                                subclaim["scores"]["relavance"] = subclaim[
-                                    "scores"
-                                ].pop("joint_similarity")
-                            else:  # TODO
-                                relavance_score = self.scorer.score(
-                                    subclaim["subclaim"], entry["retrieved_docs"]
-                                )
-                                subclaim["scores"]["relavance"] = float(relavance_score)
-                        if "cosine_similarity" not in subclaim["scores"].keys():
-                            if "baseline" in subclaim["scores"].keys():
-                                subclaim["scores"]["cosine_similarity"] = subclaim[
-                                    "scores"
-                                ].pop("baseline")
-                            else:  # TODO
-                                cosine_similarity_score = self.scorer.cosine_similarity(
+                            relavance_score = self.scorer.score(
+                                subclaim["subclaim"], entry["retrieved_docs"]
+                            )
+                            subclaim["scores"]["relavance"] = float(relavance_score)
+                        if (
+                            "query_claim_cosine_similarity"
+                            not in subclaim["scores"].keys()
+                        ):
+                            query_claim_cosine_similarity = (
+                                self.scorer.cosine_similarity(
                                     subclaim["subclaim"], entry["query"]
                                 )
-                                subclaim["scores"]["cosine_similarity"] = float(
-                                    cosine_similarity_score
+                            )
+                            subclaim["scores"]["query_claim_cosine_similarity"] = float(
+                                query_claim_cosine_similarity
+                            )
+                        if (
+                            "doc_claim_cosine_similarity"
+                            not in subclaim["scores"].keys()
+                        ):
+                            doc_claim_cosine_similarities = []
+                            for doc in entry["retrieved_docs"]:  # TODO
+                                doc_claim_cosine_similarities.append(
+                                    self.scorer.cosine_similarity(
+                                        subclaim["subclaim"], doc
+                                    )
                                 )
+                            subclaim["scores"]["doc_claim_cosine_similarity"] = (
+                                float(max(doc_claim_cosine_similarities))
+                                if doc_claim_cosine_similarities
+                                else 0
+                            )
                         if "frequency" not in subclaim["scores"].keys():
                             frequency_score = self.scorer.frequency_score(
                                 response_agent=self.response_agent,
@@ -138,6 +243,13 @@ class SubclaimProcessor(IQueryProcessor):
                                 (i / len(entry["subclaims"]))
                                 if len(entry["subclaims"]) > 0
                                 else 0
+                            )
+                        if (
+                            "min_log_prob" not in subclaim["scores"].keys()
+                            and "log_prob" in subclaim["scores"].keys()
+                        ):
+                            subclaim["scores"]["min_log_prob"] = min(
+                                subclaim["scores"]["log_prob"]
                             )
 
         with open(self.subclaims_file, "w", encoding="utf-8") as jsonfile:
@@ -183,34 +295,43 @@ def process_subclaims(
     data = None
     if os.path.exists(subclaims_path):
         data = load_subclaim_data(subclaims_path)
-
         # Check if the data is valid
         score_method_to_check = [
+            "noise",
             "relavance",
             "frequency",
-            "cosine_similarity",
+            "query_claim_cosine_similarity",
+            "doc_claim_cosine_similarity",
             "random",
             "ordinal",
-        ]  # TODO
+            "min_log_prob",
+        ]
         if data:
-            needs_scoring = any(
-                len(subclaim["scores"]) == 0
-                for pt in data
-                for subclaim in pt["subclaims"]
-            ) or any(
-                score_method not in subclaim["scores"].keys()
-                for pt in data
-                for subclaim in pt["subclaims"]
-                for score_method in score_method_to_check
-            )
+            needs_subclaim = any(len(pt["subclaims"]) == 0 for pt in data)
 
-            needs_annotation = any(
-                len(subclaim["annotations"]) == 0
-                for pt in data
-                for subclaim in pt["subclaims"]
-            )
+            if needs_subclaim:
+                needs_scoring = True
+                needs_annotation = True
 
-            if not (needs_scoring or needs_annotation):
+            else:
+                needs_scoring = any(
+                    len(subclaim["scores"]) == 0
+                    for pt in data
+                    for subclaim in pt["subclaims"]
+                ) or any(
+                    score_method not in subclaim["scores"].keys()
+                    for pt in data
+                    for subclaim in pt["subclaims"]
+                    for score_method in score_method_to_check
+                )
+
+                needs_annotation = any(
+                    len(subclaim["annotations"]) == 0
+                    for pt in data
+                    for subclaim in pt["subclaims"]
+                )
+
+            if not (needs_subclaim or needs_scoring or needs_annotation):
                 print(f"Subclaims data already exists in {subclaims_path}.")
                 return data
 
@@ -219,13 +340,16 @@ def process_subclaims(
 
     # Generate subclaims if data doesn't exist
     if not data:
-        processor.get_subclaims(
+        processor.generate_responses(
             query_path, truncation_strategy=truncation_strategy, truncate_by=truncate_by
         )
+        processor.get_subclaims_from_responses()
         processor.score_subclaim()
         processor.annotate_subclaim()
     else:
         # Update only what's needed
+        if needs_subclaim:
+            processor.get_subclaims_from_responses()
         if needs_scoring:
             processor.score_subclaim()
         if needs_annotation:

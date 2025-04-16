@@ -14,7 +14,7 @@ def load_subclaim_data(file_path):
 
 def append_result_to_csv(csv_filename, label, y, yerr):
     """Append calibration results to CSV file"""
-    formatted_results = [f"{y:.3f} ± {yerr:.3f}" for y, yerr in zip(y, yerr)]
+    formatted_results = [f"{y:.4f} ± {yerr:.4f}" for y, yerr in zip(y, yerr)]
     formatted_results.reverse()
     row = [label] + formatted_results
     with open(csv_filename, mode="a", newline="") as file:
@@ -27,7 +27,8 @@ def _get_accepted_subclaims(entry, threshold, confidence_method):
     return [
         subclaim
         for subclaim in entry["subclaims"]
-        if subclaim["scores"][confidence_method] >= threshold
+        if subclaim["scores"][confidence_method] + subclaim["scores"]["noise"]
+        >= threshold
     ]
 
 
@@ -68,11 +69,14 @@ def get_r_score(entry: list, confidence_method: str, a: float):
     Returns:
         float: r_a score for the entry
     """
-    r_score_key = f"r_score_{a}"
-    if r_score_key in entry:
-        return entry[r_score_key]
+    # r_score_key = f"r_score_{a}"
+    # if r_score_key in entry:
+    #     return entry[r_score_key]
 
-    scores = [subclaim["scores"][confidence_method] for subclaim in entry["subclaims"]]
+    scores = [
+        subclaim["scores"][confidence_method] + subclaim["scores"]["noise"]
+        for subclaim in entry["subclaims"]
+    ]
     threshold_set = sorted(scores, reverse=True)
 
     for threshold in threshold_set:
@@ -82,11 +86,11 @@ def get_r_score(entry: list, confidence_method: str, a: float):
         entailed_fraction = _calculate_entailed_fraction(accepted_subclaims)
 
         if entailed_fraction < a:
-            entry[r_score_key] = threshold
+            # entry[r_score_key] = threshold
             return threshold
 
-    entry[r_score_key] = -1
-    return -1
+    # entry[r_score_key] = -1
+    return -100000
 
 
 def compute_threshold(alpha, calibration_data, a, confidence_method):
@@ -105,5 +109,8 @@ def compute_threshold(alpha, calibration_data, a, confidence_method):
     sorted_r_scores = sorted(
         [get_r_score(entry, confidence_method, a) for entry in calibration_data]
     )
+    # TODO: investigate why 1-alpha correctness isn't guaranteed with baseline and min_log_prob scoring
     quantile_target_index = ceil((len(sorted_r_scores)) * (1 - alpha)) - 1
+    # print(f"quantile_target_index: {quantile_target_index}")
+    # print(f"sorted_r_scores: {sorted_r_scores}")
     return sorted_r_scores[quantile_target_index]
