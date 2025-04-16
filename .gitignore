@@ -11,5 +11,5 @@ venv/
 documents
 __pycache__/
 .json
-
 !data/raw/FactScore/names.txt
+conditional/data/cache/

@@ -235,14 +235,14 @@ class ConformalCalibration(ICalibration):
             for i in range(len(data)):
                 calibration_data = data[:i] + data[i + 1 :]
                 test_data = data[i]
-                threshold = self._compute_group_threshold(alpha, calibration_data, test_data, a, confidence_method, pre_defined_group)
+                threshold = self._compute_threshold(alpha, calibration_data, test_data, a, confidence_method, pre_defined_group)
                 correctness, fraction_removed = self._evaluate_test_data(test_data, threshold, a, confidence_method)
                 results_for_alpha[0].append(correctness)
                 results_for_alpha[1].append(fraction_removed)
             results.append(results_for_alpha)
         return results
 
-    def _compute_group_threshold(self, alpha, calibration_data, test_data, a, confidence_method, pre_defined_group=False):
+    def _compute_threshold(self, alpha, calibration_data, test_data, a, confidence_method, pre_defined_group=False):
         if pre_defined_group:
             return min(
                 compute_threshold(alpha, pre_defined_group[group], a, confidence_method)
@@ -431,7 +431,7 @@ class WeightedConformalCalibration(ConformalCalibration):
             for i in range(len(data)):
                 calibration_data = data[:i] + data[i + 1 :]
                 test_data = data[i]
-                threshold = self._compute_group_threshold(alpha, calibration_data, test_data, a, confidence_method)
+                threshold = self._compute_threshold(alpha, calibration_data, test_data, a, confidence_method)
                 threshold_record[test_data["prompt"]] = threshold
                 correctness, fraction_removed = self._evaluate_test_data(test_data, threshold, a, confidence_method)
                 results_for_alpha[0].append(correctness)
@@ -441,7 +441,7 @@ class WeightedConformalCalibration(ConformalCalibration):
                 json.dump(threshold_record, fopen, indent=4)
         return results
     
-    def _compute_group_threshold(self, alpha, calibration_data, test_data, a, confidence_method, pre_defined_group=None):
+    def _compute_threshold(self, alpha, calibration_data, test_data, a, confidence_method, pre_defined_group=None):
         distance = []
         for entry in calibration_data:
             key = make_key(entry["prompt"], test_data["prompt"])
@@ -470,7 +470,7 @@ class WeightedConformalCalibration(ConformalCalibration):
                 test_data = data[split_index:]
                 accepted_subclaim_list = []
                 for entry in test_data:
-                    threshold = self._compute_group_threshold(alpha, calibration_data, entry, a, confidence_method)
+                    threshold = self._compute_threshold(alpha, calibration_data, entry, a, confidence_method)
                     if entry["prompt"] not in self.test_data_thresholds:
                         self.test_data_thresholds[entry["prompt"]] = []
                     self.test_data_thresholds[entry["prompt"]].append(f"{threshold:.5f}")
@@ -511,7 +511,7 @@ class WeightedConformalCalibration(ConformalCalibration):
             for i, partial_test_data in enumerate(grouped_test_data):
                 accepted_subclaim_list = []
                 for entry in partial_test_data:
-                    threshold = self._compute_group_threshold(alpha, calibration_data, entry, a, confidence_method)
+                    threshold = self._compute_threshold(alpha, calibration_data, entry, a, confidence_method)
                     accepted_subclaim_list.append([subclaim for subclaim in entry["claims"]
                          if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold]
                     )
@@ -546,7 +546,7 @@ class DistanceConformalCalibration(ConformalCalibration):
         calibration_data_with_distance.sort(key=lambda x: x[1])
         return [entry for entry, _ in calibration_data_with_distance[:calibration_size]]
     
-    def _compute_group_threshold(self, alpha, calibration_data, test_data, a, confidence_method, pre_defined_group=None):
+    def _compute_threshold(self, alpha, calibration_data, test_data, a, confidence_method, pre_defined_group=None):
         calibration_data = self.form_calibration_set(test_data, calibration_data)
         return compute_threshold(alpha, calibration_data, a, confidence_method)
     
@@ -561,7 +561,7 @@ class DistanceConformalCalibration(ConformalCalibration):
                 test_data = data[split_index:]
                 accepted_subclaim_list = []
                 for entry in test_data:
-                    threshold = self._compute_group_threshold(alpha, calibration_data, entry, a, confidence_method)
+                    threshold = self._compute_threshold(alpha, calibration_data, entry, a, confidence_method)
                     accepted_subclaim_list.append(
                         [subclaim for subclaim in entry["claims"]
                          if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold]
@@ -711,7 +711,7 @@ class ConditionalConformalCalibrationWithGroup(ConditionalConformalCalibration):
             results_for_alpha = [[], [], {}]
             for i in range(len(data)):
                 test_data = data[i]
-                threshold = self._compute_group_threshold(alpha, None, test_data, a, confidence_method, pre_defined_group)
+                threshold = self._compute_threshold(alpha, None, test_data, a, confidence_method, pre_defined_group)
                 correctness, fraction_removed = self._evaluate_test_data(test_data, threshold, a, confidence_method)
                 results_for_alpha[0].append(correctness)
                 results_for_alpha[1].append(fraction_removed)
