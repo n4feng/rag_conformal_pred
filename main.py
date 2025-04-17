@@ -6,7 +6,7 @@ from src.dataloader.dataloader import DataLoader
 from src.data_processor.query_processor import QueryProcessor
 from src.common.file_manager import FileManager
 from src.common.faiss_manager import FAISSIndexManager
-from src.subclaim_processor.scorer.similarity_scorer import SimilarityScorer
+from src.subclaim_processor.scorer.subclaim_scorer import SubclaimScorer
 from src.subclaim_processor.subclaim_processor import process_subclaims
 from src.calibration.conformal import SplitConformalCalibration
 
@@ -18,7 +18,7 @@ if __name__ == "__main__":
         type=str,
         required=True,
         help="Name of the dataset",
-        choices=["fact_score", "hotpot_qa", "pop_qa", "medlf_qa"],
+        choices=["fact_score", "hotpot_qa", "pop_qa", "medlf_qa", "dragonball"],
     )
     parser.add_argument(
         "--wiki_db_file",
@@ -49,18 +49,19 @@ if __name__ == "__main__":
         help="Run group conditional conformal prediction",
     )
     parser.add_argument("--a", type=float, default=1.0)
-    parser.add_argument("--confidence_methods", type=str, default="similarity")
+    # parser.add_argument("--confidence_methods", type=str, default="relavance")
     args = parser.parse_args()
 
     ####################################### Data and Folder Set up ############################################
     # Define dataset mappings with associated index store
-    conformal_alphas = np.arange(0.05, 0.45, 0.05)
+    conformal_alphas = np.arange(0.05, 0.45, 0.05)  # TODO
 
     DATASET_CONFIG = {
         "fact_score": {"name": "FactScore", "index_store": "index_store/FactScore"},
         "hotpot_qa": {"name": "HotpotQA", "index_store": "index_store/HotpotQA"},
         "pop_qa": {"name": "PopQA", "index_store": "index_store/PopQA"},
         "medlf_qa": {"name": "MedLFQA", "index_store": "index_store/MedLFQA"},
+        "dragonball": {"name": "Dragonball", "index_store": "index_store/Dragonball"},
     }
 
     # Get dataset configuration or fail early
@@ -92,7 +93,7 @@ if __name__ == "__main__":
     # Load data if needed
     if not os.path.exists(raw_data_path):
         data_loader = DataLoader(args.dataset)
-        data_loader.load_qa_data(ouptut_path=raw_data_path)
+        data_loader.load_qa_data(output_path=raw_data_path)
 
     # create wiki db if needed
     if not os.path.exists(wiki_db_path) or not os.path.isfile(wiki_db_path):
@@ -115,9 +116,9 @@ if __name__ == "__main__":
     subclaims_path = os.path.join(
         response_dir, f"{args.dataset}_{args.query_size}_subclaims_with_scores.json"
     )
-    CP_result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.query_size}_{args.confidence_methods}_a={args.a:.2f}_CP_removal.png"
-    factual_result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.query_size}_{args.confidence_methods}_a={args.a:.2f}_factual_removal.png"
-    result_path = f"data/result/{dataset_name}/{args.dataset}_{args.query_size}_{args.confidence_methods}_a={args.a:.2f}_removal.csv"
+    CP_result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.query_size}_a={args.a:.2f}_CP_removal.png"
+    factual_result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.query_size}_a={args.a:.2f}_factual_correctness.png"
+    result_path = f"data/result/{dataset_name}/{args.dataset}_{args.query_size}_a={args.a:.2f}.csv"
     ####################################### End of Data and Folder Set up ######################################
 
     # Create directories if they don't exist
@@ -155,9 +156,20 @@ if __name__ == "__main__":
     document_file = FileManager(document_path)
 
     # If Index doesn't exist yet
+    if args.dataset == "dragonball":
+        truncation_strategy = "fixed_length"
+        truncate_by = None
+    else:
+        truncation_strategy = False
+        truncate_by = "\n"
+
     if not os.path.exists(index_file_path):
         try:
-            faiss_manager.upsert_file_to_faiss(document_file)
+            faiss_manager.upsert_file_to_faiss(
+                document_file,
+                truncation_strategy=truncation_strategy,
+                truncate_by=truncate_by,
+            )  # TODO
             print(f"Created new index with document '{document_path}'")
         except Exception as e:
             raise RuntimeError(f"Failed to create new index: {str(e)}")
@@ -172,7 +184,11 @@ if __name__ == "__main__":
 
         try:
             print(f"Adding document '{document_path}' to existing index")
-            faiss_manager.upsert_file_to_faiss(document_file)
+            faiss_manager.upsert_file_to_faiss(
+                document_file,
+                truncation_strategy=truncation_strategy,
+                truncate_by=truncate_by,
+            )
         except Exception as e:
             raise RuntimeError(f"Failed to add document to index: {str(e)}")
 
@@ -181,22 +197,24 @@ if __name__ == "__main__":
         print(f"Document '{document_path}' is already indexed")
 
     # generate subclaims with scores
-    scorer = SimilarityScorer(
+    scorer = SubclaimScorer(
         embedding_model=args.embedding_model,
         index_path=index_file_path,
         indice2fm_path=indice2fm_path,
     )
 
     subclaim_with_annotation_data = process_subclaims(
-        query_path, subclaims_path, faiss_manager, scorer
+        query_path,
+        subclaims_path,
+        faiss_manager,
+        scorer,
+        truncation_strategy,
+        truncate_by,
     )
 
     # calibration and conformal prediction results
     if args.run_split_conformal_prediction:
-        # TODO rename class
-        conformal = SplitConformalCalibration(
-            dataset_name=args.dataset, confidence_method=args.confidence_methods
-        )
+        conformal = SplitConformalCalibration(dataset_name=args.dataset)
         conformal.plot_conformal_removal(
             data=subclaim_with_annotation_data,
             alphas=conformal_alphas,

@@ -109,8 +109,5 @@ def compute_threshold(alpha, calibration_data, a, confidence_method):
     sorted_r_scores = sorted(
         [get_r_score(entry, confidence_method, a) for entry in calibration_data]
     )
-    # TODO: investigate why 1-alpha correctness isn't guaranteed with baseline and min_log_prob scoring
     quantile_target_index = ceil((len(sorted_r_scores)) * (1 - alpha)) - 1
-    # print(f"quantile_target_index: {quantile_target_index}")
-    # print(f"sorted_r_scores: {sorted_r_scores}")
     return sorted_r_scores[quantile_target_index]
