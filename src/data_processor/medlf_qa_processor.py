@@ -1,7 +1,7 @@
 import os
 import json
 
-from src.common.retrieval import DocDB
+from src.rag.retrieval import DocDB
 from src.data_processor.raw_data_processor import DatasetProcessor
 
 

@@ -1,7 +1,7 @@
 import json
 
-from src.common.retrieval import DocDB
-from src.common.string_utils import extract_tag_content
+from src.rag.retrieval import DocDB
+from src.utils.string_utils import extract_tag_content
 from src.data_processor.raw_data_processor import DatasetProcessor
 
 

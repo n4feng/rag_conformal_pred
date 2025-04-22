@@ -3,19 +3,20 @@ import math
 import json
 from dotenv import load_dotenv
 from openai import OpenAI
-from src.common import string_utils
+from src.utils import string_utils
 
 
 class OpenAIAtomicFactGenerator(object):
-    def __init__(self):
+    def __init__(self, model: str = "gpt-4o-mini"):
         dotenv_path = os.path.join(os.getcwd(), ".env")
         load_dotenv(dotenv_path)
         self.instruction = """Please breakdown the following input into a set of small, independent claims, and return the results as a single array of pairs in the format [CLAIM1; CLAIM2; CLAIM3; ...]. Do not include new lines. Make sure delimeter is always ";". The input is: """
         self.client = OpenAI()
+        self.model = model
 
-    def get_atomic_facts_from_paragraph(self, paragraph):
+    def get_atomic_facts_from_paragraph(self, paragraph: str):
         completion = self.client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=self.model,
             messages=[
                 {
                     "role": "system",
@@ -46,19 +47,19 @@ class OpenAIAtomicFactGenerator(object):
             contents += data["text"]
         return contents
 
-    def get_facts_from_title(self, db, title):
-        contents = self.get_contents_from_title(db=db, title=title)
-        facts = []
-        # reason to do this is because the text in db sometimes are break in middle of a whole content
-        # so re-joined all items in data, then re-break by <s></s> tag
-        paragraphs = string_utils.extract_tag_content(contents)
+    # def get_facts_from_title(self, db, title, model):
+    #     contents = self.get_contents_from_title(db=db, title=title)
+    #     facts = []
+    #     # reason to do this is because the text in db sometimes are break in middle of a whole content
+    #     # so re-joined all items in data, then re-break by <s></s> tag
+    #     paragraphs = string_utils.extract_tag_content(contents)
 
-        for paragraph in paragraphs:
-            response = self.get_atomic_facts_from_paragraph(paragraph)
-            result = string_utils.extract_array_result(response)
-            facts.extend(string_utils.extract_string_array(result))
-            # print("array list get extracted from is: " + result)
-        return facts
+    #     for paragraph in paragraphs:
+    #         response = self.get_atomic_facts_from_paragraph(paragraph, model=model)
+    #         result = string_utils.extract_array_result(response)
+    #         facts.extend(string_utils.extract_string_array(result))
+    #         # print("array list get extracted from is: " + result)
+    #     return facts
 
     def extract_subclaim_log_probs(self, log_prob_tuples: list) -> list:
         # Initialize variables
@@ -162,3 +163,4 @@ class OpenAIAtomicFactGenerator(object):
                 )
 
         return zip(subclaims, reduced_subclaim_log_probs)
+    

@@ -8,12 +8,11 @@ class OpenAIRAGAgent(LLMAgent):
     def __init__(
         self,
         faiss_manager,
-        instruction: str = "You are a helpful assistant that answers questions based on provided context.",
-        model="gpt-4o-mini",
+        model: str,
     ):
         dotenv_path = os.path.join(os.getcwd(), ".env")
         load_dotenv(dotenv_path)
-        self.instruction = instruction
+        self.instruction = "You are a helpful assistant that answers questions based on provided context."
         self.model = model
         self.client = OpenAI()
         self.faiss_manager = faiss_manager

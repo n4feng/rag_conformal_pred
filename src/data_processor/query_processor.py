@@ -3,7 +3,7 @@ import json
 import random
 from jsonschema import RefResolver, validate
 
-from src.common.retrieval import DocDB
+from src.rag.retrieval import DocDB
 from src.data_processor.raw_data_processor import IRawDataProcessor
 from src.data_processor.fact_score_processor import FactScoreProcessor
 from src.data_processor.hotpot_qa_processor import HotpotQAProcessor

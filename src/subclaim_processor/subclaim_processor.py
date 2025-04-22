@@ -1,6 +1,7 @@
 import os
 import json
 import random
+import logging
 import numpy as np
 from typing import Union, Optional
 from tqdm import tqdm
@@ -18,11 +19,12 @@ from src.calibration.utils import load_subclaim_data
 
 
 class SubclaimProcessor(IQueryProcessor):
-    def __init__(self, faiss_manager, scorer: IScorer, subclaims_file: str):
+    def __init__(self, faiss_manager, response_model: str, fact_generation_model: str, claim_verification_model: str, scorer: IScorer, subclaims_file: str):
         self.faiss_manager = faiss_manager
-        self.response_agent = OpenAIRAGAgent(faiss_manager)
-        self.generator = OpenAIAtomicFactGenerator()
-        self.verifier = OpenAIClaimVerification()
+        self.response_agent = OpenAIRAGAgent(faiss_manager, model=response_model)
+        self.generator = OpenAIAtomicFactGenerator(model=fact_generation_model)
+        self.verifier = OpenAIClaimVerification(model=claim_verification_model)
+        print(f"claim_verification_model: {claim_verification_model}")
         self.scorer = scorer
         self.subclaims_file = subclaims_file
         with open(
@@ -30,67 +32,12 @@ class SubclaimProcessor(IQueryProcessor):
         ) as schemafile:
             self.subclaim_schema = json.load(schemafile)
 
-    # def get_subclaims(
-    #     self,
-    #     query_file: str,
-    #     truncation_strategy: Optional[Union[str, bool]] = "fixed_length",
-    #     truncate_by: Optional[str] = "\n",
-    # ):
-
-    #     with open(query_file, "r", encoding="utf-8") as jsonfile:
-    #         queries = json.load(jsonfile)
-
-    #     with open(self.subclaims_file, "w", encoding="utf-8") as subclaimsfile:
-    #         subclaimsfile.write("[\n")
-
-    #     for i, query in enumerate(tqdm(queries, desc="Processing queries")):
-    #         question = query["input"]
-
-    #         # document retrieval
-    #         retrieved_docs = self.faiss_manager.search_faiss_index(
-    #             question,
-    #             top_k=10,
-    #             threshold=0.3,
-    #             truncation_strategy=truncation_strategy,
-    #             truncate_by=truncate_by,
-    #         )
-
-    #         chat_response = self.response_agent.answer(
-    #             question, retrieved_docs, temperature=0.7, n_samples=1
-    #         )
-    #         response = chat_response.choices[0].message.content
-    #         subclaims_with_log_probs = self.generator.get_facts_from_text(response)
-    #         subclaims_entry = {
-    #             "query": question,
-    #             "gld_ans": query["output"]["answer"],
-    #             "retrieved_docs": retrieved_docs,
-    #             "response": response,
-    #             "subclaims": [],
-    #         }
-
-    #         for subclaim in subclaims_with_log_probs:
-    #             subclaims_entry["subclaims"].append(
-    #                 {
-    #                     "subclaim": subclaim[0],
-    #                     "scores": {
-    #                         "log_prob": [score for token, score in subclaim[1]]
-    #                     },  # Add logic to populate scores if available
-    #                     "annotations": {},  # Add logic to populate annotations if available
-    #                 }
-    #             )
-
-    #         with open(self.subclaims_file, "a", encoding="utf-8") as subclaimsfile:
-    #             json.dump(subclaims_entry, subclaimsfile, indent=4)
-    #             if i < len(queries) - 1:
-    #                 subclaimsfile.write(",\n")
-
-    #     with open(self.subclaims_file, "a", encoding="utf-8") as subclaimsfile:
-    #         subclaimsfile.write("\n]")
-    #     print(f"Query responses saved to {self.subclaims_file}.")
-
     def generate_responses(
         self,
         query_file: str,
+        top_k: int,
+        threshold: float,
+        response_temperature: float = 0.7,
         truncation_strategy: Optional[Union[str, bool]] = "fixed_length",
         truncate_by: Optional[str] = "\n",
     ):
@@ -106,15 +53,15 @@ class SubclaimProcessor(IQueryProcessor):
             # Document retrieval
             retrieved_docs = self.faiss_manager.search_faiss_index(
                 question,
-                top_k=10,
-                threshold=0.3,
+                top_k=top_k,
+                threshold=threshold,
                 truncation_strategy=truncation_strategy,
                 truncate_by=truncate_by,
             )
 
             # Generate response
             chat_response = self.response_agent.answer(
-                question, retrieved_docs, temperature=0.7, n_samples=1
+                question, retrieved_docs, temperature=response_temperature, n_samples=1
             )
             response = chat_response.choices[0].message.content
 
@@ -140,7 +87,7 @@ class SubclaimProcessor(IQueryProcessor):
             queries = json.load(jsonfile)
 
         # Process each query and save updates in batches
-        batch_size = 10  # Adjust batch size as needed
+        batch_size = 10 
         for i in tqdm(range(0, len(queries), batch_size), desc="Extracting subclaims"):
             batch = queries[i : i + batch_size]
             modified = False
@@ -259,37 +206,69 @@ class SubclaimProcessor(IQueryProcessor):
     def annotate_subclaim(self):
         with open(self.subclaims_file, "r", encoding="utf-8") as jsonfile:
             subclaims_data = json.load(jsonfile)
-            for entry in tqdm(subclaims_data, desc="Annotating subclaims"):
-                validate(instance=entry, schema=self.subclaim_schema)
-                doc_contents = []
-                for doc in entry["retrieved_docs"]:
-                    try:
-                        # Split the document string into page_content and metadata
-                        doc_parts = doc.split("metadata=")
-                        page_content = doc_parts[0].replace("page_content=", "").strip()
-                        doc_contents.append(page_content)
-                    except Exception as e:
-                        doc_contents.append(f"Error processing document: {e}")
+        
+        batch_size = 10
+        modified = False
+        
+        for i in tqdm(range(0, len(subclaims_data), batch_size), desc="Annotating subclaims in batches"):
+            batch = subclaims_data[i: i + batch_size]
+            
+            for entry in batch:
+                try:
+                    validate(instance=entry, schema=self.subclaim_schema)
+                    
+                    # Skip if already annotated
+                    if all(subclaim.get("annotations", {}).get("gpt") for subclaim in entry["subclaims"]):
+                        continue
+                        
+                    doc_contents = []
+                    for doc in entry["retrieved_docs"]:
+                        try:
+                            # Split the document string into page_content and metadata
+                            doc_parts = doc.split("metadata=")
+                            page_content = doc_parts[0].replace("page_content=", "").strip()
+                            doc_contents.append(page_content)
+                        except Exception as e:
+                            doc_contents.append(f"Error processing document: {e}")
 
-                # Combine the formatted documents into a single context
-                context = "\n".join(doc_contents)
-                for subclaim in entry["subclaims"]:
-                    gold_answer = (
-                        " ".join(entry["gld_ans"])
-                        if isinstance(entry["gld_ans"], list)
-                        else entry["gld_ans"]
-                    )
-                    annotation = self.verifier.annotate(
-                        entry["query"], gold_answer, context, subclaim["subclaim"]
-                    )
-                    subclaim["annotations"]["gpt"] = annotation
-        with open(self.subclaims_file, "w", encoding="utf-8") as jsonfile:
-            json.dump(subclaims_data, jsonfile, indent=4)
-        print(f"Subclaims with annotations saved to {self.subclaims_file}.")
+                    # Combine the formatted documents into a single context
+                    context = "\n".join(doc_contents)
+                    
+                    for subclaim in entry["subclaims"]:
+                        if not subclaim.get("annotations", {}).get("gpt"):  # Only annotate if not already done
+                            gold_answer = (
+                                " ".join(entry["gld_ans"])
+                                if isinstance(entry["gld_ans"], list)
+                                else entry["gld_ans"]
+                            )
+                            annotation = self.verifier.annotate(
+                                entry["query"], gold_answer, context, subclaim["subclaim"]
+                            )
+                            if "annotations" not in subclaim:
+                                subclaim["annotations"] = {}
+                            subclaim["annotations"]["gpt"] = annotation
+                            modified = True
+                            
+                except Exception as e:
+                    logging.error(f"Error processing entry: {str(e)}")
+                    continue
+            
+            # Save after each batch if there were modifications
+            if modified:
+                try:
+                    with open(self.subclaims_file, "w", encoding="utf-8") as jsonfile:
+                        json.dump(subclaims_data, jsonfile, indent=4)
+                    logging.info(f"Saved batch through index {min(i + batch_size, len(subclaims_data))}")
+                    modified = False  # Reset modified flag
+                except Exception as e:
+                    logging.error(f"Error saving batch: {str(e)}")
+        
+        logging.info(f"Completed annotation. Results saved in {self.subclaims_file}")
 
 
 def process_subclaims(
-    query_path, subclaims_path, faiss_manager, scorer, truncation_strategy, truncate_by
+    query_path, subclaims_path, faiss_manager, scorer, top_k, threshold, response_model, response_temperature, 
+    fact_generation_model, claim_verification_model, truncation_strategy, truncate_by
 ):
     # Check if the file exists and load it if it does
     data = None
@@ -336,12 +315,13 @@ def process_subclaims(
                 return data
 
     # Initialize processor only when needed
-    processor = SubclaimProcessor(faiss_manager, scorer, subclaims_path)
+    processor = SubclaimProcessor(faiss_manager, response_model, fact_generation_model, claim_verification_model,  scorer, subclaims_path)
 
     # Generate subclaims if data doesn't exist
     if not data:
         processor.generate_responses(
-            query_path, truncation_strategy=truncation_strategy, truncate_by=truncate_by
+            query_path, top_k=top_k, threshold=threshold, response_temperature=response_temperature, 
+            truncation_strategy=truncation_strategy, truncate_by=truncate_by
         )
         processor.get_subclaims_from_responses()
         processor.score_subclaim()
@@ -358,20 +338,3 @@ def process_subclaims(
     return load_subclaim_data(subclaims_path)
 
 
-# Example usage
-if __name__ == "__main__":
-    document_file = FileManager(
-        "data/processed/FactScore/sampled_10_fact_score_documents.txt"
-    )
-    # load the txt file into file manager
-    faiss_manager = FAISSIndexManager()
-    # load file manager text into faiss index
-    faiss_manager.upsert_file_to_faiss(document_file)
-    scorer = SubclaimScorer()
-    processor = SubclaimProcessor(faiss_manager, scorer)
-    processor.get_subclaims(
-        "data/processed/FactScore/sampled_10_fact_score_queries.json",
-        "data/out/FactScore/fact_score_10_subclaims.json",
-    )
-    processor.score_subclaim()
-    processor.annotate_subclaim()

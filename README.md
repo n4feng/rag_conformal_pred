@@ -31,7 +31,7 @@ We utilize Wikipedia dumps for knowledge retrieval:
 First, set up project env using [requirements.txt](requirements.txt).
 To run the pipeline:
 ```python
-python main.py --dataset fact_score --run_split_conformal_prediction
+python main.py --config conf/config.yaml --dataset dragonball --query_size 500
 ```
 
 ## References

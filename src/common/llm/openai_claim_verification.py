@@ -5,7 +5,7 @@ from openai import OpenAI
 
 
 class OpenAIClaimVerification(object):
-    def __init__(self):
+    def __init__(self, model: str = "gpt-4o-mini"):
         dotenv_path = os.path.join(os.getcwd(), ".env")
         load_dotenv(dotenv_path)
         self.labels = ["supported", "irrelevant", "unverifiable", "nonefactual"]
@@ -21,6 +21,7 @@ class OpenAIClaimVerification(object):
                 NoneFactual: Only if this claim is none factual. 
                 The claim is:"""
         self.client = OpenAI()
+        self.model = model
 
     """
     This function will prompt openai api to give an annotation to subclaim. To perform a zero-shot annotation, leave document empty.
@@ -34,7 +35,7 @@ class OpenAIClaimVerification(object):
             + claim
         )
         completion = self.client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=self.model,
             messages=[
                 {
                     "role": "system",

@@ -5,7 +5,7 @@ from openai import OpenAI
 
 
 class OpenAIClaimScorer(object):
-    def __init__(self):
+    def __init__(self, response_model: str):
         dotenv_path = os.path.join(os.getcwd(), '.env')
         load_dotenv(dotenv_path)
         self.instruction = f"""givern question $query,
@@ -13,11 +13,12 @@ class OpenAIClaimScorer(object):
                 based on confidence level you think claim is relevant and itself is true to question
                 The claim is:"""
         self.client = OpenAI()
+        self.response_model = response_model
 
     def openAI_response(self, query, claim):
         content = self.instruction.replace('$query', query) + claim
         completion = self.client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=self.response_model,
             messages=[
                 {
                     "role": "system", 

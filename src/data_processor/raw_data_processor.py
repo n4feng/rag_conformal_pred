@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.common.retrieval import DocDB
+from src.rag.retrieval import DocDB
 
 
 class IRawDataProcessor(ABC):

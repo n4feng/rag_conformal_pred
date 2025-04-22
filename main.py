@@ -1,7 +1,10 @@
 import os
 import argparse
 import numpy as np
+import logging
+from pathlib import Path
 
+from src.common.config_manager import ConfigManager
 from src.dataloader.dataloader import DataLoader
 from src.data_processor.query_processor import QueryProcessor
 from src.common.file_manager import FileManager
@@ -10,227 +13,305 @@ from src.subclaim_processor.scorer.subclaim_scorer import SubclaimScorer
 from src.subclaim_processor.subclaim_processor import process_subclaims
 from src.calibration.conformal import SplitConformalCalibration
 
-
-if __name__ == "__main__":
+def parse_args():
+    """Parse command line arguments"""
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--config", 
+        type=str, 
+        default="conf/config.yaml",
+        help="Path to configuration file"
+    )
     parser.add_argument(
         "--dataset",
         type=str,
-        required=True,
-        help="Name of the dataset",
+        help="Override dataset name from config",
         choices=["fact_score", "hotpot_qa", "pop_qa", "medlf_qa", "dragonball"],
     )
     parser.add_argument(
-        "--wiki_db_file",
+        "--query_size", 
+        type=int, 
+        default=500,
+        help="Override query size from config"
+    )
+    parser.add_argument(
+        "--run_id",
         type=str,
-        default="enwiki-20230401.db",
-        help="Name of the Wiki database file",
+        help="Custom run identifier"
     )
-    parser.add_argument(
-        "--query_size", type=int, default=10, help="Number of queries to sample"
-    )
-    parser.add_argument(
-        "--delete_existing_index", action="store_true", help="Delete Faiss index"
-    )
-    parser.add_argument(
-        "--embedding_model",
-        type=str,
-        default="text-embedding-3-large",
-        help="Name of the embedding model for Faiss index",
-    )
-    parser.add_argument(
-        "--run_split_conformal_prediction",
-        action="store_true",
-        help="Run full conformal prediction",
-    )
-    parser.add_argument(
-        "--run_group_conditional_conformal",
-        action="store_true",
-        help="Run group conditional conformal prediction",
-    )
-    parser.add_argument("--a", type=float, default=1.0)
-    # parser.add_argument("--confidence_methods", type=str, default="relavance")
-    args = parser.parse_args()
+    return parser.parse_args()
 
+def main():
+    # Parse arguments
+    args = parse_args()
+    
+    # Initialize config manager
+    config_manager = ConfigManager(config_path=args.config, run_id=args.run_id)
+
+    # TODO separate config by usage
+    
+    # Setup logging
+    log_file, run_id = config_manager.setup_logging()
+    
+    # Update config with command line arguments if provided
+    if args.dataset or args.query_size:
+        updates = {'dataset': {}}
+        if args.dataset:
+            updates['dataset']['name'] = args.dataset
+        if args.query_size:
+            updates['dataset']['query_size'] = args.query_size
+        config_manager.update_config(updates)
+    
+    # Save updated config
+    config_file = config_manager.save_config()
+    logging.info(f"Configuration saved to: {config_file}")
+    
+    # Log important config values
+    config_manager.log_config()
+    
+    # Get the config
+    config = config_manager.config
+    
     ####################################### Data and Folder Set up ############################################
-    # Define dataset mappings with associated index store
-    conformal_alphas = np.arange(0.05, 0.45, 0.05)  # TODO
+    dataset_name = config['dataset']['name']
+    query_size = config['dataset']['query_size']
+    wiki_db_file = config['dataset']['wiki_db_file']
+    
+    delete_existing_index = config['index']['delete_existing']
+    embedding_model = config['index']['embedding_model']
+    truncation_strategy = config['index']['truncation_config']['strategy']
+    truncate_by = config['index']['truncation_config']['truncate_by']
+    
+    retrival_topk = config['rag']['retrival_topk']
+    retrival_threshold = config['rag']['retrival_threshold']
+    response_model = config['rag']['response_model']
+    response_temperature = config['rag']['response_temperature']
+    fact_generation_model = config['rag']['fact_generation_model']
+    claim_verification_model = config['rag']['claim_verification_model']
 
-    DATASET_CONFIG = {
-        "fact_score": {"name": "FactScore", "index_store": "index_store/FactScore"},
-        "hotpot_qa": {"name": "HotpotQA", "index_store": "index_store/HotpotQA"},
-        "pop_qa": {"name": "PopQA", "index_store": "index_store/PopQA"},
-        "medlf_qa": {"name": "MedLFQA", "index_store": "index_store/MedLFQA"},
-        "dragonball": {"name": "Dragonball", "index_store": "index_store/Dragonball"},
-    }
-
-    # Get dataset configuration or fail early
-    dataset_config = DATASET_CONFIG.get(args.dataset)
+    alpha_config = config['conformal_prediction']['conformal_alphas']
+    conformal_alphas = np.arange(alpha_config['start'], alpha_config['end'], alpha_config['step'])
+    a_value = config['conformal_prediction']['a_value']
+    
+    dataset_config = config['dataset_config'].get(dataset_name)
     if not dataset_config:
-        raise ValueError(f"Unknown dataset: {args.dataset}")
+        raise ValueError(f"Unknown dataset: {dataset_name}")
 
-    dataset_name = dataset_config["name"]
+    full_dataset_name = dataset_config["name"]
     index_store_dir = dataset_config["index_store"]
+    
+    raw_data_dir = os.path.join(config['paths']['raw_data_dir'], full_dataset_name)
+    processed_data_dir = os.path.join(config['paths']['processed_data_dir'], full_dataset_name)
+    response_dir = os.path.join(config['paths']['response_dir'], full_dataset_name)
+    wiki_db_path = os.path.join(config['paths']['wiki_db_dir'], wiki_db_file)
+    result_dir = os.path.join(config['paths']['result_dir'], full_dataset_name, run_id)
 
-    # Set data directories using os.path.join for cross-platform compatibility
-    raw_data_dir = os.path.join("data", "raw", dataset_name)
-    processed_data_dir = os.path.join("data", "processed", dataset_name)
-    response_dir = os.path.join("data", "out", dataset_name)
-    wiki_db_path = os.path.join("data", "raw", "WikiDB", args.wiki_db_file)
-
-    # set up results directory
-    for dir in [raw_data_dir, processed_data_dir, response_dir]:
-        os.makedirs(dir, exist_ok=True)
+    # set up directories
+    for dir_path in [raw_data_dir, processed_data_dir, response_dir, result_dir]:
+        os.makedirs(dir_path, exist_ok=True)
+        logging.info(f"Directory ensured: {dir_path}")
 
     # Determine raw data file path
-    if args.dataset == "medlfqa":
-        input_file = os.path.join("data", "raw", "MedLFQA")
+    if dataset_name == "medlf_qa":
+        input_file = os.path.join(config['paths']['raw_data_dir'], "MedLFQA")
         raw_data_path = input_file
     else:
-        raw_data_file = f"raw_{args.dataset}.json"
+        raw_data_file = f"raw_{dataset_name}.json"
         raw_data_path = os.path.join(raw_data_dir, raw_data_file)
 
+    logging.info(f"Raw data path: {raw_data_path}")
+    
     # Load data if needed
     if not os.path.exists(raw_data_path):
-        data_loader = DataLoader(args.dataset)
+        logging.info(f"Raw data not found. Loading data for {dataset_name}")
+        data_loader = DataLoader(dataset_name)
         data_loader.load_qa_data(output_path=raw_data_path)
+        logging.info(f"Data loaded and saved to {raw_data_path}")
 
     # create wiki db if needed
     if not os.path.exists(wiki_db_path) or not os.path.isfile(wiki_db_path):
-        wiki_source = (
-            "data/raw/WikiDB/enwiki-20171001-pages-meta-current-withlinks-abstracts"
+        wiki_source = os.path.join(
+            config['paths']['wiki_db_dir'],
+            "enwiki-20171001-pages-meta-current-withlinks-abstracts"
         )
         if not os.path.exists(wiki_source):
             raise FileNotFoundError(f"Wiki source data not found at {wiki_source}")
+        logging.info(f"Wiki DB not found. Creating from source {wiki_source}")
+        data_loader = DataLoader(dataset_name)
         data_loader.create_wiki_db(source_path=wiki_source, output_path=wiki_db_path)
+        logging.info(f"Wiki DB created at {wiki_db_path}")
 
     # Process queries and documents
-    input_file = (
-        os.path.join("data", "raw", "MedLFQA")
-        if args.dataset == "medlf_qa"
-        else raw_data_path
-    )
-    query_output_file = f"{args.dataset}_queries.json"
-    document_output_file = f"{args.dataset}_documents.txt"
+    input_file = raw_data_path
+    if dataset_name == "medlf_qa":
+        input_file = os.path.join(config['paths']['raw_data_dir'], "MedLFQA")
+    
+    query_output_file = f"{dataset_name}_queries.json"
+    document_output_file = f"{dataset_name}_documents.txt"
 
     subclaims_path = os.path.join(
-        response_dir, f"{args.dataset}_{args.query_size}_subclaims_with_scores.json"
+        response_dir, f"{dataset_name}_{query_size}_subclaims_with_scores_{response_model}.json"
     )
-    CP_result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.query_size}_a={args.a:.2f}_CP_removal.png"
-    factual_result_fig_path = f"data/result/{dataset_name}/{args.dataset}_{args.query_size}_a={args.a:.2f}_factual_correctness.png"
-    result_path = f"data/result/{dataset_name}/{args.dataset}_{args.query_size}_a={args.a:.2f}.csv"
+    CP_result_fig_path = os.path.join(
+        result_dir, f"{dataset_name}_{query_size}_a={a_value:.2f}_CP_removal.png"
+    )
+    factual_result_fig_path = os.path.join(
+        result_dir, f"{dataset_name}_{query_size}_a={a_value:.2f}_factual_correctness.png"
+    )
+    result_path = os.path.join(
+        result_dir, f"{dataset_name}_{query_size}_a={a_value:.2f}.csv"
+    )
     ####################################### End of Data and Folder Set up ######################################
 
-    # Create directories if they don't exist
-    os.makedirs(processed_data_dir, exist_ok=True)
-
-    query_processor = QueryProcessor(db_path=wiki_db_path, query_size=args.query_size)
+    # Create QueryProcessor
+    logging.info("Initializing QueryProcessor")
+    query_processor = QueryProcessor(db_path=wiki_db_path, query_size=query_size)
 
     # Create queries data
+    logging.info("Processing queries")
     queries, query_path = query_processor.get_queries(
-        dataset=args.dataset,
+        dataset=dataset_name,
         input_file=input_file,
         output_dir=processed_data_dir,
         output_file=query_output_file,
     )
-    print(f"Query size: {len(queries)}")
+    logging.info(f"Query size: {len(queries)}")
 
     # Create documents data
+    logging.info("Processing documents")
     document_path = query_processor.get_documents(
         query_dir=query_path,
         output_dir=processed_data_dir,
         output_file=document_output_file,
     )
+    logging.info(f"Documents saved to {document_path}")
 
     # Index creation and retrieval
-    index_file_path = os.path.join(index_store_dir, f"index_{args.query_size}.faiss")
-    indice2fm_path = os.path.join(index_store_dir, f"indice2fm_{args.query_size}.json")
+    os.makedirs(index_store_dir, exist_ok=True)
+    index_file_path = os.path.join(index_store_dir, f"index_{query_size}.faiss")
+    indice2fm_path = os.path.join(index_store_dir, f"indice2fm_{query_size}.json")
+    
+    logging.info(f"Setting up FAISS index manager")
     faiss_manager = FAISSIndexManager(
         index_path=index_file_path, indice2fm_path=indice2fm_path
     )
-    if args.delete_existing_index:
+    
+    if delete_existing_index:
+        logging.info("Deleting existing index as requested")
         faiss_manager.delete_index()
 
     # Create index if it does not exist
-    print(document_path)
     document_file = FileManager(document_path)
 
-    # If Index doesn't exist yet
-    if args.dataset == "dragonball":
-        truncation_strategy = "fixed_length"
-        truncate_by = None
-    else:
-        truncation_strategy = False
-        truncate_by = "\n"
+    
+    
+    logging.info(f"Using truncation strategy: {truncation_strategy}, truncate_by: {truncate_by}")
 
+    # If Index doesn't exist yet
     if not os.path.exists(index_file_path):
         try:
+            logging.info(f"Creating new index with document '{document_path}'")
             faiss_manager.upsert_file_to_faiss(
                 document_file,
                 truncation_strategy=truncation_strategy,
                 truncate_by=truncate_by,
-            )  # TODO
-            print(f"Created new index with document '{document_path}'")
+            )
+            logging.info("Index created successfully")
         except Exception as e:
-            raise RuntimeError(f"Failed to create new index: {str(e)}")
+            error_msg = f"Failed to create new index: {str(e)}"
+            logging.error(error_msg)
+            raise RuntimeError(error_msg)
 
     # If Index exists but current document isn't indexed
     elif document_path not in faiss_manager.indice2fm:
         # Verify index integrity
+        logging.info("Checking index integrity")
         if not faiss_manager.is_indice_align():
-            raise ValueError(
-                "Index corruption detected: index and indice2fm are not aligned"
-            )
+            error_msg = "Index corruption detected: index and indice2fm are not aligned"
+            logging.error(error_msg)
+            raise ValueError(error_msg)
 
         try:
-            print(f"Adding document '{document_path}' to existing index")
+            logging.info(f"Adding document '{document_path}' to existing index")
             faiss_manager.upsert_file_to_faiss(
                 document_file,
                 truncation_strategy=truncation_strategy,
                 truncate_by=truncate_by,
             )
+            logging.info("Document added to index successfully")
         except Exception as e:
-            raise RuntimeError(f"Failed to add document to index: {str(e)}")
+            error_msg = f"Failed to add document to index: {str(e)}"
+            logging.error(error_msg)
+            raise RuntimeError(error_msg)
 
     # Case 3: Document is already indexed
     else:
-        print(f"Document '{document_path}' is already indexed")
+        logging.info(f"Document '{document_path}' is already indexed")
 
     # generate subclaims with scores
+    logging.info(f"Initializing SubclaimScorer with embedding model {embedding_model}")
     scorer = SubclaimScorer(
-        embedding_model=args.embedding_model,
+        embedding_model=embedding_model,
         index_path=index_file_path,
         indice2fm_path=indice2fm_path,
     )
 
+    logging.info(f"Processing subclaims and generating scores")
     subclaim_with_annotation_data = process_subclaims(
-        query_path,
-        subclaims_path,
-        faiss_manager,
-        scorer,
-        truncation_strategy,
-        truncate_by,
+        query_path=query_path,
+        subclaims_path=subclaims_path,
+        faiss_manager=faiss_manager,
+        scorer=scorer,
+        top_k=retrival_topk, 
+        threshold=retrival_threshold,
+        response_model=response_model,
+        response_temperature=response_temperature, 
+        fact_generation_model=fact_generation_model,
+        claim_verification_model=claim_verification_model, 
+        truncation_strategy=truncation_strategy,
+        truncate_by=truncate_by,
     )
+    logging.info(f"Subclaims processed and saved to {subclaims_path}")
 
     # calibration and conformal prediction results
-    if args.run_split_conformal_prediction:
-        conformal = SplitConformalCalibration(dataset_name=args.dataset)
+    if config['conformal_prediction']['split_conformal']:
+        logging.info("Running split conformal prediction")
+        conformal = SplitConformalCalibration(dataset_name=dataset_name)
+        logging.info(f"Plotting conformal removal with alphas: {conformal_alphas}, a={a_value}")
         conformal.plot_conformal_removal(
             data=subclaim_with_annotation_data,
             alphas=conformal_alphas,
-            a=args.a,
+            a=a_value,
             fig_filename=CP_result_fig_path,
             csv_filename=result_path,
         )
+        logging.info(f"CP removal plot saved to {CP_result_fig_path}")
+        
+        logging.info("Plotting factual removal")
         conformal.plot_factual_removal(
             data=subclaim_with_annotation_data,
             alphas=conformal_alphas,
-            a=args.a,
+            a=a_value,
             fig_filename=factual_result_fig_path,
             csv_filename=result_path,
         )
+        logging.info(f"Factual removal plot saved to {factual_result_fig_path}")
+        logging.info(f"Results saved to {result_path}")
 
-    elif args.run_group_conditional_conformal:
-        raise NotImplementedError("Group conditional conformal not implemented")
+    elif config['conformal_prediction']['group_conditional_conformal']:
+        error_msg = "Group conditional conformal not implemented"
+        logging.error(error_msg)
+        raise NotImplementedError(error_msg)
     else:
-        raise ValueError("Invalid calibration method")
+        if not (config['conformal_prediction']['split_conformal'] or 
+                config['conformal_prediction']['group_conditional_conformal']):
+            error_msg = "No calibration method selected in config"
+            logging.error(error_msg)
+            raise ValueError(error_msg)
+    
+    # Copy config and log files to result directory for reproducibility 
+    result_run_dir = config_manager.copy_run_artifacts(result_dir)
+    logging.info(f"Run completed successfully. Results and logs saved to {result_run_dir}")
+
+if __name__ == "__main__":
+    main()
