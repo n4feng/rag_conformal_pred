@@ -18,17 +18,9 @@ class SplitConformalCalibration(ICalibration):
     Implementation of standard conformal calibration.
     """
 
-    def __init__(self, dataset_name: str, runs: int = 1000):
+    def __init__(self, dataset_name: str, runs: int = 1000, score_types: list = None):
         self.dataset_name = dataset_name
-        self.confidence_method = [
-            "relavance",
-            "frequency",
-            "query_claim_cosine_similarity",
-            "doc_claim_cosine_similarity",
-            "min_log_prob",
-            "random",
-            "ordinal",
-        ]
+        self.confidence_method = score_types
         self.runs = runs
 
     def plot_conformal_removal(

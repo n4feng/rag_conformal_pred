@@ -20,18 +20,28 @@ index:
 rag:
   retrival_topk: 10
   retrival_threshold: 0.3
-  response_model: "gpt-4o-mini"
+  response_model: "gpt-4o"
   response_temperature: 0.7
-  fact_generation_model: "gpt-4o-mini"  
+  fact_generation_model: "gpt-4o"  
 
 
 # Prediction configuration
 conformal_prediction:
-  aggregation_strategy: "mean"
-  scoring_strategy: "product"
+  scoring:
+    name: "relavance_max"
+    aggregation_strategy: "max"
+    scoring_strategy: "product"
+    baseline_score_types:
+      - "noise"
+      - "relavance_max"
+      - "frequency"
+      - "query_claim_cosine_similarity"
+      - "doc_claim_cosine_similarity"
+      - "random"
+      - "ordinal"
+      - "min_log_prob"
   claim_verification_model: "gpt-4o-mini"  # "gpt-4o-mini" 
-  split_conformal: true  # TODO 
-  group_conditional_conformal: false  # TODO 
+  method: "split_conformal"  # options: "split_conformal", "group_conditional_conformal"
   conformal_alphas:
     start: 0.05
     end: 0.45

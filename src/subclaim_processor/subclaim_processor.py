@@ -29,7 +29,6 @@ class SubclaimProcessor(IQueryProcessor):
         self.response_agent = OpenAIRAGAgent(faiss_manager, model=response_model)
         self.generator = OpenAIAtomicFactGenerator(model=fact_generation_model)
         self.verifier = OpenAIClaimVerification(model=claim_verification_model)
-        print(f"claim_verification_model: {claim_verification_model}")
         self.scorer = scorer
         self.subclaims_file = subclaims_file
         with open(
@@ -136,24 +135,38 @@ class SubclaimProcessor(IQueryProcessor):
 
         print(f"Completed subclaim extraction. Results saved in {self.subclaims_file}")
 
-    def score_subclaim(self, aggregation_strategy, scoring_strategy):
-
+    def score_subclaim(self, scoring_config: dict):
         with open(self.subclaims_file, "r", encoding="utf-8") as jsonfile:
             subclaims_data = json.load(jsonfile)
-            for entry in tqdm(subclaims_data, desc="Scoring subclaims"):
+
+        batch_size = 10
+        modified = False
+
+        for i in tqdm(
+            range(0, len(subclaims_data), batch_size),
+            desc="Scoring subclaims in batches",
+        ):
+            batch = subclaims_data[i : i + batch_size]
+
+            for entry in batch:
                 validate(instance=entry, schema=self.subclaim_schema)
                 for i, subclaim in enumerate(entry["subclaims"]):
                     if isinstance(self.scorer, IDocumentScorer):
                         if "noise" not in subclaim["scores"].keys():
                             subclaim["scores"]["noise"] = np.random.normal(0, 0.001)
-                        if "relavance" not in subclaim["scores"].keys():
+                        if scoring_config["name"] not in subclaim["scores"].keys():
                             relavance_score = self.scorer.score(
                                 claim=subclaim["subclaim"],
                                 retrieved_docs=entry["retrieved_docs"],
-                                aggregation_strategy=aggregation_strategy,
-                                scoring_strategy=scoring_strategy,
+                                aggregation_strategy=scoring_config[
+                                    "aggregation_strategy"
+                                ],
+                                scoring_strategy=scoring_config["scoring_strategy"],
                             )
-                            subclaim["scores"]["relavance"] = float(relavance_score)
+                            subclaim["scores"][scoring_config["name"]] = float(
+                                relavance_score
+                            )
+
                         if (
                             "query_claim_cosine_similarity"
                             not in subclaim["scores"].keys()
@@ -171,7 +184,7 @@ class SubclaimProcessor(IQueryProcessor):
                             not in subclaim["scores"].keys()
                         ):
                             doc_claim_cosine_similarities = []
-                            for doc in entry["retrieved_docs"]:  # TODO
+                            for doc in entry["retrieved_docs"]:
                                 doc_claim_cosine_similarities.append(
                                     self.scorer.cosine_similarity(
                                         subclaim["subclaim"], doc
@@ -208,8 +221,17 @@ class SubclaimProcessor(IQueryProcessor):
                                 subclaim["scores"]["log_prob"]
                             )
 
-        with open(self.subclaims_file, "w", encoding="utf-8") as jsonfile:
-            json.dump(subclaims_data, jsonfile, indent=4)
+                modified = True
+
+            # Save updates after processing each batch
+            if modified:
+                with open(self.subclaims_file, "w", encoding="utf-8") as jsonfile:
+                    json.dump(subclaims_data, jsonfile, indent=4)
+                print(
+                    f"Saved batch through index {min(i + batch_size, len(subclaims_data))}"
+                )
+                modified = False  # Reset modified flag
+
         print(f"Subclaims with scores saved to {self.subclaims_file}.")
 
     def annotate_subclaim(self):
@@ -306,9 +328,6 @@ def process_subclaims(
     response_model = config["rag"]["response_model"]
     response_temperature = config["rag"]["response_temperature"]
     fact_generation_model = config["rag"]["fact_generation_model"]
-
-    aggregation_strategy = config["conformal_prediction"]["aggregation_strategy"]
-    scoring_strategy = config["conformal_prediction"]["scoring_strategy"]
     claim_verification_model = config["conformal_prediction"][
         "claim_verification_model"
     ]
@@ -318,16 +337,9 @@ def process_subclaims(
     if os.path.exists(subclaims_path):
         data = load_subclaim_data(subclaims_path)
         # Check if the data is valid
-        score_method_to_check = [
-            "noise",
-            "relavance",
-            "frequency",
-            "query_claim_cosine_similarity",
-            "doc_claim_cosine_similarity",
-            "random",
-            "ordinal",
-            "min_log_prob",
-        ]
+        score_types = [config["conformal_prediction"]["scoring"]["name"]] + config[
+            "conformal_prediction"
+        ]["scoring"]["baseline_score_types"]
         if data:
             needs_subclaim = any(len(pt["subclaims"]) == 0 for pt in data)
 
@@ -344,7 +356,7 @@ def process_subclaims(
                     score_method not in subclaim["scores"].keys()
                     for pt in data
                     for subclaim in pt["subclaims"]
-                    for score_method in score_method_to_check
+                    for score_method in score_types
                 )
 
                 needs_annotation = any(
@@ -379,7 +391,7 @@ def process_subclaims(
         )
         processor.get_subclaims_from_responses()
         processor.score_subclaim(
-            aggregation_strategy=aggregation_strategy, scoring_strategy=scoring_strategy
+            scoring_config=config["conformal_prediction"]["scoring"]
         )
         processor.annotate_subclaim()
     else:
@@ -388,8 +400,7 @@ def process_subclaims(
             processor.get_subclaims_from_responses()
         if needs_scoring:
             processor.score_subclaim(
-                aggregation_strategy=aggregation_strategy,
-                scoring_strategy=scoring_strategy,
+                scoring_config=config["conformal_prediction"]["scoring"]
             )
         if needs_annotation:
             processor.annotate_subclaim()
