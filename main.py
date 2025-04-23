@@ -13,14 +13,15 @@ from src.subclaim_processor.scorer.subclaim_scorer import SubclaimScorer
 from src.subclaim_processor.subclaim_processor import process_subclaims
 from src.calibration.conformal import SplitConformalCalibration
 
+
 def parse_args():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--config", 
-        type=str, 
+        "--config",
+        type=str,
         default="conf/config.yaml",
-        help="Path to configuration file"
+        help="Path to configuration file",
     )
     parser.add_argument(
         "--dataset",
@@ -29,82 +30,80 @@ def parse_args():
         choices=["fact_score", "hotpot_qa", "pop_qa", "medlf_qa", "dragonball"],
     )
     parser.add_argument(
-        "--query_size", 
-        type=int, 
-        default=500,
-        help="Override query size from config"
+        "--query_size", type=int, default=500, help="Override query size from config"
     )
-    parser.add_argument(
-        "--run_id",
-        type=str,
-        help="Custom run identifier"
-    )
+    parser.add_argument("--run_id", type=str, help="Custom run identifier")
     return parser.parse_args()
+
 
 def main():
     # Parse arguments
     args = parse_args()
-    
-    # Initialize config manager
-    config_manager = ConfigManager(config_path=args.config, run_id=args.run_id)
 
-    # TODO separate config by usage
-    
+    # Initialize config manager
+    config_manager = ConfigManager(
+        config_path=args.config,
+        path_config_path="conf/path_config.yaml",
+        run_id=args.run_id,
+    )
+
     # Setup logging
     log_file, run_id = config_manager.setup_logging()
-    
+
     # Update config with command line arguments if provided
     if args.dataset or args.query_size:
-        updates = {'dataset': {}}
+        updates = {"dataset": {}}
         if args.dataset:
-            updates['dataset']['name'] = args.dataset
+            updates["dataset"]["name"] = args.dataset
         if args.query_size:
-            updates['dataset']['query_size'] = args.query_size
+            updates["dataset"]["query_size"] = args.query_size
         config_manager.update_config(updates)
-    
+
     # Save updated config
     config_file = config_manager.save_config()
     logging.info(f"Configuration saved to: {config_file}")
-    
+
     # Log important config values
     config_manager.log_config()
-    
+
     # Get the config
     config = config_manager.config
-    
+    path_config = config_manager.path_config
+
     ####################################### Data and Folder Set up ############################################
-    dataset_name = config['dataset']['name']
-    query_size = config['dataset']['query_size']
-    wiki_db_file = config['dataset']['wiki_db_file']
-    
-    delete_existing_index = config['index']['delete_existing']
-    embedding_model = config['index']['embedding_model']
-    truncation_strategy = config['index']['truncation_config']['strategy']
-    truncate_by = config['index']['truncation_config']['truncate_by']
-    
-    retrival_topk = config['rag']['retrival_topk']
-    retrival_threshold = config['rag']['retrival_threshold']
-    response_model = config['rag']['response_model']
-    response_temperature = config['rag']['response_temperature']
-    fact_generation_model = config['rag']['fact_generation_model']
-    claim_verification_model = config['rag']['claim_verification_model']
+    dataset_name = config["dataset"]["name"]
+    query_size = config["dataset"]["query_size"]
+    wiki_db_file = config["dataset"]["wiki_db_file"]
 
-    alpha_config = config['conformal_prediction']['conformal_alphas']
-    conformal_alphas = np.arange(alpha_config['start'], alpha_config['end'], alpha_config['step'])
-    a_value = config['conformal_prediction']['a_value']
-    
-    dataset_config = config['dataset_config'].get(dataset_name)
-    if not dataset_config:
+    delete_existing_index = config["index"]["delete_existing"]
+    embedding_model = config["index"]["embedding_model"]
+    index_truncation_config = config["index"]["truncation_config"]
+    truncation_strategy = index_truncation_config["strategy"]
+    truncate_by = index_truncation_config["truncate_by"]
+
+    response_model = config["rag"]["response_model"]
+
+    alpha_config = config["conformal_prediction"]["conformal_alphas"]
+    conformal_alphas = np.arange(
+        alpha_config["start"], alpha_config["end"], alpha_config["step"]
+    )
+    a_value = config["conformal_prediction"]["a_value"]
+
+    index_path = path_config["index_path"].get(dataset_name)
+    if not index_path:
         raise ValueError(f"Unknown dataset: {dataset_name}")
+    full_dataset_name = index_path["name"]
+    index_store_dir = index_path["index_store"]
 
-    full_dataset_name = dataset_config["name"]
-    index_store_dir = dataset_config["index_store"]
-    
-    raw_data_dir = os.path.join(config['paths']['raw_data_dir'], full_dataset_name)
-    processed_data_dir = os.path.join(config['paths']['processed_data_dir'], full_dataset_name)
-    response_dir = os.path.join(config['paths']['response_dir'], full_dataset_name)
-    wiki_db_path = os.path.join(config['paths']['wiki_db_dir'], wiki_db_file)
-    result_dir = os.path.join(config['paths']['result_dir'], full_dataset_name, run_id)
+    raw_data_dir = os.path.join(path_config["paths"]["raw_data_dir"], full_dataset_name)
+    processed_data_dir = os.path.join(
+        path_config["paths"]["processed_data_dir"], full_dataset_name
+    )
+    response_dir = os.path.join(path_config["paths"]["response_dir"], full_dataset_name)
+    wiki_db_path = os.path.join(path_config["paths"]["wiki_db_dir"], wiki_db_file)
+    result_dir = os.path.join(
+        path_config["paths"]["result_dir"], full_dataset_name, run_id
+    )
 
     # set up directories
     for dir_path in [raw_data_dir, processed_data_dir, response_dir, result_dir]:
@@ -113,14 +112,14 @@ def main():
 
     # Determine raw data file path
     if dataset_name == "medlf_qa":
-        input_file = os.path.join(config['paths']['raw_data_dir'], "MedLFQA")
+        input_file = os.path.join(path_config["paths"]["raw_data_dir"], "MedLFQA")
         raw_data_path = input_file
     else:
         raw_data_file = f"raw_{dataset_name}.json"
         raw_data_path = os.path.join(raw_data_dir, raw_data_file)
 
     logging.info(f"Raw data path: {raw_data_path}")
-    
+
     # Load data if needed
     if not os.path.exists(raw_data_path):
         logging.info(f"Raw data not found. Loading data for {dataset_name}")
@@ -131,8 +130,8 @@ def main():
     # create wiki db if needed
     if not os.path.exists(wiki_db_path) or not os.path.isfile(wiki_db_path):
         wiki_source = os.path.join(
-            config['paths']['wiki_db_dir'],
-            "enwiki-20171001-pages-meta-current-withlinks-abstracts"
+            path_config["paths"]["wiki_db_dir"],
+            "enwiki-20171001-pages-meta-current-withlinks-abstracts",
         )
         if not os.path.exists(wiki_source):
             raise FileNotFoundError(f"Wiki source data not found at {wiki_source}")
@@ -144,19 +143,21 @@ def main():
     # Process queries and documents
     input_file = raw_data_path
     if dataset_name == "medlf_qa":
-        input_file = os.path.join(config['paths']['raw_data_dir'], "MedLFQA")
-    
+        input_file = os.path.join(path_config["paths"]["raw_data_dir"], "MedLFQA")
+
     query_output_file = f"{dataset_name}_queries.json"
     document_output_file = f"{dataset_name}_documents.txt"
 
     subclaims_path = os.path.join(
-        response_dir, f"{dataset_name}_{query_size}_subclaims_with_scores_{response_model}.json"
+        response_dir,
+        f"{dataset_name}_{query_size}_subclaims_with_scores_{response_model}.json",
     )
     CP_result_fig_path = os.path.join(
         result_dir, f"{dataset_name}_{query_size}_a={a_value:.2f}_CP_removal.png"
     )
     factual_result_fig_path = os.path.join(
-        result_dir, f"{dataset_name}_{query_size}_a={a_value:.2f}_factual_correctness.png"
+        result_dir,
+        f"{dataset_name}_{query_size}_a={a_value:.2f}_factual_correctness.png",
     )
     result_path = os.path.join(
         result_dir, f"{dataset_name}_{query_size}_a={a_value:.2f}.csv"
@@ -190,22 +191,26 @@ def main():
     os.makedirs(index_store_dir, exist_ok=True)
     index_file_path = os.path.join(index_store_dir, f"index_{query_size}.faiss")
     indice2fm_path = os.path.join(index_store_dir, f"indice2fm_{query_size}.json")
-    
+
     logging.info(f"Setting up FAISS index manager")
     faiss_manager = FAISSIndexManager(
-        index_path=index_file_path, indice2fm_path=indice2fm_path
+        index_truncation_config=index_truncation_config,
+        index_path=index_file_path,
+        indice2fm_path=indice2fm_path,
     )
-    
+
     if delete_existing_index:
         logging.info("Deleting existing index as requested")
         faiss_manager.delete_index()
 
     # Create index if it does not exist
-    document_file = FileManager(document_path)
+    document_file = FileManager(
+        document_path, index_truncation_config=index_truncation_config
+    )
 
-    
-    
-    logging.info(f"Using truncation strategy: {truncation_strategy}, truncate_by: {truncate_by}")
+    logging.info(
+        f"Using truncation strategy: {truncation_strategy}, truncate_by: {truncate_by}"
+    )
 
     # If Index doesn't exist yet
     if not os.path.exists(index_file_path):
@@ -251,6 +256,7 @@ def main():
     # generate subclaims with scores
     logging.info(f"Initializing SubclaimScorer with embedding model {embedding_model}")
     scorer = SubclaimScorer(
+        index_truncation_config=index_truncation_config,
         embedding_model=embedding_model,
         index_path=index_file_path,
         indice2fm_path=indice2fm_path,
@@ -262,22 +268,17 @@ def main():
         subclaims_path=subclaims_path,
         faiss_manager=faiss_manager,
         scorer=scorer,
-        top_k=retrival_topk, 
-        threshold=retrival_threshold,
-        response_model=response_model,
-        response_temperature=response_temperature, 
-        fact_generation_model=fact_generation_model,
-        claim_verification_model=claim_verification_model, 
-        truncation_strategy=truncation_strategy,
-        truncate_by=truncate_by,
+        config=config,
     )
     logging.info(f"Subclaims processed and saved to {subclaims_path}")
 
     # calibration and conformal prediction results
-    if config['conformal_prediction']['split_conformal']:
+    if config["conformal_prediction"]["split_conformal"]:
         logging.info("Running split conformal prediction")
         conformal = SplitConformalCalibration(dataset_name=dataset_name)
-        logging.info(f"Plotting conformal removal with alphas: {conformal_alphas}, a={a_value}")
+        logging.info(
+            f"Plotting conformal removal with alphas: {conformal_alphas}, a={a_value}"
+        )
         conformal.plot_conformal_removal(
             data=subclaim_with_annotation_data,
             alphas=conformal_alphas,
@@ -286,7 +287,7 @@ def main():
             csv_filename=result_path,
         )
         logging.info(f"CP removal plot saved to {CP_result_fig_path}")
-        
+
         logging.info("Plotting factual removal")
         conformal.plot_factual_removal(
             data=subclaim_with_annotation_data,
@@ -298,20 +299,25 @@ def main():
         logging.info(f"Factual removal plot saved to {factual_result_fig_path}")
         logging.info(f"Results saved to {result_path}")
 
-    elif config['conformal_prediction']['group_conditional_conformal']:
+    elif config["conformal_prediction"]["group_conditional_conformal"]:
         error_msg = "Group conditional conformal not implemented"
         logging.error(error_msg)
         raise NotImplementedError(error_msg)
     else:
-        if not (config['conformal_prediction']['split_conformal'] or 
-                config['conformal_prediction']['group_conditional_conformal']):
+        if not (
+            config["conformal_prediction"]["split_conformal"]
+            or config["conformal_prediction"]["group_conditional_conformal"]
+        ):
             error_msg = "No calibration method selected in config"
             logging.error(error_msg)
             raise ValueError(error_msg)
-    
-    # Copy config and log files to result directory for reproducibility 
+
+    # Copy config and log files to result directory for reproducibility
     result_run_dir = config_manager.copy_run_artifacts(result_dir)
-    logging.info(f"Run completed successfully. Results and logs saved to {result_run_dir}")
+    logging.info(
+        f"Run completed successfully. Results and logs saved to {result_run_dir}"
+    )
+
 
 if __name__ == "__main__":
     main()

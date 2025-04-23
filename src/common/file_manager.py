@@ -8,9 +8,10 @@ from src.common.chunker import FixedLengthChunker
 
 
 class FileManager:
-    def __init__(self, file_path, chunk_size=2000):
+    def __init__(self, file_path: str, index_truncation_config: dict):
         self.file_path = file_path
-        self.chunk_size = chunk_size
+        self.chunk_size = index_truncation_config["chunk_size"]
+        self.chunk_overlap = index_truncation_config["chunk_overlap"]
         self.texts = []
         directory = os.path.dirname(file_path)
         base_name = os.path.splitext(os.path.basename(file_path))[0]
@@ -20,7 +21,7 @@ class FileManager:
             else os.path.join(directory, f"{base_name}_texts.json")
         )
         self.text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=self.chunk_size, chunk_overlap=25
+            chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap
         )  # TODO
 
         # Load texts from file if it exists

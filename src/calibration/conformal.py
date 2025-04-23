@@ -232,7 +232,6 @@ class SplitConformalCalibration(ICalibration):
         fraction_removed = []
 
         for entry in data:
-            # print(f"Question: {entry['query']}\ngolder answer: {entry['gld_ans']}")  # TODO
             removal_count = 0
             retained_cnt = 0
             correctly_retained_count = 0
@@ -248,10 +247,9 @@ class SplitConformalCalibration(ICalibration):
                         in CORRECT_ANNOTATIONS
                     ):
                         correctly_retained_count += 1
-                        # print(f"Correctly retained {subclaim["subclaim"]}\n\tscore: {score}\n\tthreshold: {threshold}\n\ttotal_subclaims: {len(entry["subclaims"])}\n\tretained count: {retained_cnt}\n\tcorrectly retained cnt:{correctly_retained_count}\n\tremoval count: {removal_count}")  # TODO
+
                 else:
                     removal_count += 1
-                    # print(f"Removed {subclaim["subclaim"]}\n\tscore: {score}\n\tthreshold: {threshold}\n\ttotal_subclaims: {len(entry["subclaims"])}\n\tretained count: {retained_cnt}\n\tcorrectly retained cnt:{correctly_retained_count}\n\tremoval count: {removal_count}")  # TODO
 
             total_subclaims = len(entry["subclaims"])
 
@@ -268,7 +266,6 @@ class SplitConformalCalibration(ICalibration):
                 correctly_retained_count / retained_cnt if retained_cnt > 0 else 1
             )
             correctly_retained.append(correctly_retained_percentage >= a)
-            # print(correctly_retained) # TODO
 
         return np.mean(correctly_retained), np.mean(fraction_removed)
 

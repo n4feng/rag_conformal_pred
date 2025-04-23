@@ -5,21 +5,26 @@ import logging
 import numpy as np
 from typing import Union, Optional
 from tqdm import tqdm
-from jsonschema import RefResolver, validate
+from jsonschema import validate
 from src.subclaim_processor.query_processor import IQueryProcessor
 from src.common.llm.openai_rag_agent import OpenAIRAGAgent
 from src.common.llm.openai_atomicfact_generator import OpenAIAtomicFactGenerator
 from src.common.llm.openai_claim_verification import OpenAIClaimVerification
 from src.subclaim_processor.scorer.base_scorer import IScorer
 from src.subclaim_processor.scorer.document_scorer import IDocumentScorer
-from src.subclaim_processor.scorer.subclaim_scorer import SubclaimScorer
-from src.common.faiss_manager import FAISSIndexManager
-from src.common.file_manager import FileManager
 from src.calibration.utils import load_subclaim_data
 
 
 class SubclaimProcessor(IQueryProcessor):
-    def __init__(self, faiss_manager, response_model: str, fact_generation_model: str, claim_verification_model: str, scorer: IScorer, subclaims_file: str):
+    def __init__(
+        self,
+        faiss_manager,
+        response_model: str,
+        fact_generation_model: str,
+        claim_verification_model: str,
+        scorer: IScorer,
+        subclaims_file: str,
+    ):
         self.faiss_manager = faiss_manager
         self.response_agent = OpenAIRAGAgent(faiss_manager, model=response_model)
         self.generator = OpenAIAtomicFactGenerator(model=fact_generation_model)
@@ -87,7 +92,7 @@ class SubclaimProcessor(IQueryProcessor):
             queries = json.load(jsonfile)
 
         # Process each query and save updates in batches
-        batch_size = 10 
+        batch_size = 10
         for i in tqdm(range(0, len(queries), batch_size), desc="Extracting subclaims"):
             batch = queries[i : i + batch_size]
             modified = False
@@ -131,7 +136,8 @@ class SubclaimProcessor(IQueryProcessor):
 
         print(f"Completed subclaim extraction. Results saved in {self.subclaims_file}")
 
-    def score_subclaim(self):
+    def score_subclaim(self, aggregation_strategy, scoring_strategy):
+
         with open(self.subclaims_file, "r", encoding="utf-8") as jsonfile:
             subclaims_data = json.load(jsonfile)
             for entry in tqdm(subclaims_data, desc="Scoring subclaims"):
@@ -142,7 +148,10 @@ class SubclaimProcessor(IQueryProcessor):
                             subclaim["scores"]["noise"] = np.random.normal(0, 0.001)
                         if "relavance" not in subclaim["scores"].keys():
                             relavance_score = self.scorer.score(
-                                subclaim["subclaim"], entry["retrieved_docs"]
+                                claim=subclaim["subclaim"],
+                                retrieved_docs=entry["retrieved_docs"],
+                                aggregation_strategy=aggregation_strategy,
+                                scoring_strategy=scoring_strategy,
                             )
                             subclaim["scores"]["relavance"] = float(relavance_score)
                         if (
@@ -206,70 +215,104 @@ class SubclaimProcessor(IQueryProcessor):
     def annotate_subclaim(self):
         with open(self.subclaims_file, "r", encoding="utf-8") as jsonfile:
             subclaims_data = json.load(jsonfile)
-        
+
         batch_size = 10
         modified = False
-        
-        for i in tqdm(range(0, len(subclaims_data), batch_size), desc="Annotating subclaims in batches"):
-            batch = subclaims_data[i: i + batch_size]
-            
+
+        for i in tqdm(
+            range(0, len(subclaims_data), batch_size),
+            desc="Annotating subclaims in batches",
+        ):
+            batch = subclaims_data[i : i + batch_size]
+
             for entry in batch:
                 try:
                     validate(instance=entry, schema=self.subclaim_schema)
-                    
+
                     # Skip if already annotated
-                    if all(subclaim.get("annotations", {}).get("gpt") for subclaim in entry["subclaims"]):
+                    if all(
+                        subclaim.get("annotations", {}).get("gpt")
+                        for subclaim in entry["subclaims"]
+                    ):
                         continue
-                        
+
                     doc_contents = []
                     for doc in entry["retrieved_docs"]:
                         try:
                             # Split the document string into page_content and metadata
                             doc_parts = doc.split("metadata=")
-                            page_content = doc_parts[0].replace("page_content=", "").strip()
+                            page_content = (
+                                doc_parts[0].replace("page_content=", "").strip()
+                            )
                             doc_contents.append(page_content)
                         except Exception as e:
                             doc_contents.append(f"Error processing document: {e}")
 
                     # Combine the formatted documents into a single context
                     context = "\n".join(doc_contents)
-                    
+
                     for subclaim in entry["subclaims"]:
-                        if not subclaim.get("annotations", {}).get("gpt"):  # Only annotate if not already done
+                        if not subclaim.get("annotations", {}).get(
+                            "gpt"
+                        ):  # Only annotate if not already done
                             gold_answer = (
                                 " ".join(entry["gld_ans"])
                                 if isinstance(entry["gld_ans"], list)
                                 else entry["gld_ans"]
                             )
                             annotation = self.verifier.annotate(
-                                entry["query"], gold_answer, context, subclaim["subclaim"]
+                                entry["query"],
+                                gold_answer,
+                                context,
+                                subclaim["subclaim"],
                             )
                             if "annotations" not in subclaim:
                                 subclaim["annotations"] = {}
                             subclaim["annotations"]["gpt"] = annotation
                             modified = True
-                            
+
                 except Exception as e:
                     logging.error(f"Error processing entry: {str(e)}")
                     continue
-            
+
             # Save after each batch if there were modifications
             if modified:
                 try:
                     with open(self.subclaims_file, "w", encoding="utf-8") as jsonfile:
                         json.dump(subclaims_data, jsonfile, indent=4)
-                    logging.info(f"Saved batch through index {min(i + batch_size, len(subclaims_data))}")
+                    logging.info(
+                        f"Saved batch through index {min(i + batch_size, len(subclaims_data))}"
+                    )
                     modified = False  # Reset modified flag
                 except Exception as e:
                     logging.error(f"Error saving batch: {str(e)}")
-        
+
         logging.info(f"Completed annotation. Results saved in {self.subclaims_file}")
 
 
 def process_subclaims(
-    query_path, subclaims_path, faiss_manager, scorer, top_k, threshold, response_model, response_temperature, 
-    fact_generation_model, claim_verification_model, truncation_strategy, truncate_by
+    query_path,
+    subclaims_path,
+    faiss_manager,
+    scorer,
+    config,
 ):
+
+    truncation_strategy = config["index"]["truncation_config"]["strategy"]
+    truncate_by = config["index"]["truncation_config"]["truncate_by"]
+
+    top_k = config["rag"]["retrival_topk"]
+    threshold = config["rag"]["retrival_threshold"]
+    response_model = config["rag"]["response_model"]
+    response_temperature = config["rag"]["response_temperature"]
+    fact_generation_model = config["rag"]["fact_generation_model"]
+
+    aggregation_strategy = config["conformal_prediction"]["aggregation_strategy"]
+    scoring_strategy = config["conformal_prediction"]["scoring_strategy"]
+    claim_verification_model = config["conformal_prediction"][
+        "claim_verification_model"
+    ]
+
     # Check if the file exists and load it if it does
     data = None
     if os.path.exists(subclaims_path):
@@ -315,26 +358,40 @@ def process_subclaims(
                 return data
 
     # Initialize processor only when needed
-    processor = SubclaimProcessor(faiss_manager, response_model, fact_generation_model, claim_verification_model,  scorer, subclaims_path)
+    processor = SubclaimProcessor(
+        faiss_manager,
+        response_model,
+        fact_generation_model,
+        claim_verification_model,
+        scorer,
+        subclaims_path,
+    )
 
     # Generate subclaims if data doesn't exist
     if not data:
         processor.generate_responses(
-            query_path, top_k=top_k, threshold=threshold, response_temperature=response_temperature, 
-            truncation_strategy=truncation_strategy, truncate_by=truncate_by
+            query_path,
+            top_k=top_k,
+            threshold=threshold,
+            response_temperature=response_temperature,
+            truncation_strategy=truncation_strategy,
+            truncate_by=truncate_by,
         )
         processor.get_subclaims_from_responses()
-        processor.score_subclaim()
+        processor.score_subclaim(
+            aggregation_strategy=aggregation_strategy, scoring_strategy=scoring_strategy
+        )
         processor.annotate_subclaim()
     else:
         # Update only what's needed
         if needs_subclaim:
             processor.get_subclaims_from_responses()
         if needs_scoring:
-            processor.score_subclaim()
+            processor.score_subclaim(
+                aggregation_strategy=aggregation_strategy,
+                scoring_strategy=scoring_strategy,
+            )
         if needs_annotation:
             processor.annotate_subclaim()
 
     return load_subclaim_data(subclaims_path)
-
-

@@ -9,7 +9,7 @@ from pathlib import Path
 class ConfigManager:
     """Utility class to manage configuration loading, saving and logging"""
     
-    def __init__(self, config_path=None, run_id=None):
+    def __init__(self, config_path=None, path_config_path=None, run_id=None):
         """
         Initialize the ConfigManager with a config file path
         
@@ -22,7 +22,9 @@ class ConfigManager:
         self.log_dir = f"logs/{self.run_id}"
         
         if config_path:
-            self.load_config(config_path)
+            self.config = self.load_config(config_path)
+        if path_config_path:
+            self.path_config = self.load_config(path_config_path)
     
     def load_config(self, config_path):
         """
@@ -35,8 +37,7 @@ class ConfigManager:
             dict: The loaded configuration
         """
         with open(config_path, 'r') as f:
-            self.config = yaml.safe_load(f)
-        return self.config
+            return yaml.safe_load(f)
     
     def save_config(self, output_path=None):
         """

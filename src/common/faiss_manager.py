@@ -13,6 +13,7 @@ from src.common.llm.openai_manager import OpenAIManager
 class FAISSIndexManager:
     def __init__(
         self,
+        index_truncation_config,
         dimension=3072,
         index_path="index_store/index.faiss",
         indice2fm_path="index_store/indice2fm.json",
@@ -39,7 +40,12 @@ class FAISSIndexManager:
             with open(indice2fm_path, "r") as file:
                 self.indice2fm = json.load(file)
             for file_path, _ in self.indice2fm.items():
-                self.file_managers.append(FileManager(file_path))
+                self.file_managers.append(
+                    FileManager(
+                        file_path=file_path,
+                        index_truncation_config=index_truncation_config,
+                    )
+                )
 
     def is_indice_align(self):
         last_index_id = self.index.ntotal - 1
@@ -78,6 +84,7 @@ class FAISSIndexManager:
             return
 
         # Process the file if necessary
+        # TODO: check if file_manager.texts will in any case be empty, if not, remove the below block
         if not file_manager.texts:
             print("Processing documents...")
             file_manager.process_document(

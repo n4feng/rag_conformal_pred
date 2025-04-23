@@ -1,51 +1,97 @@
-import json
-import argparse
 import numpy as np
 from openai import OpenAI
-from typing import List
+from typing import List, Callable, Dict
 from langchain.schema import Document
 from sklearn.metrics.pairwise import cosine_similarity
 from src.common.faiss_manager import FAISSIndexManager
-from src.common.llm.openai_rag_agent import OpenAIRAGAgent
 from src.common.llm.openai_atomicfact_generator import OpenAIAtomicFactGenerator
 from src.subclaim_processor.scorer.document_scorer import IDocumentScorer
+from src.subclaim_processor.strategies.aggregation import (
+    AggregationStrategy,
+    MaxAggregation,
+    MeanAggregation,
+)
+from src.subclaim_processor.strategies.scoring import (
+    ScoringStrategy,
+    ProductScoreStrategy,
+)
+
+AGGREGATION_STRATEGIES: Dict[str, Callable] = {
+    "max": MaxAggregation,
+    "mean": MeanAggregation,
+}
+
+SCORING_STRATEGIES: Dict[str, Callable] = {
+    "product": ProductScoreStrategy,
+}
 
 
 class SubclaimScorer(IDocumentScorer):
     def __init__(
         self,
+        index_truncation_config,
         embedding_model="text-embedding-3-large",
         index_path="index_store/index.faiss",
         indice2fm_path="index_store/indice2fm.json",
     ):
         self.embedding_model = embedding_model
         self.faiss_manager = FAISSIndexManager(
-            index_path=index_path, indice2fm_path=indice2fm_path
+            index_truncation_config=index_truncation_config,
+            index_path=index_path,
+            indice2fm_path=indice2fm_path,
         )
         self.gen = OpenAIAtomicFactGenerator()
         self.openai_client = OpenAI()
 
-    def score(self, claim: str, retrived_docs: List[Document]):
-        # claim score will be the maximum product of cosine similarity between the claim and the retrieved documents
-        doc_scores = []
-        for doc in retrived_docs:
-            parsed_doc = self.faiss_manager.parse_result(doc)
-            claim_embedding = self.faiss_manager.openaiManager.client.embeddings.create(
-                input=[claim], model=self.embedding_model
-            )
-            claim_vector = (
-                np.array(claim_embedding.data[0].embedding)
-                .astype("float32")
-                .reshape(1, -1)
-            )
-            doc_embedding = self.faiss_manager.index.reconstruct(parsed_doc["indice"])
-            doc_scores.append(
-                parsed_doc["score"]
-                * cosine_similarity(claim_vector, doc_embedding.reshape(1, -1))[0][0]
-            )
-        return 0 if len(retrived_docs) == 0 else max(doc_scores)
+    def score(
+        self,
+        claim: str,
+        retrieved_docs: List[Document],
+        aggregation_strategy: AggregationStrategy,
+        scoring_strategy: ScoringStrategy,
+    ) -> float:
 
-    def cosine_similarity(self, claim: str, query: str):
+        if aggregation_strategy not in AGGREGATION_STRATEGIES:
+            raise ValueError(
+                f"Unknown aggregation strategy: {aggregation_strategy}. "
+                f"Supported strategies are: {list(AGGREGATION_STRATEGIES.keys())}"
+            )
+        else:
+            agg_func = AGGREGATION_STRATEGIES[aggregation_strategy]()
+
+        if scoring_strategy not in SCORING_STRATEGIES:
+            raise ValueError(
+                f"Unknown scoring strategy: {scoring_strategy}. "
+                f"Supported strategies are: {list(SCORING_STRATEGIES.keys())}"
+            )
+        else:
+            scoring_func = SCORING_STRATEGIES[scoring_strategy]()
+
+        if len(retrieved_docs) == 0:
+            return 0
+
+        claim_embedding = self.faiss_manager.openaiManager.client.embeddings.create(
+            input=[claim], model=self.embedding_model
+        )
+        claim_vector = (
+            np.array(claim_embedding.data[0].embedding).astype("float32").reshape(1, -1)
+        )
+
+        doc_scores = []
+        for doc in retrieved_docs:
+            parsed_doc = self.faiss_manager.parse_result(doc)
+            doc_embedding = self.faiss_manager.index.reconstruct(parsed_doc["indice"])
+
+            score = scoring_func.compute_score(
+                claim_vector=claim_vector,
+                doc_embedding=doc_embedding,
+                parsed_doc=parsed_doc,
+            )
+            doc_scores.append(score)
+
+        return 0 if len(retrieved_docs) == 0 else agg_func.aggregate(doc_scores)
+
+    def cosine_similarity(self, claim: str, query: str) -> float:
         # claim score will be the maximum product of cosine similarity between the claim and the retrieved documents
 
         claim_embedding = self.faiss_manager.openaiManager.client.embeddings.create(
@@ -74,7 +120,7 @@ class SubclaimScorer(IDocumentScorer):
         retrived_docs: List[Document],
         temperature: float,
         n_samples: int,
-    ):
+    ) -> float:
         # Generate n_samples alternate outputs with temperature 1.0.
 
         chat_responses = response_agent.answer(
@@ -161,34 +207,3 @@ class SubclaimScorer(IDocumentScorer):
     #         else "Abstain."
     #     )
     #     return output
-
-
-def main():
-    query = "Is a drooping eyelid serious?"
-
-    faiss_manager = FAISSIndexManager(
-        index_path="index_store/MedLFQA/index_500.faiss",
-        indice2fm_path="index_store/MedLFQA/indice2fm_500.json",
-    )
-    retrieved_docs = faiss_manager.search_faiss_index(query, top_k=10, threshold=0.3)
-
-    response_agent = OpenAIRAGAgent(faiss_manager)
-    response = response_agent.answer(query, retrieved_docs)
-    print(response)
-
-    generator = OpenAIAtomicFactGenerator()
-    subclaims = generator.get_facts_from_text(response)
-    print("Number of subclaims: ", len(subclaims))
-
-    scorer = SubclaimScorer()
-    for claim in subclaims:
-        print(
-            claim,
-            # f"\n- Similarity Score: {scorer.score(claim, retrieved_docs)}",
-            f"\n- Baseline score: {scorer.baseline(claim, query)}",
-        )
-
-
-if __name__ == "__main__":
-    print("Running subclaim_scorer.py")
-    main()
