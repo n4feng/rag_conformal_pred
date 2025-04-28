@@ -1,7 +1,7 @@
 import os
 import json
 
-from src.common.retrieval import DocDB
+from src.rag.retrieval import DocDB
 from src.data_processor.raw_data_processor import DatasetProcessor
 
 
@@ -42,7 +42,7 @@ class MedLFQAProcessor(DatasetProcessor):
             docs = self._get_documents_per_query(query_text, raw_query_dir)
             documents[query_text] = docs
 
-        return documents
+        return
 
     def _get_documents_per_query(self, query: str, raw_query_dir: str) -> list:
         """Returns a list of documents for a given query."""

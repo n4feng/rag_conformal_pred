@@ -8,17 +8,22 @@ class OpenAIRAGAgent(LLMAgent):
     def __init__(
         self,
         faiss_manager,
-        instruction: str = "You are a helpful assistant that answers questions based on provided context.",
-        model="gpt-4o-mini",
+        model: str,
     ):
         dotenv_path = os.path.join(os.getcwd(), ".env")
         load_dotenv(dotenv_path)
-        self.instruction = instruction
+        self.instruction = "You are a helpful assistant that answers questions based on provided context."
         self.model = model
         self.client = OpenAI()
         self.faiss_manager = faiss_manager
 
-    def answer(self, question: str, retrieved_docs: list) -> str:
+    def answer(
+        self,
+        question: str,
+        retrieved_docs: list,
+        temperature: float = 0.7,
+        n_samples: int = 1,
+    ) -> str:
         if len(retrieved_docs) == 0:
             print(
                 f"No relevant documents found for the query '{question}'. Generating without context..."
@@ -56,9 +61,13 @@ class OpenAIRAGAgent(LLMAgent):
 
         # Generate response using OpenAI Chat API
         response = self.client.chat.completions.create(
-            model=self.model, messages=messages, max_tokens=4096, temperature=0.7
+            model=self.model,
+            messages=messages,
+            max_tokens=4096,
+            temperature=temperature,
+            n=n_samples,
         )
-        return response.choices[0].message.content
+        return response
 
     def preProcess(self, query):
         return query

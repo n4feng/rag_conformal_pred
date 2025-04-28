@@ -3,12 +3,13 @@ import json
 import random
 from jsonschema import RefResolver, validate
 
-from src.common.retrieval import DocDB
+from src.rag.retrieval import DocDB
 from src.data_processor.raw_data_processor import IRawDataProcessor
 from src.data_processor.fact_score_processor import FactScoreProcessor
 from src.data_processor.hotpot_qa_processor import HotpotQAProcessor
 from src.data_processor.pop_qa_processor import PopQAProcessor
 from src.data_processor.medlf_qa_processor import MedLFQAProcessor
+from src.data_processor.dragonball_processor import DragonballProcessor
 
 
 class QueryProcessor(IRawDataProcessor):
@@ -27,6 +28,7 @@ class QueryProcessor(IRawDataProcessor):
             "hotpot_qa": HotpotQAProcessor(),
             "pop_qa": PopQAProcessor(),
             "medlf_qa": MedLFQAProcessor(),
+            "dragonball": DragonballProcessor(),
         }
 
     def get_queries(

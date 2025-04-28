@@ -3,6 +3,7 @@ import json
 import re
 import ast
 import faiss
+from typing import Union, Optional
 from dotenv import load_dotenv
 import numpy as np
 from src.common.file_manager import FileManager
@@ -12,6 +13,7 @@ from src.common.llm.openai_manager import OpenAIManager
 class FAISSIndexManager:
     def __init__(
         self,
+        index_truncation_config,
         dimension=3072,
         index_path="index_store/index.faiss",
         indice2fm_path="index_store/indice2fm.json",
@@ -38,7 +40,12 @@ class FAISSIndexManager:
             with open(indice2fm_path, "r") as file:
                 self.indice2fm = json.load(file)
             for file_path, _ in self.indice2fm.items():
-                self.file_managers.append(FileManager(file_path))
+                self.file_managers.append(
+                    FileManager(
+                        file_path=file_path,
+                        index_truncation_config=index_truncation_config,
+                    )
+                )
 
     def is_indice_align(self):
         last_index_id = self.index.ntotal - 1
@@ -61,7 +68,13 @@ class FAISSIndexManager:
             os.remove(self.indice2fm_path)
         print("FAISS index deleted.")
 
-    def upsert_file_to_faiss(self, file_manager, model="text-embedding-3-large"):
+    def upsert_file_to_faiss(
+        self,
+        file_manager,
+        model="text-embedding-3-large",
+        truncation_strategy: Optional[Union[str, bool]] = "fixed_length",
+        truncate_by: Optional[str] = "\n",
+    ):
         if not file_manager.file_path in [
             file_manager.file_path for file_manager in self.file_managers
         ]:
@@ -71,11 +84,17 @@ class FAISSIndexManager:
             return
 
         # Process the file if necessary
+        # TODO: check if file_manager.texts will in any case be empty, if not, remove the below block
         if not file_manager.texts:
-            file_manager.process_wiki_document()
+            print("Processing documents...")
+            file_manager.process_document(
+                truncation_strategy=truncation_strategy, truncate_by=truncate_by
+            )
+            print("Documents processing done.")
 
         # Generate embeddings and append to index if not already present
         if not file_manager.file_path in self.indice2fm:
+            print("Creating embedding for the document...")
             embeddings = self.openaiManager.create_openai_embeddings(
                 file_manager.texts, model=model
             )
@@ -104,7 +123,14 @@ class FAISSIndexManager:
         faiss.normalize_L2(embeddings_np)
         return embeddings_np
 
-    def search_faiss_index(self, query, top_k=10, threshold=0.5):
+    def search_faiss_index(
+        self,
+        query,
+        top_k=10,
+        threshold=0.5,
+        truncation_strategy: Optional[Union[str, bool]] = "fixed_length",
+        truncate_by: Optional[str] = "\n",
+    ):
         if self.index.ntotal == 0:
             return []
 
@@ -153,7 +179,9 @@ class FAISSIndexManager:
 
                 if file_manager:
                     # Process the file if necessary
-                    file_manager.process_wiki_document()
+                    file_manager.process_document(
+                        truncation_strategy=truncation_strategy, truncate_by=truncate_by
+                    )
                     try:
                         # Get the text from the file_manager
                         text = file_manager.texts[relative_idx][
@@ -171,7 +199,7 @@ class FAISSIndexManager:
                         )
                     except:
                         print(
-                            "Error while retriving id={relative_idx} from file manager. Skipping over id={relative_idx}."
+                            f"Error while retriving id={relative_idx} from file manager. Skipping over id={relative_idx}."
                         )
 
                 else:
