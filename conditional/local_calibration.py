@@ -11,68 +11,10 @@ from tqdm import tqdm
 from math import ceil
 from openai import OpenAI
 from dotenv import load_dotenv
-from calibration import ConformalCalibration
-from calibration import calculate_calibration_distance, make_key, get_r_score, append_result_to_csv
+from calibration import WeightedConformalCalibration
+from calibration import calculate_calibration_distance, make_key, get_r_score, exponential_kernel
 
-
-def exponential_kernel(distance, h=1.0):
-    return np.exp(-distance / (2 * h**2))
-
-def conditional_coverage_group(data_path, m=3, n=3):
-    """
-    Divide data prompt into m * n bins where
-    m is the number of groups true answers scores divided into
-    n is the number of groups top subclaims scores divided into
-    
-    Returns:
-        group: m x n grid of grouped queries
-        true_answer_edges: list of m+1 bin edges for true_answer_score
-        subclaim_edges: list of n+1 bin edges for top_subclaim_score
-    """
-    # Read the JSONL file into a list
-    data = []
-    with open(data_path, 'r') as file:
-        for line in file:
-            data.append(json.loads(line.strip()))
-
-    true_answer_scores = [max(map(float, item['calibrate_score'])) for item in data]
-    top_subclaim_scores = [max([score[1] for score in item["subclaims_score"]]) for item in data]
-
-    min_true, max_true = min(true_answer_scores), max(true_answer_scores)
-    min_sub, max_sub = min(top_subclaim_scores), max(top_subclaim_scores)
-
-    interval_true = (max_true - min_true) / m
-    interval_sub = (max_sub - min_sub) / n
-
-    # Full bin edges, including min and max
-    true_answer_edges = [min_true + i * interval_true for i in range(m + 1)]
-    subclaim_edges = [min_sub + i * interval_sub for i in range(n + 1)]
-
-    group = [[[] for _ in range(n)] for _ in range(m)]
-
-    for i in range(len(data)):
-        true_score = true_answer_scores[i]
-        sub_score = top_subclaim_scores[i]
-
-        # Bin index for true_score
-        true_idx = m - 1  # default to last bin
-        for k in range(m - 1):
-            if true_score < true_answer_edges[k + 1]:
-                true_idx = k
-                break
-
-        # Bin index for sub_score
-        sub_idx = n - 1
-        for k in range(n - 1):
-            if sub_score < subclaim_edges[k + 1]:
-                sub_idx = k
-                break
-
-        group[true_idx][sub_idx].append(data[i]["query"])
-
-    return group, true_answer_edges, subclaim_edges
-
-class LocalDatadependentCalibration(ConformalCalibration):
+class LocalDatadependentCalibration(WeightedConformalCalibration):
     """
     Local Calibration class for calibrating data-dependent models.
     """
@@ -92,7 +34,8 @@ class LocalDatadependentCalibration(ConformalCalibration):
         dotenv_path = os.path.join(os.getcwd(), '.env')
         load_dotenv(dotenv_path)
         self.client = OpenAI()
-
+        self.test_data_thresholds = {}
+        
     def build_weights(self, data):
         for i in tqdm(range(len(data))):
             total_weight = 0
@@ -108,7 +51,7 @@ class LocalDatadependentCalibration(ConformalCalibration):
                         weight = self.distance_cache[dis_key]
                     else:
                         weight = exponential_kernel(
-                            calculate_calibration_distance(data[i], data[j], self.prompt_embedding_cache, self.client, self.embedding_model))
+                            calculate_calibration_distance(data[i], data[j], self.prompt_embedding_cache, self.client, self.embedding_model), 0.01)
                         self.distance_cache[dis_key] = weight
                     self.weights[i][j] = weight
                     total_weight += weight
@@ -151,3 +94,12 @@ class LocalDatadependentCalibration(ConformalCalibration):
         self.get_local_r_score(data, confidence_method,a)
         return super()._process_calibration(data, alphas, a, confidence_method)
     
+    # def _process_partial_local(self, data, coverage_group, alpha, a, confidence_method, dataset_prefix, group_names=None):
+    #     self.build_weights(data)
+    #     self.get_local_r_score(data, confidence_method,a)
+    #     return super()._process_partial_local(data, coverage_group, alpha, a, confidence_method, dataset_prefix, group_names)
+
+    def _process_partial_local(self, data, coverage_group, alpha, a, confidence_method, dataset_prefix):
+        self.build_weights(data)
+        self.get_local_r_score(data, confidence_method,a)
+        return super()._process_partial_local(data, coverage_group, alpha, a, confidence_method, dataset_prefix)

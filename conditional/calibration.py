@@ -3,6 +3,7 @@ import json
 import csv
 import random
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import os
 import diskcache as dc
 import math
@@ -53,21 +54,24 @@ def compute_weighted_threshold(alpha, calibration_data, calibration_data_weight,
 
     return weighted_quantile(r_scores, calibration_data_weight, alpha)
 
-def weighted_quantile(x, w, p):
+def exponential_kernel(distance, h=1.0):
+    return np.exp(-distance / (2 * h**2))
+
+def weighted_quantile(x, d, p):
     """
     Compute the accurate weighted (1 - p)th quantile by explicitly tilting the dataset.
 
     Parameters:
         x (array-like): intrinsic score value.
-        w (array-like): Corresponding weights.
+        d (array-like): Corresponding distance.
         p (float): Quantile level (e.g., 0.95 for 95th percentile).
 
     Returns:
         int or float: The exact weighted quantile.
     """
-    # A hyper parameter temperature to control entropy of the weights
-    TEMP = 1
-    w = [math.exp(weight / TEMP) for weight in w]
+    # Smoothing parameter for exponential kernel
+    h = 0.3
+    w = [exponential_kernel(distance, h) for distance in d]
     sum_w = sum(w)
     normalized_w = [weight / sum_w for weight in w] # Standard Softmax
     x, w = np.asarray(x), np.asarray(w)
@@ -76,7 +80,7 @@ def weighted_quantile(x, w, p):
     
     # Scale weights to determine repetition count
     len_w = len(normalized_w) #len_w/100 make sure each point in average been repeated 100 times
-    repetitions = np.round([1/d/(len_w/100) for d in normalized_w]).astype(int)
+    repetitions = np.round([n_weight*len_w*100 for n_weight in normalized_w]).astype(int)
     expanded_x = np.repeat(x, repetitions)
     expanded_x.sort()
 
@@ -155,24 +159,160 @@ def append_result_to_csv(csv_filename, label, y, yerr):
 def make_key(s1, s2):
     return tuple(sorted([s1, s2]))
 
-def get_embedding(prompt, cache, client, model):
-    """Retrieve the embedding for a given prompt, using a cache if available."""
-    if prompt in cache:
-        return cache[prompt]
+# def pooled_mean_std(group_sizes, group_means, group_stds):
+#     """
+#     Compute overall mean and standard deviation from group sizes, means, and stds.
+
+#     Parameters:
+#         group_sizes (list of int): Number of elements in each group
+#         group_means (list of float): Mean of each group
+#         group_stds (list of float): Standard deviation of each group
+
+#     Returns:
+#         tuple: (overall_mean, overall_std)
+#     """
+#     group_sizes = np.array(group_sizes)
+#     group_means = np.array(group_means)
+#     group_stds = np.array(group_stds)
     
-    embedding = client.embeddings.create(input=[prompt], model=model)
-    cache[prompt] = embedding
+#     N = np.sum(group_sizes)
+#     if N == 0:
+#         return float('nan'), float('nan')
+
+#     # Weighted average for the overall mean
+#     overall_mean = np.sum(group_sizes * group_means) / N
+
+#     # Total variance includes within-group and between-group components
+#     total_variance = np.sum(
+#         group_sizes * (group_stds**2 + (group_means - overall_mean)**2)
+#     ) / N
+
+#     overall_std = np.sqrt(total_variance)
+
+#     return overall_mean, overall_std
+
+def get_embedding(input_string, cache, client, model):
+    """Retrieve the embedding for a given prompt, using a cache if available."""
+    if input_string in cache:
+        return cache[input_string]
+    
+    embedding = client.embeddings.create(input=[input_string], model=model)
+    cache[input_string] = embedding
     return embedding
 
 def calculate_calibration_distance(test_data, entry, cache, client, model):
     """Compute the Euclidean distance between test data and calibration data embeddings."""
-    test_embedding = get_embedding(test_data["prompt"], cache, client, model)
-    calibration_embedding = get_embedding(entry["prompt"], cache, client, model)
+    test_embedding = get_embedding(test_data["prompt"] + test_data["original-output"], cache, client, model)
+    calibration_embedding = get_embedding(entry["prompt"] + entry["original-output"], cache, client, model)
 
     test_vector = np.array(test_embedding.data[0].embedding).astype('float32').reshape(1, -1)
     calibration_vector = np.array(calibration_embedding.data[0].embedding).astype('float32').reshape(1, -1)
 
     return euclidean_distances(test_vector, calibration_vector)[0][0]
+
+# def divide_coverage_group(data_path, m=3, n=3):
+#     """
+#     Divide data prompt into m * n bins where
+#     m is the number of groups top subclaims scores divided into (y, row idx)
+#     n is the number of groups true answers scores divided into (x, column idx )
+    
+#     Returns:
+#         group: m x n grid of grouped queries
+#         true_answer_edges: list of m+1 bin edges for true_answer_score
+#         subclaim_edges: list of n+1 bin edges for top_subclaim_score
+#     """
+#     # Read the JSONL file into a list
+#     data = []
+#     with open(data_path, 'r') as file:
+#         for line in file:
+#             data.append(json.loads(line.strip()))
+
+#     true_answer_scores = [max(map(float, item['calibrate_score'])) for item in data]
+#     top_subclaim_scores = [max([score[1] for score in item["subclaims_score"]]) for item in data]
+
+#     min_true, max_true = min(true_answer_scores), max(true_answer_scores)
+#     min_sub, max_sub = min(top_subclaim_scores), max(top_subclaim_scores)
+
+#     interval_true = (max_true - min_true) / n
+#     interval_sub = (max_sub - min_sub) / m
+
+#     # Full bin edges, including min and max
+#     subclaim_edges = [min_sub + i * interval_sub for i in range(m + 1)]
+#     true_answer_edges = [min_true + i * interval_true for i in range(n + 1)]
+
+#     group = [[[] for _ in range(n)] for _ in range(m)]
+
+#     for i in range(len(data)):
+#         true_score = true_answer_scores[i]
+#         sub_score = top_subclaim_scores[i]
+
+#         # Bin index for true_score
+#         sub_idx = m - 1  # default to last bin
+#         for k in range(m - 1):
+#             if sub_score < subclaim_edges[k + 1]:
+#                 sub_idx = k
+#                 break
+
+#         # Bin index for sub_score
+#         true_idx = n - 1
+#         for k in range(n - 1):
+#             if true_score < true_answer_edges[k + 1]:
+#                 true_idx = k
+#                 break
+
+#         group[sub_idx][true_idx].append(data[i]["query"])
+    
+#     # Reverse the order of the rows in the group 
+#     group = group[::-1]
+#     # Flip subclaim_edges list and use 1-origin as un-certainty
+#     subclaim_edges = [1 - edge for edge in subclaim_edges][::-1]
+
+#     return group, subclaim_edges, true_answer_edges
+
+# def divide_by_group(data_path, group_names, m=5):
+#     """
+#     Divide data prompt into m * n bins where
+#     group_names will be x axis
+#     m is the number of groups top subclaims scores divided into (y, row idx)
+    
+    
+#     Returns:
+#         group: m x len(group_names) grid of grouped queries
+#         subclaim_edges: list of n+1 bin edges for top_subclaim_score
+#     """
+#     # Read the JSONL file into a list
+#     data = []
+#     with open(data_path, 'r') as file:
+#         for line in file:
+#             data.append(json.loads(line.strip()))
+
+#     top_subclaim_scores = [1 - max([score[1] for score in item["subclaims_score"]]) for item in data]
+
+#     min_sub, max_sub = min(top_subclaim_scores), max(top_subclaim_scores)
+
+#     interval_sub = (max_sub - min_sub) / m
+
+#     # Full bin edges, including min and max
+#     subclaim_edges = [min_sub + i * interval_sub for i in range(m + 1)]
+
+#     group = [{name: [] for name in group_names} for _ in range(m)]
+
+#     for i in range(len(data)):
+#         sub_score = top_subclaim_scores[i]
+
+#         # Bin index for true_score
+#         sub_idx = m - 1  # default to last bin
+
+#         for k in range(m - 1):
+#             if sub_score < subclaim_edges[k + 1]:
+#                 sub_idx = k
+#                 break
+#         group_name = data[i]["groups"][0]
+#         group[sub_idx][group_name].append(data[i]["query"])
+    
+#     # Reverse the order of the rows in the group 
+#     group = group[::-1]
+
 
 class ICalibration(ABC):
     """
@@ -186,10 +326,12 @@ class ICalibration(ABC):
     def calibrate_factual(self, dataset_prefix, confidence_method, data, alphas, a, fig_filename, csv_filename):
         pass
 
+    #@abstractmethod
+    # def calibrate_factual_local(self, dataset_prefix, score_filepath, confidence_method, data, alpha, a, fig_filename, csv_filename, m, n):
+    #     pass
     @abstractmethod
-    def calibrate_partial_factual(self, dataset_prefix, confidence_method, data, alpha, a, fig_filename, csv_filename, group_size = 200):
+    def calibrate_factual_pergroup(self, dataset_prefix, confidence_method, data, alpha, a, fig_filename, csv_filename, catogories, group_names):
         pass
-
 class ConformalCalibration(ICalibration):
     """
     Implementation of standard conformal calibration.
@@ -226,6 +368,206 @@ class ConformalCalibration(ICalibration):
         label = dataset_prefix + suffix
         append_result_to_csv(csv_filename, label, y, yerr)
         plt.errorbar(x, y, yerr=yerr, label=label, linewidth=2)
+
+    # def plot_stat_grid(self, coverage_group, data_cells, x_edges, y_edges, alpha, fig_filename, dataset_prefix):
+    #     """
+    #     Plot a grid where each cell contains a list of values between 0-1 or None.
+    #     Each cell displays the mean ± std (or N/A) and is colored by the mean.
+        
+    #     Parameters:
+    #         coverage_group (2D list): m x n grid of queries
+    #         data_cells (2D list): m x n grid, each element is a list of floats or None.
+    #         x_edges (1D list or array): n+1 numerical edges or list of n group names.
+    #         y_edges (1D np.ndarray): m+1 numerical edges in Y.
+    #     """
+    #     m, n = len(data_cells), len(data_cells[0])
+        
+    #     is_named_x = isinstance(x_edges[0], str)
+
+    #     if is_named_x:
+    #         # Create dummy edges for categorical x-axis labels
+    #         x_positions = np.arange(n + 1)
+    #         x_centers = (x_positions[:-1] + x_positions[1:]) / 2
+    #         x_ticks = x_centers
+    #         x_tick_labels = x_edges
+    #         x_edges_plot = x_positions
+    #     else:
+    #         x_edges_plot = x_edges
+
+    #     # Compute mean values and std for color and labels
+    #     mean_grid = np.empty((m, n))
+    #     labels = [["" for _ in range(n)] for _ in range(m)]
+        
+    #     for i in range(m):
+    #         for j in range(n):
+    #             data_j = x_edges[j] if is_named_x else j
+    #             cell = data_cells[i][data_j]
+    #             if cell is None or len(cell) == 0:
+    #                 mean_grid[i, j] = 1 - alpha  # Color as white default
+    #                 labels[i][j] = "N/A\nCount: 0"
+    #             else:
+    #                 arr = np.array(cell)
+    #                 mean = arr.mean()
+    #                 std = arr.std()
+    #                 mean_grid[i, j] = mean
+    #                 labels[i][j] = f"{mean:.2f} ± {std:.2f}\nCount: {len(coverage_group[i][data_j])}"
+
+    #     # Colormap from bright red → white → mint green
+    #     cmap = mcolors.LinearSegmentedColormap.from_list(
+    #         "red_white_green",
+    #         [
+    #             (0.0, (1.0, 0.2, 0.2)),
+    #             ((0.3 - alpha) / 0.3, (1.0, 1.0, 0.95)),
+    #             (1.0, (0.6, 1.0, 0.7))
+    #         ]
+    #     )
+    #     norm = mcolors.Normalize(vmin=0.7, vmax=1.0, clip=True)
+
+    #     # Plot
+    #     fig, ax = plt.subplots()
+    #     mesh = ax.pcolormesh(x_edges_plot, y_edges, mean_grid, cmap=cmap, norm=norm,
+    #                         edgecolors='k', linewidth=0.5, shading='auto')
+
+    #     # Add text annotations within grid cells
+    #     for i in range(m):
+    #         for j in range(n):
+    #             if is_named_x:
+    #                 x = (x_edges_plot[j] + x_edges_plot[j+1]) / 2
+    #             else:
+    #                 x = (x_edges[j] + x_edges[j+1]) / 2
+    #             y = (y_edges[i] + y_edges[i+1]) / 2
+    #             ax.text(x, y, labels[i][j], ha='center', va='center', fontsize=8)
+
+    #     # Axis labels and colorbar
+    #     cbar = plt.colorbar(mesh, ax=ax)
+    #     cbar.set_label("Mean Value (Color scale: Red → White → Green)")
+        
+    #     ax.set_xlabel('Predefined Groups' if is_named_x else 'True Answer Score Group')
+    #     ax.set_ylabel('1 - max Subcalaim Score as Uncertainty')
+    #     ax.set_title(dataset_prefix)
+    #     ax.set_aspect('auto')
+    #     ax.invert_yaxis()
+
+    #     # Handle categorical x labels
+    #     if is_named_x:
+    #         ax.set_xticks(x_ticks)
+    #         ax.set_xticklabels(x_tick_labels, rotation=45, ha='right')
+    #     else:
+    #         x_centers = [(x_edges[i] + x_edges[i+1]) / 2 for i in range(len(x_edges) - 1)]
+    #         ax.set_xticks(x_centers)
+    #         ax.set_xticklabels([f"{x_center:.2f}" for x_center in x_centers])
+            
+
+    #     plt.savefig(fig_filename, bbox_inches="tight", dpi=800)
+    #     plt.show()
+
+
+    def plot_stat_grid(self, coverage_group, results, group_names, categories, alpha, fig_filename, dataset_prefix):
+        """
+        Plot a grid where each cell contains a list of values between 0-1 or None.
+        Each cell displays the mean ± std (or N/A) and is colored by the mean.
+
+        Parameters:
+            coverage_group (2D list): m x n grid of queries
+            data_cells (2D list): m x n grid, each element is a list of floats or None.
+            group_names: list of predefined group names for x-axis (size n)
+            categories: list of question categories for y-axis (size m)
+            alpha: float, alpha level for significance
+            fig_filename: output figure filename
+            dataset_prefix: title of the plot
+        """
+        data_cells = results[0]
+        category_result = results[1]
+        group_result = results[2]
+
+        m, n = len(data_cells), len(data_cells[0])
+
+        # Create x and y positions for categorical axes
+        x_positions = np.arange(n + 1)
+        y_positions = np.arange(m + 1)
+        x_centers = (x_positions[:-1] + x_positions[1:]) / 2
+        y_centers = (y_positions[:-1] + y_positions[1:]) / 2
+
+        # Compute mean and labels
+        mean_grid = np.empty((m, n))
+        labels = [["" for _ in range(n)] for _ in range(m)]
+
+        for i in range(m):
+            for j in range(n):
+                cell = data_cells[i][j]
+                if cell is None or len(cell) == 0:
+                    mean_grid[i, j] = 1 - alpha  # default color for N/A
+                    labels[i][j] = "N/A\nCount: 0"
+                else:
+                    arr = np.array(cell)
+                    mean = arr.mean()
+                    std = arr.std()
+                    mean_grid[i, j] = mean
+                    labels[i][j] = f"{mean:.2f} ± {std:.2f}\nCount: {len(coverage_group[i][j])}"
+
+        # Colormap: red → white → green
+        cmap = mcolors.LinearSegmentedColormap.from_list(
+            "red_white_green",
+            [
+                (0.0, (1.0, 0.2, 0.2)),
+                ((0.3 - alpha) / 0.3, (1.0, 1.0, 0.95)),
+                (1.0, (0.6, 1.0, 0.7))
+            ]
+        )
+        norm = mcolors.Normalize(vmin=0.7, vmax=1.0, clip=True)
+
+        # Plot
+        fig, ax = plt.subplots()
+        mesh = ax.pcolormesh(x_positions, y_positions, mean_grid, cmap=cmap, norm=norm,
+                            edgecolors='k', linewidth=0.5, shading='auto')
+
+        # Add text annotations in each cell
+        for i in range(m):
+            for j in range(n):
+                ax.text(x_centers[j], y_centers[i], labels[i][j],
+                        ha='center', va='center', fontsize=8)
+    
+        # Compute row pooled stats
+        ytick_labels = []
+        for i in range(m):
+            cat_res = category_result[i]
+            if cat_res is None or len(cat_res) == 0:
+                ytick_labels.append("N/A\nCount: 0")
+            else:
+                arr = np.array(cat_res)
+                mean = arr.mean()
+                std = arr.std()
+                color_tag = f"{mean:.2f}±{std:.2f}"
+                ytick_labels.append(f"{categories[i]}\n{color_tag}")
+        # Compute column pooled stats
+        xtick_labels = []
+        for j in range(n):
+            group_res = group_result[j]
+            if group_res is None or len(group_res) == 0:
+                xtick_labels.append("N/A\nCount: 0")
+            else:
+                arr = np.array(group_res)
+                mean = arr.mean()
+                std = arr.std()
+                color_tag = f"{mean:.2f}±{std:.2f}"
+                xtick_labels.append(f"{group_names[j]}\n{color_tag}")
+
+        # Axis labels and ticks
+        ax.set_xticks(x_centers)
+        ax.set_xticklabels(xtick_labels, rotation=45, ha='right')
+        ax.set_yticks(y_centers)
+        ax.set_yticklabels(ytick_labels)
+        ax.set_xlabel('Predefined Groups')
+        ax.set_ylabel('Question Categories')
+        ax.set_title(dataset_prefix)
+        ax.invert_yaxis()  # Highest category at top
+
+        cbar = plt.colorbar(mesh, ax=ax)
+        cbar.set_label("Mean Value (Color scale: Red → White → Green)")
+
+        plt.savefig(fig_filename, bbox_inches="tight", dpi=800)
+        plt.show()
+
     #Plotting part end
 
     def _compute_results(self, data, alphas, a, confidence_method, pre_defined_group=None):
@@ -323,7 +665,7 @@ class ConformalCalibration(ICalibration):
                 split_index = len(data) // 2
                 calibration_data = data[:split_index]
                 test_data = data[split_index:]
-                threshold = compute_threshold(alpha, calibration_data, a, confidence_method)
+                threshold = self._compute_threshold(alpha, calibration_data, test_data, a, confidence_method)
                 accepted_subclaim_list = self._get_accepted_subclaims(test_data, threshold, confidence_method)
                 fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
                 results_for_alpha[0].append(1 - alpha)
@@ -348,67 +690,118 @@ class ConformalCalibration(ICalibration):
             for accepted_subclaims in accepted_subclaim_list
         ]
         correctness_list = [entailed_fraction >= a for entailed_fraction in entailed_fraction_list]
+        if len(correctness_list) == 0:
+            return 1
         return sum(correctness_list) / len(correctness_list)
     
-    def calibrate_partial_factual(self, dataset_prefix, confidence_method, data, alpha, a, fig_filename, csv_filename, group_size = 200):
-        
-        results = self._process_partial_calibration(data, alpha, a, confidence_method, group_size, dataset_prefix)
-        overall_fraction = round(np.mean(results[-1]), 4)
-        overall_std = round(np.std(results[-1]), 4)
-        
-        group_means = [round(np.mean(group), 4) for group in results[0:-1]]
-        group_stds = [round(np.std(group), 4) for group in results[0:-1]]
+    # def calibrate_factual_local(self, dataset_prefix, score_filepath, confidence_method, data, alpha, a, fig_filename, csv_filename, m, n):
+    #     """
+    #     m: the number of groups top subclaims scores divided into (y, row_idx)
+    #     n: the number of groups true answers scores divided into (x, column_idx)
+    #     """
+    #     coverage_group, subclaim_edges, true_answer_edges = divide_coverage_group(score_filepath, m, n)
+    #     results = self._process_partial_local(data, coverage_group, alpha, a, confidence_method, dataset_prefix)
+    #     self.plot_stat_grid(coverage_group, results, true_answer_edges, subclaim_edges, alpha, fig_filename, dataset_prefix)
 
-        x_labels = ["Overall"] + [f"Group {i+1}" for i in range(len(results[0:-1]))]
-        all_means = [overall_fraction] + group_means
-        all_stds = [overall_std] + group_stds
+    # def prepare_result_holder(self, coverage_group, group_names):
+    #     results = [[[] for _ in range(len(coverage_group[0]))] for _ in range(len(coverage_group))]
+    #     if isinstance(group_names, list) and all(isinstance(name, str) for name in group_names):
+    #         results = [{name: [] for name in group_names} for _ in range(len(coverage_group))]
+    #     return results
 
-        y_min = max(0, overall_fraction - 0.04)
-        y_max = min(1, overall_fraction + 0.04)
-            
-        # Plotting
-        plt.figure(figsize=(10, 6))
-        plt.bar(x_labels, all_means, yerr=all_stds, color='blue', capsize=5)
-        plt.axhline(y=1-alpha, color='gray', linestyle='--', linewidth=1.5, label=f'Alpha Level 1 - ({alpha:.2f})')
-        plt.xlabel("Group")
-        plt.ylabel("Fraction Correct")
-        plt.title(f"Fraction Correct for Overall and Each Group (Group Size = {group_size})")
-        plt.ylim(y_min, y_max)
-        plt.xticks(rotation=45)
-        plt.legend()
-        plt.tight_layout()
-        
-        # Save the plot to a file
-        plt.savefig(fig_filename)
-        plt.close()  # Close the plot to free up memory
-        
-        # Save the results to a CSV file
-        with open(csv_filename, mode='w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(["Group", "Mean Fraction Correct", "Std Fraction Correct"])
-            writer.writerow(["Overall", overall_fraction, overall_std])
-            for i, (mean, std) in enumerate(zip(group_means, group_stds)):
-                writer.writerow([f"Group {i+1}", mean, std])
+    # def _process_partial_local(self, data, coverage_group, alpha, a, confidence_method, dataset_prefix, group_names = None):
+    #     results = self.prepare_result_holder(coverage_group, group_names)
+    #     for _ in tqdm(range(1000)):
+    #         random.shuffle(data)
+    #         split_index = len(data) // 2
+    #         #split_index = 100
+    #         calibration_data = data[:split_index]
+    #         test_data = data[split_index:]
 
-    def _process_partial_calibration(self, data, alpha, a, confidence_method, group_size, dataset_prefix):
-        results = None
-        for _ in range(1000):
+    #         threshold = self._compute_threshold(alpha, calibration_data, test_data, a, confidence_method)
+
+    #         for i in range(len(coverage_group)):
+    #             if isinstance(group_names, list) and all(isinstance(name, str) for name in group_names):
+    #                 iterator = group_names
+    #             else:
+    #                 iterator = range(len(coverage_group[i]))
+
+    #             for j in iterator:
+    #                 if len(coverage_group[i][j]) == 0:
+    #                     continue
+    #                 bin_data = []
+    #                 for query in coverage_group[i][j]:
+    #                     for entry in test_data:
+    #                         if query == entry["prompt"]:
+    #                             bin_data.append(entry)
+    #                 if len(bin_data) == 0:
+    #                     continue
+    #                 accepted_subclaim_list = self._get_accepted_subclaims(bin_data, threshold, confidence_method)
+    #                 fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
+    #                 results[i][j].append(fraction_correct)
+    #     return results
+    def divide_coverage_group(self, data, categories, group_names):
+        coverage_group = [[[] for _ in range(len(group_names))] for _ in range(len(categories))]
+        for i in range(len(data)):
+            category_idx = categories.index(data[i]["category"])
+            group_idx = group_names.index(data[i]["groups"][0])
+            coverage_group[category_idx][group_idx].append(data[i]["prompt"])
+        return coverage_group
+
+    def set_result_holder(self, coverage_group):
+        results = [[[] for _ in range(len(coverage_group[0]))] for _ in range(len(coverage_group))]
+        results_per_row = [[] for _ in range(len(coverage_group))]
+        results_per_col = [[] for _ in range(len(coverage_group[0]))]
+        return results, results_per_row, results_per_col
+
+    def _process_partial_local(self, data, coverage_group, alpha, a, confidence_method, dataset_prefix):
+        results, results_per_row, results_per_col = self.set_result_holder(coverage_group)
+        for _ in tqdm(range(2000)):
             random.shuffle(data)
             split_index = len(data) // 2
+            #split_index = 100
             calibration_data = data[:split_index]
             test_data = data[split_index:]
-            #group 0 to n-1 are partial test data, n is overall
-            grouped_test_data = [test_data[i:i + group_size] for i in range(0, len(test_data), group_size)]
-            if not results:
-                results = [[] for _ in range(len(grouped_test_data)+1)]
 
-            threshold = compute_threshold(alpha, calibration_data, a, confidence_method)
-            for i, partial_test_data in enumerate(grouped_test_data):
-                accepted_subclaim_list = self._get_accepted_subclaims(partial_test_data, threshold, confidence_method)
-                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
-                results[i].append(fraction_correct)
-                results[len(grouped_test_data)].append(fraction_correct)
-        return results
+            threshold = self._compute_threshold(alpha, calibration_data, test_data, a, confidence_method)
+            
+            accepted_subclaim_list_per_row = [[] for _ in range(len(coverage_group))]
+            accepted_subclaim_list_per_col = [[] for _ in range(len(coverage_group[0]))]
+
+            for i in range(len(coverage_group)):
+                for j in range(len(coverage_group[i])):
+                    if len(coverage_group[i][j]) == 0:
+                        continue
+                    bin_data = []
+                    for query in coverage_group[i][j]:
+                        for entry in test_data:
+                            if query == entry["prompt"]:
+                                bin_data.append(entry)
+                    if len(bin_data) == 0:
+                        continue
+                    accepted_subclaim_list = self._get_accepted_subclaims(bin_data, threshold, confidence_method)
+                    accepted_subclaim_list_per_row[i].extend(accepted_subclaim_list)
+                    accepted_subclaim_list_per_col[j].extend(accepted_subclaim_list)
+                    fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
+                    results[i][j].append(fraction_correct)
+            for i in range(len(coverage_group)):
+                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list_per_row[i], a)
+                results_per_row[i].append(fraction_correct)
+
+            for j in range(len(coverage_group[0])):
+                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list_per_col[j], a)
+                results_per_col[j].append(fraction_correct)
+        return [results, results_per_row, results_per_col]
+    
+    
+    def calibrate_factual_pergroup(self, dataset_prefix, confidence_method, data, alpha, a, fig_filename, csv_filename, categories, group_names):
+        """
+        categories: question type categoreis for y axis
+        group_names: the group names for x axis
+        """
+        coverage_group = self.divide_coverage_group(data, categories, group_names)
+        results = self._process_partial_local(data, coverage_group, alpha, a, confidence_method, dataset_prefix)
+        self.plot_stat_grid(coverage_group, results, group_names, categories, alpha, fig_filename, dataset_prefix)
 
 
 class WeightedConformalCalibration(ConformalCalibration):
@@ -454,6 +847,19 @@ class WeightedConformalCalibration(ConformalCalibration):
                 distance.append(l2_distance)
         return compute_weighted_threshold(alpha, calibration_data, distance, a, confidence_method)
     
+    def get_accepted_subclaims_full(self, alpha, test_data, calibration_data, a, confidence_method):
+        accepted_subclaim_list = []
+        for entry in test_data:
+            threshold = self._compute_threshold(alpha, calibration_data, entry, a, confidence_method)
+            if entry["prompt"] not in self.test_data_thresholds:
+                self.test_data_thresholds[entry["prompt"]] = []
+            self.test_data_thresholds[entry["prompt"]].append(f"{threshold:.5f}")
+            accepted_subclaim_list.append(
+                [subclaim for subclaim in entry["claims"]
+                    if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold]
+            )
+        return accepted_subclaim_list
+    
     def _process_calibration(self, data, alphas, a, confidence_method):
         results = []
         for alpha in tqdm(alphas):
@@ -468,16 +874,7 @@ class WeightedConformalCalibration(ConformalCalibration):
                     #randonly select n data points
                     calibration_data = random.sample(data[:split_index], pickup_calibration)
                 test_data = data[split_index:]
-                accepted_subclaim_list = []
-                for entry in test_data:
-                    threshold = self._compute_threshold(alpha, calibration_data, entry, a, confidence_method)
-                    if entry["prompt"] not in self.test_data_thresholds:
-                        self.test_data_thresholds[entry["prompt"]] = []
-                    self.test_data_thresholds[entry["prompt"]].append(f"{threshold:.5f}")
-                    accepted_subclaim_list.append(
-                        [subclaim for subclaim in entry["claims"]
-                         if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold]
-                    )
+                accepted_subclaim_list = self.get_accepted_subclaims_full(alpha, test_data, calibration_data, a, confidence_method)
                 fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
                 results_for_alpha[0].append(1 - alpha)
                 results_for_alpha[1].append(fraction_correct)
@@ -490,35 +887,49 @@ class WeightedConformalCalibration(ConformalCalibration):
     def _load_threshold(self, filename):
         with open(filename, "r") as fopen:
             return json.load(fopen)
-        
-    def _process_partial_calibration(self, data, alpha, a, confidence_method, group_size, dataset_prefix):
-        results = None
-        for _ in range(1000):
+
+    def _process_partial_local(self, data, coverage_group, alpha, a, confidence_method, dataset_prefix, group_names = None):
+        results, results_per_row, results_per_col = self.set_result_holder(coverage_group)
+        for _ in tqdm(range(1000)):
             random.shuffle(data)
             split_index = len(data) // 2
-            pickup_calibration = 200
+            pickup_calibration = 1000
             if split_index <= pickup_calibration:
                 calibration_data = data[:split_index]
             else:
-                #randonly select 100 data points
+                #randonly select n data points
                 calibration_data = random.sample(data[:split_index], pickup_calibration)
+            calibration_data = data[:split_index]
             test_data = data[split_index:]
-            grouped_test_data = [test_data[i:i + group_size] for i in range(0, len(test_data), group_size)]
-            if not results:
-                #group 0 to n-1 are partial test data, n is overall
-                results = [[] for _ in range(len(grouped_test_data)+1)]
+            accepted_subclaim_list_per_row = [[] for _ in range(len(coverage_group))]
+            accepted_subclaim_list_per_col = [[] for _ in range(len(coverage_group[0]))]
 
-            for i, partial_test_data in enumerate(grouped_test_data):
-                accepted_subclaim_list = []
-                for entry in partial_test_data:
-                    threshold = self._compute_threshold(alpha, calibration_data, entry, a, confidence_method)
-                    accepted_subclaim_list.append([subclaim for subclaim in entry["claims"]
-                         if subclaim[confidence_method + "-score"] + subclaim.get("noise", 0) >= threshold]
-                    )
-                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
-                results[i].append(fraction_correct)
-                results[len(grouped_test_data)].append(fraction_correct)
-        return results
+            for i in range(len(coverage_group)):
+                for j in range(len(coverage_group[i])):
+                    if len(coverage_group[i][j]) == 0:
+                        continue
+                    bin_data = []
+                    for query in coverage_group[i][j]:
+                        for entry in test_data:
+                            if query == entry["prompt"]:
+                                bin_data.append(entry)
+                    if len(bin_data) == 0:
+                        continue
+
+                    accepted_subclaim_list = self.get_accepted_subclaims_full(alpha, bin_data, calibration_data, a, confidence_method)
+                    fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
+                    accepted_subclaim_list_per_row[i].extend(accepted_subclaim_list)
+                    accepted_subclaim_list_per_col[j].extend(accepted_subclaim_list)
+                    results[i][j].append(fraction_correct)
+            with open(f"data/out/weighted/{dataset_prefix}_test_data_thresholds_alpha={alpha:.2f}.json", "w") as fopen:
+                json.dump(self.test_data_thresholds, fopen)
+            for i in range(len(coverage_group)):
+                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list_per_row[i], a)
+                results_per_row[i].append(fraction_correct)
+            for j in range(len(coverage_group[0])):
+                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list_per_col[j], a)
+                results_per_col[j].append(fraction_correct)
+        return [results, results_per_row, results_per_col]
 
 class DistanceConformalCalibration(ConformalCalibration):
     def __init__(self, embedding_model = "text-embedding-3-large"):
@@ -527,7 +938,7 @@ class DistanceConformalCalibration(ConformalCalibration):
         dotenv_path = os.path.join(os.getcwd(), '.env')
         load_dotenv(dotenv_path)
         self.client = OpenAI()
-        self.distance_cache = {} #key is  sorted than concat prompts
+        self.distance_cache = {} #key is  sorted than concat prompts, only use in _compute_threshold
         self.embedding_model = embedding_model
     
     def form_calibration_set(self, test_entry, calibration_data, calibration_size=100):
@@ -604,7 +1015,7 @@ class ConditionalConformalCalibration(ConformalCalibration):
         results = []
         for alpha in alphas:
             results_for_alpha = [[], []]
-            for _ in range(1000):
+            for _ in tqdm(range(2000)):
                 group_threshold_cache = {}
                 random.shuffle(data)
                 calibration_data, test_data = self.split_each_group(data)
@@ -614,6 +1025,68 @@ class ConditionalConformalCalibration(ConformalCalibration):
                 results_for_alpha[1].append(fraction_correct)
             results.append(results_for_alpha)
         return results
+    
+    # def _process_partial_local(self, data, coverage_group, alpha, a, confidence_method, dataset_prefix, group_names = None):
+    #     results = self.prepare_result_holder(coverage_group, group_names)
+    #     group_threshold_cache = {}
+    #     for _ in tqdm(range(1000)):
+    #         random.shuffle(data)
+    #         split_index = len(data) // 2
+    #         #split_index = 100
+    #         calibration_data, test_data = self.split_each_group(data)
+
+    #         for i in range(len(coverage_group)):
+    #             if isinstance(group_names, list) and all(isinstance(name, str) for name in group_names):
+    #                 iterator = group_names
+    #             else:
+    #                 iterator = range(len(coverage_group[i]))
+
+    #             for j in iterator:
+    #                 if len(coverage_group[i][j]) == 0:
+    #                     continue
+    #                 bin_data = []
+    #                 for query in coverage_group[i][j]:
+    #                     for entry in test_data:
+    #                         if query == entry["prompt"]:
+    #                             bin_data.append(entry)
+    #                 if len(bin_data) == 0:
+    #                     continue
+    #                 accepted_subclaim_list = self._get_group_accepted_subclaims(bin_data, calibration_data, alpha, a, confidence_method, group_threshold_cache)
+    #                 fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
+    #                 results[i][j].append(fraction_correct)
+    #     return results
+    def _process_partial_local(self, data, coverage_group, alpha, a, confidence_method, dataset_prefix):
+        results, results_per_row, results_per_col = self.set_result_holder(coverage_group)
+        group_threshold_cache = {}
+        for _ in tqdm(range(2000)):
+            random.shuffle(data)
+            calibration_data, test_data = self.split_each_group(data)
+            accepted_subclaim_list_per_row = [[] for _ in range(len(coverage_group))]
+            accepted_subclaim_list_per_col = [[] for _ in range(len(coverage_group[0]))]
+            for i in range(len(coverage_group)):
+                for j in range(len(coverage_group[i])):
+                    if len(coverage_group[i][j]) == 0:
+                        continue
+                    bin_data = []
+                    for query in coverage_group[i][j]:
+                        for entry in test_data:
+                            if query == entry["prompt"]:
+                                bin_data.append(entry)
+                    if len(bin_data) == 0:
+                        continue
+                    accepted_subclaim_list = self._get_group_accepted_subclaims(bin_data, calibration_data, alpha, a, confidence_method, group_threshold_cache)
+                    accepted_subclaim_list_per_row[i].extend(accepted_subclaim_list)
+                    accepted_subclaim_list_per_col[j].extend(accepted_subclaim_list)
+                    fraction_correct = self._compute_fraction_correct(accepted_subclaim_list, a)
+                    results[i][j].append(fraction_correct)
+
+            for i in range(len(coverage_group)):
+                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list_per_row[i], a)
+                results_per_row[i].append(fraction_correct)
+            for j in range(len(coverage_group[0])):
+                fraction_correct = self._compute_fraction_correct(accepted_subclaim_list_per_col[j], a)
+                results_per_col[j].append(fraction_correct)
+        return [results, results_per_row, results_per_col]
 
     # Make sure the split calibrate_range ratio are all same not just in overall level but in group level
     # not return data in list but in a map with each group name as key
