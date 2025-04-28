@@ -7,9 +7,9 @@ venv/
 *.txt
 *.pyc
 *.faiss
-*.db
+*.db*
 documents
 __pycache__/
-.json
+threshold_record*
 
 !data/raw/FactScore/names.txt
