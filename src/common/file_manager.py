@@ -87,9 +87,12 @@ class FileManager:
                 chunks.append(self.create_document(title, texts, self.file_path))
                 print(f"{title} - No text splitting. Chunk size: {len(texts)}")
             elif truncation_strategy == "fixed_length":
-                chunk_list, texts_word_cnt = FixedLengthChunker(
-                    texts, chunk_size, overlap_size
-                ).create_chunks()
+                chunk_list = []
+                for text in texts:
+                    chunks, texts_word_cnt = FixedLengthChunker(
+                        text, chunk_size, overlap_size
+                    ).create_chunks()
+                    chunk_list.extend(chunks)
                 print(
                     f"Document '{title}' is splitted into {len(chunk_list)} chunk(s) by length of {chunk_size} words. Initial text size: {texts_word_cnt}."
                 )
