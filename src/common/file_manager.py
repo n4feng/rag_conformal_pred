@@ -23,7 +23,7 @@ class FileManager:
         # Load texts from file if it exists
         if os.path.exists(self.texts_file):
             with open(self.texts_file, "r", encoding="utf-8-sig") as f:
-                json.load(f)
+                self.texts = json.load(f)
             print(f"Loaded texts from file: {self.texts_file}")
 
     def load_pdf_document(self):
