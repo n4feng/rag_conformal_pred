@@ -6,6 +6,7 @@ import faiss
 from typing import Union, Optional
 from dotenv import load_dotenv
 import numpy as np
+from sklearn.preprocessing import normalize
 from src.common.file_manager import FileManager
 from src.common.llm.openai_manager import OpenAIManager
 
@@ -120,8 +121,10 @@ class FAISSIndexManager:
 
     def normalize_embeddings(self, embeddings):
         embeddings_np = np.array(embeddings).astype("float32")
-        faiss.normalize_L2(embeddings_np)
-        return embeddings_np
+        #faiss normalize give error zsh: segmentation fault python faiss manager at some edge case in hotpotqa
+        #faiss.normalize_L2(embeddings_np)
+        embeddings_normalized = normalize(embeddings_np, norm='l2', axis=1)
+        return embeddings_normalized
 
     def search_faiss_index(
         self,
