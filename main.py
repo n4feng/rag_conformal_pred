@@ -20,7 +20,7 @@ def parse_args():
     parser.add_argument(
         "--config",
         type=str,
-        default="conf/config.yaml",
+        default="conf/dragonball_config.yaml",
         help="Path to configuration file",
     )
     parser.add_argument(

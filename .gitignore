@@ -10,6 +10,13 @@ venv/
 *.db
 documents
 __pycache__/
-.json
+*.json
+logs/
+archive/*
+data/archive/*
+data/*
+rag/*
+conformal/*
 
 !data/raw/FactScore/names.txt
+!*_schema.json

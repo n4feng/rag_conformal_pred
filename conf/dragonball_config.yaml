@@ -1,0 +1,46 @@
+dataset:
+  name: "dragonball"
+  query_size: 500
+  wiki_db_file: "enwiki-20230401.db"
+  
+  
+# Index configuration
+index:
+  delete_existing: false
+  embedding_model: "text-embedding-3-large"
+  # Truncation strategies by dataset
+  truncation_config: 
+    strategy: "fixed_length"
+    truncate_by: null
+    chunk_size: 2000
+    chunk_overlap: 25
+
+# RAG configuration
+rag:
+  retrival_topk: 10
+  retrival_threshold: 0.3
+  response_model: "gpt-4o" # "gpt-4o", "gpt-4o-mini"  
+  response_temperature: 0.7
+  fact_generation_model: "gpt-4o" # "gpt-4o", "gpt-4o-mini"  
+
+
+# Prediction configuration
+conformal_prediction:
+  scoring:
+    name: "relavance"
+    aggregation_strategy: "max"  # options "max", "mean":
+    scoring_strategy: "product"
+    baseline_score_types:
+      - "frequency"
+      - "query_claim_cosine_similarity"
+      - "doc_claim_cosine_similarity"
+      - "random"
+      - "min_log_prob"
+  claim_verification_model: "gpt-4o-mini"  # "gpt-4o-mini" 
+  method: "split_conformal"
+  conformal_alphas:
+    start: 0.05
+    end: 1.00
+    step: 0.05
+  a_value: 1.0
+
