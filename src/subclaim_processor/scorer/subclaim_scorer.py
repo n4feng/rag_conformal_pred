@@ -89,13 +89,13 @@ class SubclaimScorer(IDocumentScorer):
         scoring_strategy: ScoringStrategy,
     ) -> float:
 
-        if aggregation_strategy not in AGGREGATION_STRATEGIES:
-            raise ValueError(
-                f"Unknown aggregation strategy: {aggregation_strategy}. "
-                f"Supported strategies are: {list(AGGREGATION_STRATEGIES.keys())}"
-            )
-        else:
-            agg_func = AGGREGATION_STRATEGIES[aggregation_strategy]()
+        # if aggregation_strategy not in AGGREGATION_STRATEGIES:
+        #     raise ValueError(
+        #         f"Unknown aggregation strategy: {aggregation_strategy}. "
+        #         f"Supported strategies are: {list(AGGREGATION_STRATEGIES.keys())}"
+        #     )
+        # else:
+        #     agg_func = AGGREGATION_STRATEGIES[aggregation_strategy]()
 
         if scoring_strategy not in SCORING_STRATEGIES:
             raise ValueError(
@@ -132,7 +132,8 @@ class SubclaimScorer(IDocumentScorer):
                 )
             doc_scores.append(score)
 
-        return 0 if len(doc_scores) == 0 else agg_func.aggregate(doc_scores)
+        # return 0 if len(retrieved_docs) == 0 else agg_func.aggregate(doc_scores)
+        return doc_scores
 
     def cosine_similarity(self, claim: str, query: str) -> float:
         # Initialize cache if it doesn't exist
@@ -169,10 +170,9 @@ class SubclaimScorer(IDocumentScorer):
             )
             self._embedding_cache.set(query, self.embedding_model, query_vector)
 
-        # Calculate cosine similarity
-        score = float(cosine_similarity(claim_vector, query_vector))
+        score = cosine_similarity(claim_vector, query_vector)[0][0]
 
-        return score
+        return float(score)
 
     def frequency_score(
         self,

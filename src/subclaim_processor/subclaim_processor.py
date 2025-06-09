@@ -72,6 +72,7 @@ class SubclaimProcessor(IQueryProcessor):
             responses.append(
                 {
                     "query": question,
+                    "query_type": query["metadata"].get("query_type", ""),
                     "gld_ans": query["output"]["answer"],
                     "retrieved_docs": retrieved_docs,
                     "response": response,
@@ -163,8 +164,8 @@ class SubclaimProcessor(IQueryProcessor):
                                 ],
                                 scoring_strategy=scoring_config["scoring_strategy"],
                             )
-                            subclaim["scores"][scoring_config["name"]] = float(
-                                relavance_score
+                            subclaim["scores"][scoring_config["name"]] = (
+                                float(max(relavance_score)) if relavance_score else 0
                             )
 
                         if (
@@ -184,13 +185,16 @@ class SubclaimProcessor(IQueryProcessor):
                             not in subclaim["scores"].keys()
                         ):
                             doc_claim_cosine_similarities = []
-                            for doc in entry["retrieved_docs"]:
+                            for doc in entry["retrieved_docs"]:  # TODO
                                 doc_claim_cosine_similarities.append(
                                     self.scorer.cosine_similarity(
                                         subclaim["subclaim"], doc
                                     )
                                 )
-                            subclaim["scores"]["doc_claim_cosine_similarity"] = (
+                            subclaim["scores"]["doc_claim_cosine_similarity"] = sorted(
+                                doc_claim_cosine_similarities, reverse=True
+                            )
+                            subclaim["scores"]["max_doc_claim_cosine_similarity"] = (
                                 float(max(doc_claim_cosine_similarities))
                                 if doc_claim_cosine_similarities
                                 else 0
