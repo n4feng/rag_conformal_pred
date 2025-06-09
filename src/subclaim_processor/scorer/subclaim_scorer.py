@@ -118,16 +118,21 @@ class SubclaimScorer(IDocumentScorer):
         doc_scores = []
         for doc in retrieved_docs:
             parsed_doc = self.faiss_manager.parse_result(doc)
-            doc_embedding = self.faiss_manager.index.reconstruct(parsed_doc["indice"])
+            if parsed_doc is None:
+                continue  # Skip if parsing fails
+            else:
+                doc_embedding = self.faiss_manager.index.reconstruct(
+                    parsed_doc["indice"]
+                )
 
-            score = scoring_func.compute_score(
-                claim_vector=claim_vector,
-                doc_embedding=doc_embedding,
-                parsed_doc=parsed_doc,
-            )
+                score = scoring_func.compute_score(
+                    claim_vector=claim_vector,
+                    doc_embedding=doc_embedding,
+                    parsed_doc=parsed_doc,
+                )
             doc_scores.append(score)
 
-        return 0 if len(retrieved_docs) == 0 else agg_func.aggregate(doc_scores)
+        return 0 if len(doc_scores) == 0 else agg_func.aggregate(doc_scores)
 
     def cosine_similarity(self, claim: str, query: str) -> float:
         # Initialize cache if it doesn't exist

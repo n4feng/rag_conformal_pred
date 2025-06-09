@@ -18,17 +18,18 @@ class FileManager:
         self.texts_file = (
             file_path
             if ".txt" in file_path
-            else os.path.join(directory, f"{base_name}_texts.json")
+            else os.path.join(directory, f"{base_name}.txt")
         )
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap
         )  # TODO
 
-        # Load texts from file if it exists
-        if os.path.exists(self.texts_file):
-            with open(self.texts_file, "r", encoding="utf-8-sig") as f:
-                json.load(f)
-            print(f"Loaded texts from file: {self.texts_file}")
+        # removing the block below as self.texts will be a list that will be defined from process_document()
+        # # Load texts from file if it exists
+        # if os.path.exists(self.texts_file):
+        #     with open(self.texts_file, "r", encoding="utf-8-sig") as f:
+        #         self.texts = json.load(f)
+        #     print(f"Loaded texts from file: {self.texts_file}")
 
     def load_pdf_document(self):
         pdf_reader = PdfReader(self.file_path)
@@ -64,7 +65,7 @@ class FileManager:
         chunk_size: int = 2000,
         overlap_size: int = 25,
         truncate_by: Optional[str] = "\n",
-    ):
+    ) -> list:
         """
         Process document according to the specified strategy.
         Either truncation_strategy or truncate_by must be provided, but not both.
@@ -84,13 +85,20 @@ class FileManager:
 
         for title, texts in data.items():
             if not truncation_strategy and not truncate_by:
-                chunks.append(self.create_document(title, texts, self.file_path))
+                doc = self.create_document(title, texts, self.file_path)
+                chunks.append(doc)
                 print(f"{title} - No text splitting. Chunk size: {len(texts)}")
             elif truncation_strategy == "fixed_length":
                 chunk_list = []
-                for text in texts:
+                if texts and isinstance(texts, list):
+                    for text in texts:
+                        chunks, texts_word_cnt = FixedLengthChunker(
+                            text, chunk_size, overlap_size
+                        ).create_chunks()
+                        chunk_list.extend(chunks)
+                elif isinstance(texts, str):
                     chunks, texts_word_cnt = FixedLengthChunker(
-                        text, chunk_size, overlap_size
+                        texts, chunk_size, overlap_size
                     ).create_chunks()
                     chunk_list.extend(chunks)
                 print(
@@ -118,6 +126,11 @@ class FileManager:
                         chunks.append(self.create_document(title, text, self.file_path))
 
         self.texts = [(i, str(doc)) for i, doc in enumerate(chunks)]
+
+        assert (
+            type(self.texts) == list
+        ), "Texts should be a list of tuples (index, text)."
+
         self.dump_documents(self.texts)
 
     def create_document(self, title, text, file_path):

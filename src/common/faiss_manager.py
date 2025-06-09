@@ -219,7 +219,8 @@ class FAISSIndexManager:
         # Parse the input
         parsed_item = None
         pattern = re.compile(
-            r"page_content='(.*?)'\smetadata=(\{.*?\})\sindice=(\d+)\sfileposition=(\d+)\sscore=([\d.]+)",
+            # r"page_content='(.*?)'\smetadata=(\{.*?\})\sindice=(\d+)\sfileposition=(\d+)\sscore=([\d.]+)",
+            r"page_content='(.*?)'\sindice=(\d+)\sfileposition=(\d+)\sscore=([\d.]+)",  # TODO
             re.DOTALL,
         )
         matches = pattern.findall(result)
