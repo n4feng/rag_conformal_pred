@@ -230,28 +230,6 @@ def main():
             logging.error(error_msg)
             raise RuntimeError(error_msg)
 
-    # If Index exists but current document isn't indexed
-    elif document_path not in faiss_manager.indice2fm:
-        # Verify index integrity
-        logging.info("Checking index integrity")
-        if not faiss_manager.is_indice_align():
-            error_msg = "Index corruption detected: index and indice2fm are not aligned"
-            logging.error(error_msg)
-            raise ValueError(error_msg)
-
-        try:
-            logging.info(f"Adding document '{document_path}' to existing index")
-            faiss_manager.upsert_file_to_faiss(
-                document_file,
-                truncation_strategy=truncation_strategy,
-                truncate_by=truncate_by,
-            )
-            logging.info("Document added to index successfully")
-        except Exception as e:
-            error_msg = f"Failed to add document to index: {str(e)}"
-            logging.error(error_msg)
-            raise RuntimeError(error_msg)
-
     # Case 3: Document is already indexed
     else:
         logging.info(f"Document '{document_path}' is already indexed")

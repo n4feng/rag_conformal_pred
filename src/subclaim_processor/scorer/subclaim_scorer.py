@@ -118,9 +118,7 @@ class SubclaimScorer(IDocumentScorer):
         doc_scores = []
         for doc in retrieved_docs:
             parsed_doc = self.faiss_manager.parse_result(doc)
-            if parsed_doc is None:
-                continue  # Skip if parsing fails
-            else:
+            if parsed_doc is not None:
                 doc_embedding = self.faiss_manager.index.reconstruct(
                     parsed_doc["indice"]
                 )
@@ -130,7 +128,7 @@ class SubclaimScorer(IDocumentScorer):
                     doc_embedding=doc_embedding,
                     parsed_doc=parsed_doc,
                 )
-            doc_scores.append(score)
+                doc_scores.append(score)
 
         # return 0 if len(retrieved_docs) == 0 else agg_func.aggregate(doc_scores)
         return doc_scores

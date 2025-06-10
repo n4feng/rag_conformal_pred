@@ -90,8 +90,7 @@ class OpenAIManager:
 
         embeddings_list = []
         for i, text in texts:
-            print(text)
-            text = text.replace("\n", " ")
+            text = text.replace("\n", " ") if isinstance(text, str) else text
             res = self.client.embeddings.create(input=[text], model=model)
             embeddings_list.append(res.data[0].embedding)
             print(f"{i+1}/{len(texts)} embeddings done")

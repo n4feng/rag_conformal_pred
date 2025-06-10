@@ -219,8 +219,7 @@ class FAISSIndexManager:
         # Parse the input
         parsed_item = None
         pattern = re.compile(
-            # r"page_content='(.*?)'\smetadata=(\{.*?\})\sindice=(\d+)\sfileposition=(\d+)\sscore=([\d.]+)",
-            r"page_content='(.*?)'\sindice=(\d+)\sfileposition=(\d+)\sscore=([\d.]+)",  # TODO
+            r"page_content='(.*?)'\smetadata=(\{.*?\})\sindice=(\d+)\sfileposition=(\d+)\sscore=([\d.]+)",
             re.DOTALL,
         )
         matches = pattern.findall(result)
@@ -236,6 +235,10 @@ class FAISSIndexManager:
                 "fileposition": int(fileposition),
                 "score": float(score),
             }
+        # if not parsed_item:
+        #     raise ValueError(
+        #         "Result parsing failed. Ensure the result format is correct."
+        #     )
         return parsed_item
 
     def generate_response_from_context(self, query, retrieved_docs, model="gpt-4o"):
