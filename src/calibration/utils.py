@@ -96,18 +96,16 @@ def get_r_score(entry: list, confidence_method: str, a: float):
 def compute_threshold(alpha, calibration_data, a, confidence_method):
     """
     Computes the quantile/threshold from conformal prediction.
-
-    Args:
-        alpha: float in (0, 1)
-        calibration_data: List of calibration examples
-        a: Required fraction correct threshold
-        confidence_method: Method used for scoring subclaims
-
-    Returns:
-        float: Computed threshold for conformal prediction
+    # alpha: float in (0, 1)
+    # calibration_data: calibration data
+    # a: as in paper, required fraction correct, section 4.1
+    # confidence_method: string
     """
-    sorted_r_scores = sorted(
-        [get_r_score(entry, confidence_method, a) for entry in calibration_data]
-    )
-    quantile_target_index = ceil((len(sorted_r_scores)) * (1 - alpha)) - 1
-    return sorted_r_scores[quantile_target_index]
+    # Compute r score for each example.
+    r_scores = [get_r_score(entry, confidence_method, a) for entry in calibration_data]
+
+    # Compute threshold for conformal prection. The quantile is ceil((n+1)*(1-alpha))/n, and
+    # We map this to the index by dropping the division by n and subtracting one (for zero-index).
+    quantile_target_index = ceil((len(r_scores) + 1) * (1 - alpha))
+    threshold = sorted(r_scores)[quantile_target_index - 1]
+    return threshold
