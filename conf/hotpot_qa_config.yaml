@@ -1,5 +1,5 @@
 dataset:
-  name: "dragonball"  # Options: fact_score, hotpot_qa, pop_qa, medlf_qa, dragonball
+  name: "hotpot_qa"  # Options: fact_score, hotpot_qa, pop_qa, medlf_qa, dragonball
   query_size: 500
   wiki_db_file: "enwiki-20230401.db"
   
@@ -10,8 +10,8 @@ index:
   embedding_model: "text-embedding-3-large"
   # Truncation strategies by dataset
   truncation_config:  # TODO
-    strategy: "fixed_length"  # false
-    truncate_by: null  # "\n"
+    strategy: false
+    truncate_by: "\n"
     chunk_size: 2000
     chunk_overlap: 25
 
@@ -32,15 +32,12 @@ conformal_prediction:
     aggregation_strategy: "max"
     scoring_strategy: "product"
     baseline_score_types:
-      - "noise"
-      - "relavance_max"
       - "frequency"
       - "query_claim_cosine_similarity"
       - "doc_claim_cosine_similarity"
       - "random"
-      - "ordinal"
       - "min_log_prob"
-  claim_verification_model: "gpt-4o-mini"  # "gpt-4o-mini" 
+  claim_verification_model: "gpt-4o-mini" 
   method: "split_conformal"  # options: "split_conformal", "group_conditional_conformal"
   conformal_alphas:
     start: 0.05

@@ -20,7 +20,7 @@ def parse_args():
     parser.add_argument(
         "--config",
         type=str,
-        default="conf/config.yaml",
+        default="conf/dragonball_config.yaml",
         help="Path to configuration file",
     )
     parser.add_argument(
@@ -82,6 +82,9 @@ def main():
     truncate_by = index_truncation_config["truncate_by"]
 
     response_model = config["rag"]["response_model"]
+    claim_verification_model = config["conformal_prediction"][
+        "claim_verification_model"
+    ]
 
     alpha_config = config["conformal_prediction"]["conformal_alphas"]
     conformal_alphas = np.arange(
@@ -150,7 +153,7 @@ def main():
 
     subclaims_path = os.path.join(
         response_dir,
-        f"{dataset_name}_{query_size}_subclaims_with_scores_{response_model}.json",
+        f"{dataset_name}_{query_size}_subclaims_with_scores_{response_model}_w_{claim_verification_model}_for_claim_verification.json",
     )
     CP_result_fig_path = os.path.join(
         result_dir, f"{dataset_name}_{query_size}_a={a_value:.2f}_CP_removal.png"
@@ -273,9 +276,16 @@ def main():
     logging.info(f"Subclaims processed and saved to {subclaims_path}")
 
     # calibration and conformal prediction results
-    if config["conformal_prediction"]["split_conformal"]:
+    score_types = [config["conformal_prediction"]["scoring"]["name"]] + config[
+        "conformal_prediction"
+    ]["scoring"]["baseline_score_types"]
+
+    if config["conformal_prediction"]["method"] == "split_conformal":
         logging.info("Running split conformal prediction")
-        conformal = SplitConformalCalibration(dataset_name=dataset_name)
+        conformal = SplitConformalCalibration(
+            dataset_name=dataset_name,
+            score_types=score_types,
+        )
         logging.info(
             f"Plotting conformal removal with alphas: {conformal_alphas}, a={a_value}"
         )
@@ -299,15 +309,12 @@ def main():
         logging.info(f"Factual removal plot saved to {factual_result_fig_path}")
         logging.info(f"Results saved to {result_path}")
 
-    elif config["conformal_prediction"]["group_conditional_conformal"]:
+    elif config["conformal_prediction"]["method"] == "group_conditional_conformal":
         error_msg = "Group conditional conformal not implemented"
         logging.error(error_msg)
         raise NotImplementedError(error_msg)
     else:
-        if not (
-            config["conformal_prediction"]["split_conformal"]
-            or config["conformal_prediction"]["group_conditional_conformal"]
-        ):
+        if not config["conformal_prediction"]["method"]:
             error_msg = "No calibration method selected in config"
             logging.error(error_msg)
             raise ValueError(error_msg)

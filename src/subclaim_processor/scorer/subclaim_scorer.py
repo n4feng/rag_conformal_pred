@@ -1,3 +1,5 @@
+import os
+import pickle
 import numpy as np
 from openai import OpenAI
 from typing import List, Callable, Dict
@@ -24,6 +26,42 @@ AGGREGATION_STRATEGIES: Dict[str, Callable] = {
 SCORING_STRATEGIES: Dict[str, Callable] = {
     "product": ProductScoreStrategy,
 }
+
+
+class EmbeddingCache:
+    def __init__(self, cache_file="embedding_cache.pkl"):
+        self.cache_file = cache_file
+        self.cache = self._load_cache()
+
+    def _load_cache(self):
+        """Load cache from disk if it exists, otherwise return empty dict"""
+        if os.path.exists(self.cache_file):
+            try:
+                with open(self.cache_file, "rb") as f:
+                    return pickle.load(f)
+            except (pickle.PickleError, EOFError):
+                print(
+                    f"Warning: Failed to load cache from {self.cache_file}. Creating new cache."
+                )
+                return {}
+        return {}
+
+    def _save_cache(self):
+        """Save cache to disk"""
+        try:
+            with open(self.cache_file, "wb") as f:
+                pickle.dump(self.cache, f)
+        except Exception as e:
+            print(f"Warning: Failed to save cache to {self.cache_file}: {e}")
+
+    def get(self, text, model):
+        key = f"{text}_{model}"
+        return self.cache.get(key)
+
+    def set(self, text, model, embedding):
+        key = f"{text}_{model}"
+        self.cache[key] = embedding
+        self._save_cache()  # Save to disk on each update
 
 
 class SubclaimScorer(IDocumentScorer):
@@ -92,23 +130,42 @@ class SubclaimScorer(IDocumentScorer):
         return 0 if len(retrieved_docs) == 0 else agg_func.aggregate(doc_scores)
 
     def cosine_similarity(self, claim: str, query: str) -> float:
-        # claim score will be the maximum product of cosine similarity between the claim and the retrieved documents
+        # Initialize cache if it doesn't exist
+        if not hasattr(self, "_embedding_cache"):
+            # You can customize the cache file path as needed
+            cache_path = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), "embedding_cache.pkl"
+            )
+            self._embedding_cache = EmbeddingCache(cache_file=cache_path)
 
-        claim_embedding = self.faiss_manager.openaiManager.client.embeddings.create(
-            input=[claim], model=self.embedding_model
-        )
-        claim_vector = (
-            np.array(claim_embedding.data[0].embedding).astype("float32").reshape(1, -1)
-        )
+        # Get claim embedding from cache or compute it
+        claim_vector = self._embedding_cache.get(claim, self.embedding_model)
+        if claim_vector is None:
+            claim_embedding = self.faiss_manager.openaiManager.client.embeddings.create(
+                input=[claim], model=self.embedding_model
+            )
+            claim_vector = (
+                np.array(claim_embedding.data[0].embedding)
+                .astype("float32")
+                .reshape(1, -1)
+            )
+            self._embedding_cache.set(claim, self.embedding_model, claim_vector)
 
-        query_embedding = self.faiss_manager.openaiManager.client.embeddings.create(
-            input=[query], model=self.embedding_model
-        )
-        query_vector = (
-            np.array(query_embedding.data[0].embedding).astype("float32").reshape(1, -1)
-        )
+        # Get query embedding from cache or compute it
+        query_vector = self._embedding_cache.get(query, self.embedding_model)
+        if query_vector is None:
+            query_embedding = self.faiss_manager.openaiManager.client.embeddings.create(
+                input=[query], model=self.embedding_model
+            )
+            query_vector = (
+                np.array(query_embedding.data[0].embedding)
+                .astype("float32")
+                .reshape(1, -1)
+            )
+            self._embedding_cache.set(query, self.embedding_model, query_vector)
 
-        score = cosine_similarity(claim_vector, query_vector)[0][0]
+        # Calculate cosine similarity
+        score = float(cosine_similarity(claim_vector, query_vector))
 
         return score
 
